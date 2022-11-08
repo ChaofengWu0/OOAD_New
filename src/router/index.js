@@ -7,7 +7,10 @@ import teacher_my_classes from "@/pages/teacher_center/myClasses"
 import teacher_notification from "@/pages/teacher_center/notification"
 import student_list from "@/pages/teacher_center/studentList";
 import teacher_application_center from "@/pages/teacher_center/applicationCenter";
-import personal_center from "@/pages/teacher_center/personalCenter";
+import teacher_personal_center from "@/pages/teacher_center/personalCenter";
+import admin_center from "@/pages/administrator_center"
+import admin_personal_center from "@/pages/administrator_center/personalCenter"
+import admin_application_center from "@/pages/administrator_center/applications"
 // import test from "@/pages/test";
 
 Vue.use(VueRouter)
@@ -24,83 +27,109 @@ VueRouter.prototype.push = function push(location) {
 
 export default new VueRouter({
   routes: [
-
     {
       name: 'start',
       path: '',
       redirect: '/login',
-      meta:{
-        title:'Start'
+      meta: {
+        title: 'Start'
       }
     },
+
     {
       name: 'login_page',
       component: login,
       path: '/login',
-      meta:{
+      meta: {
         title: 'Login'
       }
     },
+
     {
       name: 'enroll_page',
       component: enroll,
       path: '/enroll',
-      meta:{
+      meta: {
         title: 'Enroll'
       }
     },
+
     {
       name: 'teacher_center',
       component: teacher_center,
       path: '/teacher_center',
-      redirect: '/teacher_center/personal_center',
-      meta:{
+      // redirect: '/teacher_center/personal_center',
+      meta: {
         title: 'TeacherCenter'
       },
       children: [
         {
-          name: 'personal_center',
-          component: personal_center,
+          name: 'teacher_personal_center',
+          component: teacher_personal_center,
           path: 'personal_center',
-          meta:{
-            title:'PersonalCenter'
+          meta: {
+            title: 'PersonalCenter'
           }
         },
         {
-          name: 'my_classes',
+          name: 'teacher_my_classes',
           component: teacher_my_classes,
           path: 'my_classes',
-          meta:{
+          meta: {
             title: 'MyClasses'
           }
         },
         {
-          name: 'notification',
+          name: 'teacher_notification',
           component: teacher_notification,
           path: 'notification',
-          meta:{
+          meta: {
             title: 'Notification'
           }
         },
         {
-          name: 'student_list',
+          name: 'teacher_student_list',
           component: student_list,
           path: 'student_list',
-          meta:{
+          meta: {
             title: 'StudentList'
           }
         },
         {
-          name: 'application_center',
+          name: 'teacher_application_center',
           component: teacher_application_center,
           path: 'application_center',
-          meta:{
+          meta: {
+            title: 'ApplicationCenter'
+          }
+        }
+      ]
+    },
+
+    {
+      name: 'administrator_center',
+      path: '/admin_center',
+      component: admin_center,
+      // redirect:'/admin_center/personal_center',
+      meta: {
+        title: 'AdminCenter'
+      },
+      children:[
+        {name: 'admin_personal_center',
+        path: 'personal_center',
+        component: admin_personal_center,
+        meta: {title: 'PersonalCenter'}
+        },
+        {
+          name: "admin_application_center",
+          path: 'application_center',
+          component: admin_application_center,
+          meta: {
             title: 'ApplicationCenter'
           }
         }
       ]
     }
-
 
   ]
 })
