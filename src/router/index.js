@@ -61,7 +61,7 @@ export default new VueRouter({
     {
       name: 'teacher_center',
       component: teacher_center,
-      path: '/teacherCenter',
+      path: '/teacher_center',
       // redirect: '/teacherCenter/personal_center',
       meta: {
         title: 'TeacherCenter'

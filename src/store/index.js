@@ -22,6 +22,10 @@ const state = {
     {
       date: '2016-05-01',
       content: '上海市普陀区金沙江路 1518 弄',
+    },
+    {
+      date: '2099-02-03',
+      content: 'nothing',
     }
   ],
   // 下面的subject 和 classes是只有老师才有的属性

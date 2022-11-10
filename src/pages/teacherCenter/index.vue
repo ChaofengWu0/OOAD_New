@@ -76,20 +76,20 @@ export default {
     clickMenu(item) {
       if (item === 1) {
         // 路由设置
-        this.$router.push("/teacherCenter/personal_center")
+        this.$router.push("/teacher_center/personal_center")
         // 子组件头的面包屑要修改
         // this.path_header_for_personal_center = "/teacherCenter/personal_center"
       } else if (item === 2) {
-        this.$router.push("/teacherCenter/my_classes")
+        this.$router.push("/teacher_center/my_classes")
         // this.path_header_for_personal_center = "/teacherCenter/my_classes"
       } else if (item === 3) {
-        this.$router.push("/teacherCenter/application_center")
+        this.$router.push("/teacher_center/application_center")
         // this.path_header_for_personal_center = "/teacherCenter/application_center"
       } else if (item === 4) {
-        this.$router.push("/teacherCenter/notification")
+        this.$router.push("/teacher_center/notification")
         // this.path_header_for_personal_center = "/teacherCenter/notification"
       } else if (item === 5) {
-        this.$router.push("/teacherCenter/student_list")
+        this.$router.push("/teacher_center/student_list")
         // this.path_header_for_personal_center = "/teacherCenter/student_list"
       }
     },
