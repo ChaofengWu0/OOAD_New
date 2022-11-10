@@ -59,10 +59,10 @@ export default {
         // 路由设置
         this.$router.push("/admin_center/personal_center")
         // 子组件头的面包屑要修改
-        // this.path_header_for_personal_center = "/teacher_center/personal_center"
+        // this.path_header_for_personal_center = "/teacherCenter/personal_center"
       } else if (item === 2) {
         this.$router.push("/admin_center/application_center")
-        // this.path_header_for_personal_center = "/teacher_center/application_center"
+        // this.path_header_for_personal_center = "/teacherCenter/application_center"
       }
     },
   }

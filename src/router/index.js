@@ -2,15 +2,15 @@ import Vue from "vue";
 import VueRouter from 'vue-router'
 import login from '@/pages/login/'
 import enroll from '@/pages/enroll'
-import teacher_center from "@/pages/teacher_center";
-import teacher_my_classes from "@/pages/teacher_center/myClasses"
-import teacher_notification from "@/pages/teacher_center/notification"
-import student_list from "@/pages/teacher_center/studentList";
-import teacher_application_center from "@/pages/teacher_center/applicationCenter";
-import teacher_personal_center from "@/pages/teacher_center/personalCenter";
-import admin_center from "@/pages/administrator_center"
-import admin_personal_center from "@/pages/administrator_center/personalCenter"
-import admin_application_center from "@/pages/administrator_center/applications"
+import teacher_center from "@/pages/teacherCenter";
+import teacher_my_classes from "@/pages/teacherCenter/myClasses"
+import teacher_notification from "@/pages/teacherCenter/notification"
+import student_list from "@/pages/teacherCenter/studentList";
+import teacher_application_center from "@/pages/teacherCenter/applicationCenter";
+import teacher_personal_center from "@/pages/teacherCenter/personalCenter";
+import admin_center from "@/pages/administratorCenter"
+import admin_personal_center from "@/pages/administratorCenter/personalCenter"
+import admin_application_center from "@/pages/administratorCenter/applications"
 // import test from "@/pages/test";
 
 Vue.use(VueRouter)
@@ -57,8 +57,8 @@ export default new VueRouter({
     {
       name: 'teacher_center',
       component: teacher_center,
-      path: '/teacher_center',
-      // redirect: '/teacher_center/personal_center',
+      path: '/teacherCenter',
+      // redirect: '/teacherCenter/personal_center',
       meta: {
         title: 'TeacherCenter'
       },
@@ -107,7 +107,7 @@ export default new VueRouter({
     },
 
     {
-      name: 'administrator_center',
+      name: 'administratorCenter',
       path: '/admin_center',
       component: admin_center,
       // redirect:'/admin_center/personal_center',
