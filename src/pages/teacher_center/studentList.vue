@@ -14,37 +14,36 @@
           class="list_content">
         <el-table-column
             type="selection"
-            width="55">
+            width="55"
+            >
         </el-table-column>
 
         <el-table-column
             label="Course"
             prop="date"
-            width="120">
+            width="120"
+            sortable>
           <template slot-scope="scope">{{ scope.row.date }}</template>
         </el-table-column>
         <el-table-column
             prop=""
             label="UsrID"
-            sortable
             width="120">
         </el-table-column>
         <el-table-column
             prop="name"
             label="Name"
-            sortable
             width="120">
         </el-table-column>
         <el-table-column
             prop=""
             label="progress"
-            sortable
             show-overflow-tooltip>
         </el-table-column>
         <el-table-column class="export_button">
 
           <template slot-scope="scope">
-            <el-button @click.native.prevent="export_click (scope.row)">
+            <el-button @click.native.prevent="exportClick (scope.row)">
               Export
             </el-button>
           </template>
@@ -54,7 +53,7 @@
 
       <div style="margin-top: 20px" class="button_container">
         <el-button @click="toggleSelection()">Deselect</el-button>
-        <el-button @click="send_email">Send Email</el-button>
+        <el-button @click="sendEmail">Send Email</el-button>
       </div>
     </template>
 
@@ -95,7 +94,7 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    send_email() {
+    sendEmail() {
       console.log("send_email")
       console.log(this.$refs.multipleTable.selection)
     },
@@ -105,7 +104,7 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-    export_click(row) {
+    exportClick(row) {
       console.log(row)
       console.log(row.index)
       console.log(this.tableData[row])

@@ -13,27 +13,27 @@
             下面开始是整个导航栏
             -->
             <el-menu default-active="1" class="el-menu-vertical-demo">
-              <el-menu-item index="1" @click="click_menu(1)">
+              <el-menu-item index="1" @click="clickMenu(1)">
                 <i class="el-icon-user"></i>
                 <span slot="title">Personal Center</span>
               </el-menu-item>
 
-              <el-menu-item index="2" @click="click_menu(2)">
+              <el-menu-item index="2" @click="clickMenu(2)">
                 <i class="el-icon-reading"></i>
                 <span slot="title">My classes</span>
               </el-menu-item>
 
-              <el-menu-item index="3" @click="click_menu(3)">
+              <el-menu-item index="3" @click="clickMenu(3)">
                 <i class="el-icon-document"></i>
                 <span slot="title">Application Center</span>
               </el-menu-item>
 
-              <el-menu-item index="4" @click="click_menu(4)">
+              <el-menu-item index="4" @click="clickMenu(4)">
                 <i class="el-icon-message-solid"></i>
                 <span slot="title">Notifications</span>
               </el-menu-item>
 
-              <el-menu-item index="5" @click="click_menu(5)">
+              <el-menu-item index="5" @click="clickMenu(5)">
                 <i class="el-icon-s-help"></i>
                 <span slot="title">Student list</span>
               </el-menu-item>
@@ -73,7 +73,7 @@ export default {
     }
   },
   methods: {
-    click_menu(item) {
+    clickMenu(item) {
       if (item === 1) {
         // 路由设置
         this.$router.push("/teacher_center/personal_center")
