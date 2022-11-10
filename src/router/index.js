@@ -11,6 +11,10 @@ import teacher_personal_center from "@/pages/teacherCenter/personalCenter";
 import admin_center from "@/pages/administratorCenter"
 import admin_personal_center from "@/pages/administratorCenter/personalCenter"
 import admin_application_center from "@/pages/administratorCenter/applications"
+import stu_center from "@/pages/studentCenter"
+import stu_personal_center from "@/pages/studentCenter/personalCenter"
+import stu_notification from "@/pages/studentCenter/notification"
+import stu_my_classes from "@/pages/studentCenter/myClasses"
 // import test from "@/pages/test";
 
 Vue.use(VueRouter)
@@ -114,18 +118,54 @@ export default new VueRouter({
       meta: {
         title: 'AdminCenter'
       },
-      children:[
-        {name: 'admin_personal_center',
-        path: 'personal_center',
-        component: admin_personal_center,
-        meta: {title: 'PersonalCenter'}
+      children: [
+        {
+          name: 'admin_personal_center',
+          path: 'personal_center',
+          component: admin_personal_center,
+          meta: {title: 'PersonalCenter'}
         },
         {
-          name: "admin_application_center",
+          name: 'admin_application_center',
           path: 'application_center',
           component: admin_application_center,
           meta: {
             title: 'ApplicationCenter'
+          }
+        }
+      ]
+    },
+
+    {
+      name: 'stuCenter',
+      path: '/stu_center',
+      component: stu_center,
+      meta: {
+        title: 'StudentCenter'
+      },
+      children: [
+        {
+          name: 'stu_personal_center',
+          path: 'personal_center',
+          component: stu_personal_center,
+          meta: {
+            title: 'PersonalCenter'
+          }
+        },
+        {
+          name: 'stu_notification',
+          path: 'notification',
+          component: stu_notification,
+          meta: {
+            title: 'Notification'
+          }
+        },
+        {
+          name: 'stu_my_classes',
+          path:'my_classes',
+          component: stu_my_classes,
+          meta:{
+            title: 'MyClasses'
           }
         }
       ]
