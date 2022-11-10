@@ -18,12 +18,12 @@
               </el-menu-item>
 
               <el-menu-item index="2" @click="clickMenu(2)">
-                <i class="el-icon-document"></i>
+                <i class="el-icon-reading"></i>
                 <span slot="title">My Classes</span>
               </el-menu-item>
 
               <el-menu-item index="3" @click="clickMenu(3)">
-                <i class="el-icon-document"></i>
+                <i class="el-icon-message-solid"></i>
                 <span slot="title">Notification </span>
               </el-menu-item>
 
