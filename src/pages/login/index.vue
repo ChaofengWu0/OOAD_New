@@ -57,8 +57,10 @@ export default {
       // p22
       this.$refs.login_form_ref.validate(async valid => {
         if (!valid) return
+
         const {data: res} = this.$http.post('login', this.login_form)
         if (res.meta.status !== 200) return this.$message.error("Wrong!login failed")
+
         this.$message.success("Successfully login")
         window.sessionStorage.setItem('token', res.data.token)
         this.$router.push('/home')

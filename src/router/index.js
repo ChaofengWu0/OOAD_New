@@ -15,6 +15,7 @@ import stu_center from "@/pages/studentCenter"
 import stu_personal_center from "@/pages/studentCenter/personalCenter"
 import stu_notification from "@/pages/studentCenter/notification"
 import stu_my_classes from "@/pages/studentCenter/myClasses"
+import main_page from "@/pages/mainPage"
 // import test from "@/pages/test";
 
 Vue.use(VueRouter)
@@ -169,6 +170,12 @@ export default new VueRouter({
           }
         }
       ]
+    },
+
+    {
+      name:'MainPage',
+      path:'/main_page',
+      component:main_page,
     }
 
   ]
