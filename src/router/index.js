@@ -63,7 +63,7 @@ export default new VueRouter({
       name: 'teacher_center',
       component: teacher_center,
       path: '/teacher_center',
-      // redirect: '/teacherCenter/personal_center',
+      redirect: 'teacher_center/personal_center',
       meta: {
         title: 'TeacherCenter'
       },
@@ -115,7 +115,7 @@ export default new VueRouter({
       name: 'administratorCenter',
       path: '/admin_center',
       component: admin_center,
-      // redirect:'/admin_center/personal_center',
+      redirect: '/admin_center/personal_center',
       meta: {
         title: 'AdminCenter'
       },
@@ -141,6 +141,7 @@ export default new VueRouter({
       name: 'stuCenter',
       path: '/stu_center',
       component: stu_center,
+      redirect: 'stu_center/personal_center',
       meta: {
         title: 'StudentCenter'
       },
@@ -163,9 +164,9 @@ export default new VueRouter({
         },
         {
           name: 'stu_my_classes',
-          path:'my_classes',
+          path: 'my_classes',
           component: stu_my_classes,
-          meta:{
+          meta: {
             title: 'MyClasses'
           }
         }
@@ -173,9 +174,9 @@ export default new VueRouter({
     },
 
     {
-      name:'MainPage',
-      path:'/main_page',
-      component:main_page,
+      name: 'MainPage',
+      path: '/main_page',
+      component: main_page,
     }
 
   ]

@@ -21,7 +21,11 @@
         </el-table>
       </template>
     </div>
-
+    <div class="add_course">
+      <el-button type="primary" @click="add_class">
+        Add A New Course
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -48,6 +52,9 @@ export default {
       let url = this.classes[row.index - 1].course_name
       console.log(url)
       this.$router.push(url)
+    },
+    add_class(){
+      console.log("adD")
     }
   }
 }
@@ -61,5 +68,8 @@ export default {
   width: 100%;
 }
 
+.add_course{
+
+}
 
 </style>
