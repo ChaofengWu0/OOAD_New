@@ -75,10 +75,18 @@ export default {
   methods: {
     enroll_test() {
       //  先查password
-      this.$refs.enroll_form_ref.validate((valid) => {
-        if (valid) {
-          console.log(valid)
-        }
+      this.$refs.enroll_form_ref.validate(async (valid) => {
+        if (!valid) return
+        let baseUrl = "http://localhost:3333/api/usr"
+
+        const {data: res} = this.$http.get(baseUrl + "/register", this.enroll_form)
+        if (res.meta.status !== 200) return this.$message.error("Wrong!login failed")
+
+
+        this.$message.success("Successfully register")
+        console.log(res)
+        window.sessionStorage.setItem('token', res.data.token)
+        // this.$router.push('/teacher_center')
       })
     }
   }

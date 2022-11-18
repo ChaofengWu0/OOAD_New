@@ -8,6 +8,10 @@ import teacher_notification from "@/pages/teacherCenter/notification"
 import student_list from "@/pages/teacherCenter/studentList";
 import teacher_application_center from "@/pages/teacherCenter/applicationCenter";
 import teacher_personal_center from "@/pages/teacherCenter/personalCenter";
+import teacher_add_class from "@/pages/teacherCenter/addClasses"
+import teacher_my_class_list from "@/pages/teacherCenter/classList"
+
+
 import admin_center from "@/pages/administratorCenter"
 import admin_personal_center from "@/pages/administratorCenter/personalCenter"
 import admin_application_center from "@/pages/administratorCenter/applications"
@@ -82,8 +86,27 @@ export default new VueRouter({
           path: 'my_classes',
           meta: {
             title: 'MyClasses'
-          }
+          },
+          children: [
+            {
+              name: 'teacher_add_course',
+              component: teacher_add_class,
+              path: 'add_class',
+              meta: {
+                title: 'AddClass'
+              }
+            },
+            {
+              name:'teacher_class_list',
+              component:teacher_my_class_list,
+              path:'class_list',
+              meta:{
+                title: 'ClassList'
+              }
+            }
+          ]
         },
+
         {
           name: 'teacher_notification',
           component: teacher_notification,

@@ -18,10 +18,18 @@
                 <span slot="title">Personal Center</span>
               </el-menu-item>
 
-              <el-menu-item index="2" @click="clickMenu(2)">
-                <i class="el-icon-reading"></i>
-                <span slot="title">My classes</span>
-              </el-menu-item>
+              <el-submenu index="2">
+                <template slot="title">
+                  <i class="el-icon-reading"></i>
+                  <span slot="title">Classes</span>
+                </template>
+
+                <el-menu-item-group class="class_sub_menu">
+                  <el-menu-item index="1-1" @click="clickMenu(21)">My Classes</el-menu-item>
+                  <el-menu-item index="1-2" @click="clickMenu(22)">Add Classes</el-menu-item>
+                </el-menu-item-group>
+
+              </el-submenu>
 
               <el-menu-item index="3" @click="clickMenu(3)">
                 <i class="el-icon-document"></i>
@@ -79,9 +87,11 @@ export default {
         this.$router.push("/teacher_center/personal_center")
         // 子组件头的面包屑要修改
         // this.path_header_for_personal_center = "/teacherCenter/personal_center"
-      } else if (item === 2) {
-        this.$router.push("/teacher_center/my_classes")
+      } else if (item === 21) {
+        this.$router.push("/teacher_center/my_classes/class_list")
         // this.path_header_for_personal_center = "/teacherCenter/my_classes"
+      } else if (item === 22) {
+        this.$router.push("/teacher_center/my_classes/add_class")
       } else if (item === 3) {
         this.$router.push("/teacher_center/application_center")
         // this.path_header_for_personal_center = "/teacherCenter/application_center"
@@ -106,6 +116,12 @@ export default {
 * {
   margin: 0;
   padding: 0;
+}
+
+.main_container{
+  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 .teacher_center_container {
@@ -138,7 +154,8 @@ export default {
 }
 
 .el-main {
-  background-color: gainsboro;
+  background-color: white;
+  height: 100%;
   /*color: #333;*/
   /*text-align: center;*/
   /*line-height: 160px;*/
@@ -168,6 +185,16 @@ export default {
   text-align: center;
   line-height: 100px;
 }
+
+.class_sub_menu {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: bisque;
+
+}
+
 </style>
 
 

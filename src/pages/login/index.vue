@@ -57,13 +57,16 @@ export default {
       // p22
       this.$refs.login_form_ref.validate(async valid => {
         if (!valid) return
+        let baseUrl = "http://localhost:3333/api/usr"
 
-        const {data: res} = this.$http.post('login', this.login_form)
+        const {data: res} = this.$http.post(baseUrl + "/login", this.login_form)
         if (res.meta.status !== 200) return this.$message.error("Wrong!login failed")
 
+
         this.$message.success("Successfully login")
+        console.log(res)
         window.sessionStorage.setItem('token', res.data.token)
-        this.$router.push('/home')
+        this.$router.push('/teacher_center')
       })
     }
   }

@@ -12,6 +12,8 @@ import {
   Col,
   Menu,
   MenuItem,
+  Submenu,
+  MenuItemGroup,
   Icon,
   Form,
   FormItem,
@@ -33,7 +35,8 @@ import {
   Table,
   TableColumn,
   Tabs,
-  TabPane
+  TabPane,
+  Tree,
 } from "element-ui";
 
 // 引入路由相关的包
@@ -54,6 +57,8 @@ Vue.use(Row)
 Vue.use(Col)
 Vue.use(Menu)
 Vue.use(MenuItem)
+Vue.use(Submenu)
+Vue.use(MenuItemGroup)
 Vue.use(Icon)
 Vue.use(Form)
 Vue.use(FormItem)
@@ -76,10 +81,11 @@ Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Tabs)
 Vue.use(TabPane)
-
+Vue.use(Tree)
 Vue.use(VueRouter)
 // Vue.prototype.$http = axios
 // Vue.prototype.$message = Message
+
 
 new Vue({
   render: h => h(App),
