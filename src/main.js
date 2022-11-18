@@ -40,7 +40,8 @@ import {
   Steps,
   Step,
   Radio,
-  Upload
+  Upload,
+  Message
 } from "element-ui";
 
 // 引入路由相关的包
@@ -92,8 +93,8 @@ Vue.use(Radio)
 Vue.use(Upload)
 Vue.use(VueRouter)
 // Vue.prototype.$http = axios
-// Vue.prototype.$message = Message
-
+Vue.prototype.$message = Message
+Vue.component(Message.name, Message)
 
 new Vue({
   render: h => h(App),

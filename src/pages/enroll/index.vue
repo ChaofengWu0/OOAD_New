@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { EnrollAPI } from "@/api";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "index",
@@ -75,21 +76,28 @@ export default {
   methods: {
     enroll_test() {
       //  先查password
-      this.$refs.enroll_form_ref.validate(async (valid) => {
-        if (!valid) return
-        let baseUrl = "http://localhost:3333/api/usr"
+      this.$refs.enroll_form_ref.validate(
+          async valid => {
+            if (!valid) return
+            const EnrollData={...this.enroll_form};
+            //发起请求
 
-        const {data: res} = this.$http.get(baseUrl + "/register", this.enroll_form)
-        if (res.meta.status !== 200) return this.$message.error("Wrong!login failed")
+            const {data: res} = await EnrollAPI(EnrollData)
+            console.log(res);
+            if (res.code != 0)
+              return this.$message.error("Wrong!Enroll failed")
+            // 如果成功
+            // 将返回的token 保存到 sessionStorage
+            this.$message.success("Successfully Enroll")
+            window.sessionStorage.setItem('token', res.data.token)
+            this.$router.push('/login')
+          }
+      )
 
 
-        this.$message.success("Successfully register")
-        console.log(res)
-        window.sessionStorage.setItem('token', res.data.token)
-        // this.$router.push('/teacher_center')
-      })
     }
   }
+
 }
 </script>
 
@@ -124,6 +132,7 @@ export default {
   top: 105%;
   left: 30%;
 }
+
 
 .another_choose {
   position: absolute;

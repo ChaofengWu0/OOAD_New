@@ -1,19 +1,14 @@
 import axios from "axios";
-
-const service = axios.create({
-  baseURL: "http://localhost:3333",
-  timeout: 5000
+axios.defaults.baseURL = 'http://localhost:9999/api'
+export default axios.create({
+  timeout: 10000
 })
 
-
-// export default axios.create({
-//   timeout: 10000
-// })
-
 // 添加请求拦截器
-service.interceptors.request.use(function (config) {
+axios.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
-  console.log(config)
+  // console.log(config)
+  config.headers.Authorization = window.sessionStorage.getItem("token")
   return config;
 }, function (error) {
   // 对请求错误做些什么
@@ -22,7 +17,7 @@ service.interceptors.request.use(function (config) {
 });
 
 // 添加响应拦截器
-service.interceptors.response.use(function (response) {
+axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   console.log(response)
   return response;

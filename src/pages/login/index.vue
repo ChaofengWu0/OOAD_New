@@ -1,4 +1,6 @@
+
 <template>
+
   <div class="login_container">
     <div class="login_box">
       <!--登录表单 -->
@@ -20,7 +22,7 @@
           </el-button>
 
           <router-link to="/enroll">
-            <el-button type="primary" @click="login_test" class="enroll_button">
+            <el-button type="primary"  class="enroll_button">
               enroll
             </el-button>
           </router-link>
@@ -31,15 +33,21 @@
   </div>
 </template>
 <script>
+//导入登录接口模块
+
+import { loginAPI } from "@/api";
 export default {
+
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'index',
   data() {
     return {
+      // 表单数据对象
       login_form: {
-        username: "",
-        password: ""
+        username: "admin",
+        password: "admin"
       },
+      // 表单数据验证规则
       login_rule: {
         username: [
           {required: true, message: "Please input the username", trigger: "blur"},
@@ -52,23 +60,33 @@ export default {
       }
     }
   },
+
   methods: {
+    //登录 11/18 少token
     login_test() {
       // p22
-      this.$refs.login_form_ref.validate(async valid => {
-        if (!valid) return
-        let baseUrl = "http://localhost:3333/api/usr"
+      this.$refs.login_form_ref.validate(
 
-        const {data: res} = this.$http.post(baseUrl + "/login", this.login_form)
-        if (res.meta.status !== 200) return this.$message.error("Wrong!login failed")
+          async valid => {
+            if (!valid) return
+            const loginData={...this.login_form};
+            //发起请求
 
+            const {data: res} = await loginAPI(loginData)
+            console.log(res);
 
-        this.$message.success("Successfully login")
-        console.log(res)
-        window.sessionStorage.setItem('token', res.data.token)
-        this.$router.push('/teacher_center')
-      })
-    }
+            if (res.code != 0)
+              return this.$message.error("Wrong!login failed")
+            // 如果成功
+            // 将返回的token 保存到 sessionStorage
+            this.$message.success("Successfully login")
+            window.sessionStorage.setItem('token', res.data.token)
+            this.$router.push('/main_page')
+          })
+    },
+    resetForm() {
+      this.$refs.login_form_ref.resetFields();
+    },
   }
 }
 </script>
