@@ -37,6 +37,10 @@ import {
   Tabs,
   TabPane,
   Tree,
+  Steps,
+  Step,
+  Radio,
+  Upload
 } from "element-ui";
 
 // 引入路由相关的包
@@ -82,6 +86,10 @@ Vue.use(TableColumn)
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Tree)
+Vue.use(Step)
+Vue.use(Steps)
+Vue.use(Radio)
+Vue.use(Upload)
 Vue.use(VueRouter)
 // Vue.prototype.$http = axios
 // Vue.prototype.$message = Message

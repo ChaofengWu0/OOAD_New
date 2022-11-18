@@ -31,20 +31,20 @@
 
               </el-submenu>
 
-              <el-menu-item index="3" @click="clickMenu(3)">
-                <i class="el-icon-document"></i>
-                <span slot="title">Application Center</span>
-              </el-menu-item>
+<!--              <el-menu-item index="3" @click="clickMenu(3)">-->
+<!--                <i class="el-icon-document"></i>-->
+<!--                <span slot="title">Application Center</span>-->
+<!--              </el-menu-item>-->
 
-              <el-menu-item index="4" @click="clickMenu(4)">
-                <i class="el-icon-message-solid"></i>
-                <span slot="title">Notifications</span>
-              </el-menu-item>
+<!--              <el-menu-item index="4" @click="clickMenu(4)">-->
+<!--                <i class="el-icon-message-solid"></i>-->
+<!--                <span slot="title">Notifications</span>-->
+<!--              </el-menu-item>-->
 
-              <el-menu-item index="5" @click="clickMenu(5)">
-                <i class="el-icon-s-help"></i>
-                <span slot="title">Student list</span>
-              </el-menu-item>
+<!--              <el-menu-item index="3" @click="clickMenu(3)">-->
+<!--                <i class="el-icon-s-help"></i>-->
+<!--                <span slot="title">Student list</span>-->
+<!--              </el-menu-item>-->
             </el-menu>
           </el-col>
 
@@ -92,16 +92,19 @@ export default {
         // this.path_header_for_personal_center = "/teacherCenter/my_classes"
       } else if (item === 22) {
         this.$router.push("/teacher_center/my_classes/add_class")
-      } else if (item === 3) {
-        this.$router.push("/teacher_center/application_center")
-        // this.path_header_for_personal_center = "/teacherCenter/application_center"
-      } else if (item === 4) {
-        this.$router.push("/teacher_center/notification")
-        // this.path_header_for_personal_center = "/teacherCenter/notification"
-      } else if (item === 5) {
-        this.$router.push("/teacher_center/student_list")
-        // this.path_header_for_personal_center = "/teacherCenter/student_list"
       }
+      // else if (item === 3) {
+      //   this.$router.push("/teacher_center/application_center")
+      //   this.path_header_for_personal_center = "/teacherCenter/application_center"
+      // }
+      // else if (item === 4) {
+        // this.$router.push("/teacher_center/notification")
+        // this.path_header_for_personal_center = "/teacherCenter/notification"
+      // }
+      // else if (item === 3) {
+      //   this.$router.push("/teacher_center/student_list")
+      //   this.path_header_for_personal_center = "/teacherCenter/student_list"
+      // }
     },
   },
   components: {header_for_personal_center},

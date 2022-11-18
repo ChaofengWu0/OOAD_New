@@ -8,9 +8,10 @@ import teacher_notification from "@/pages/teacherCenter/notification"
 import student_list from "@/pages/teacherCenter/studentList";
 import teacher_application_center from "@/pages/teacherCenter/applicationCenter";
 import teacher_personal_center from "@/pages/teacherCenter/personalCenter";
-import teacher_add_class from "@/pages/teacherCenter/addClasses"
+import teacher_add_class from "@/pages/teacherCenter/addCourse/addClasses"
 import teacher_my_class_list from "@/pages/teacherCenter/classList"
-
+import teacher_course_chapter from "@/pages/teacherCenter/addCourse/courseChapter"
+import teacher_course_publish from "@/pages/teacherCenter/addCourse/coursePublish"
 
 import admin_center from "@/pages/administratorCenter"
 import admin_personal_center from "@/pages/administratorCenter/personalCenter"
@@ -87,6 +88,7 @@ export default new VueRouter({
           meta: {
             title: 'MyClasses'
           },
+          redirect: 'class_list',
           children: [
             {
               name: 'teacher_add_course',
@@ -97,13 +99,40 @@ export default new VueRouter({
               }
             },
             {
-              name:'teacher_class_list',
-              component:teacher_my_class_list,
-              path:'class_list',
-              meta:{
+              name: 'teacher_class_list',
+              component: teacher_my_class_list,
+              path: 'class_list',
+              meta: {
                 title: 'ClassList'
               }
-            }
+            },
+            {
+              name: 'add_course_info',
+              component: teacher_add_class,
+              path: 'info/:id',
+              hidden: true,
+              meta: {
+                title: 'AddClass'
+              }
+            },
+            {
+              name: 'teacher_add_course_chapter',
+              component: teacher_course_chapter,
+              path: 'chapter/:id',
+              hidden: true,
+              meta: {
+                title: 'AddClass'
+              }
+            },
+            {
+              name: 'teacher_add_course_publish',
+              component: teacher_course_publish,
+              path: 'publish/:id',
+              hidden: true,
+              meta: {
+                title: 'AddClass'
+              }
+            },
           ]
         },
 
