@@ -6,7 +6,7 @@
         <el-steps :active="2" finish-status="success" align-center>
           <el-step title="填写课程基本信息"></el-step>
           <el-step title="填写课程大纲"></el-step>
-          <el-step title="提交审核"></el-step>
+<!--          <el-step title="提交审核"></el-step>-->
         </el-steps>
       </div>
     </div>
@@ -18,6 +18,7 @@
       <template>
         <el-table
             :data="chapterList"
+            :cell-class-name="tableCellClassName"
             stripe
             style="width: 100%">
           <el-table-column
@@ -34,7 +35,13 @@
               prop="content"
               label="简介">
           </el-table-column>
-
+<!--          先不写-->
+<!--          <el-table-column>-->
+<!--            <template slot-scope="scope">-->
+<!--              <el-button @click.native.prevent="Edit (scope.row)">编 辑</el-button>-->
+<!--              <el-button @click.native.prevent="Delete(scope.row)">删 除</el-button>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
         </el-table>
       </template>
 
@@ -45,7 +52,7 @@
             <el-input v-model="chapterForm.name" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="第几章" :label-width="formLabelWidth">
-            <el-input v-model="chapterForm.num" autocomplete="off"></el-input>
+            <el-input-number v-model="chapterForm.num" :min="1" :step="1" label="描述文字"></el-input-number>
           </el-form-item>
           <el-form-item label="内容简介" :label-width="formLabelWidth">
             <el-input v-model="chapterForm.content" autocomplete="off"></el-input>
@@ -58,9 +65,9 @@
       </el-dialog>
 
 
-      <div class="buttons">
+      <div class="buttons__control">
         <el-button style="margin-top: 20px;" @click="previous" :disabled="saveBtnDisabled">上一步</el-button>
-        <el-button type="primary" @click="next" :disabled="saveBtnDisabled">下一步</el-button>
+        <el-button type="primary" @click="next" :disabled="saveBtnDisabled">提交审核</el-button>
       </div>
 
     </div>
@@ -85,19 +92,21 @@ export default {
       course_ID: "",
       // 此值为false，则弹出的表单不可见
       dialogFormVisible: false,
-      // 添加的
+      // 正在添加的
       chapterForm: {
         name: "",
         num: "",
         content: "",
         course_id: this.course_ID,
       },
+
       // 返回拿到的chapterList
       chapterList: [
         {
           num: "第一章",
           name: 'test',
-          content: 'asdasda'
+          content: 'asdasda',
+          id: "asdas"
         },
 
       ]
@@ -110,9 +119,21 @@ export default {
     this.getChapterVideos()
   },
   methods: {
-    handleNodeClick(data) {
-      console.log(data);
+    tableCellClassName({row, column, rowIndex, columnIndex}) {
+      //注意这里是解构
+      //利用单元格的 className 的回调方法，给行列索引赋值
+      row.index = rowIndex + 1;
+      column.index = columnIndex + 1;
     },
+
+
+    Edit(row) {
+      console.log(row)
+    },
+    Delete() {
+      console.log("Delete")
+    },
+
     cancel() {
       // 关闭弹窗
       this.dialogFormVisible = false
@@ -143,8 +164,8 @@ export default {
       // this.chapterList = showChapters()
     },
     next() {
-      // 跳转到第二部分
-      this.$router.push({path: '/teacher_center/my_classes/publish/1'})
+      // 提交审核
+      this.$router.push("/teacher_center/my_classes/class_list")
     },
     previous() {
       this.$router.push({path: '/teacher_center/my_classes/info/1'})
@@ -172,5 +193,8 @@ export default {
   width: 100%;
 }
 
+.buttons {
+  position: relative;
+}
 
 </style>

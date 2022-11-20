@@ -9,13 +9,11 @@
         </el-steps>
       </div>
     </div>
-    <el-form label-width="150px">
-      <el-form-item>
-        <el-button style="margin-top: 12px;" @click="previous" :disabled="saveBtnDisabled">上一步</el-button>
-        <el-button style="margin-top: 12px;" type="primary" @click="submit" :disabled="saveBtnDisabled">提交审核
-        </el-button>
-      </el-form-item>
-    </el-form>
+    <div class="the_button">
+      <!--        <el-button style="margin-top: 12px;" @click="previous" :disabled="saveBtnDisabled">上一步</el-button>-->
+      <el-button style="margin-top: 12px; left: 0;" type="primary" @click="submit" :disabled="saveBtnDisabled">提交审核
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -51,4 +49,11 @@ export default {
   position: relative;
   width: 100%;
 }
+
+.the_button {
+  position: relative;
+  margin-top: 25px;
+  left: 180px;
+}
+
 </style>

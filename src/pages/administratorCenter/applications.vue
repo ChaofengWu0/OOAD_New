@@ -10,7 +10,6 @@
           tooltip-effect="dark"
           style="width: 100%"
           @selection-change="handleSelectionChange"
-          :default-sort="{prop: 'date', order: 'ascending'}"
           class="list_content">
         <el-table-column
             type="selection"
@@ -23,7 +22,6 @@
             width="120"
         >
           <template slot-scope="scope">{{ scope.row.date }}
-
           </template>
         </el-table-column>
 

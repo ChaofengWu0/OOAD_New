@@ -5,7 +5,7 @@
         <el-steps :active="1" finish-status="success" align-center>
           <el-step title="填写课程基本信息"></el-step>
           <el-step title="填写课程大纲"></el-step>
-          <el-step title="提交审核"></el-step>
+<!--          <el-step title="提交审核"></el-step>-->
         </el-steps>
       </div>
     </div>

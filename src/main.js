@@ -43,7 +43,7 @@ import {
   Upload,
   Dialog,
   Select,
-
+  InputNumber,
 
   Message
 } from "element-ui";
@@ -97,6 +97,7 @@ Vue.use(Radio)
 Vue.use(Upload)
 Vue.use(Dialog)
 Vue.use(Select)
+Vue.use(InputNumber)
 Vue.use(VueRouter)
 // Vue.prototype.$http = axios
 Vue.prototype.$message = Message

@@ -11,7 +11,7 @@ import teacher_personal_center from "@/pages/teacherCenter/personalCenter";
 import teacher_add_class from "@/pages/teacherCenter/addClass/addClasses"
 import teacher_my_class_list from "@/pages/teacherCenter/classList"
 import teacher_course_chapter from "@/pages/teacherCenter/addClass/classChapter"
-import teacher_course_publish from "@/pages/teacherCenter/addClass/classPublish"
+// import teacher_course_publish from "@/pages/teacherCenter/addClass/classPublish"
 
 import admin_center from "@/pages/administratorCenter"
 import admin_personal_center  from "@/pages/administratorCenter/personalCenter"
@@ -122,15 +122,15 @@ const Router= new VueRouter({
                 title: 'AddClass'
               }
             },
-            {
-              name: 'teacher_add_course_publish',
-              component: teacher_course_publish,
-              path: 'publish/:id',
-              hidden: true,
-              meta: {
-                title: 'AddClass'
-              }
-            },
+            // {
+            //   name: 'teacher_add_course_publish',
+            //   component: teacher_course_publish,
+            //   path: 'publish/:id',
+            //   hidden: true,
+            //   meta: {
+            //     title: 'AddClass'
+            //   }
+            // },
           ]
         },
 
