@@ -1,6 +1,6 @@
 <template>
   <div class="my_classes_container">
-    my_classes
+    <router-view></router-view>
   </div>
 </template>
 

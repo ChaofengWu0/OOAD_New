@@ -65,7 +65,7 @@ export default {
         // 子组件头的面包屑要修改
         // this.path_header_for_personal_center = "/teacherCenter/personal_center"
       } else if (item === 2) {
-        this.$router.push("/stu_center/my_classes")
+        this.$router.push("/stu_center/my_classes/classes")
         // this.path_header_for_personal_center = "/teacherCenter/application_center"
       } else if (item === 3) {
         this.$router.push("/stu_center/notification")
