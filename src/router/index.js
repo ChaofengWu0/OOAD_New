@@ -8,10 +8,10 @@ import teacher_notification from "@/pages/teacherCenter/notification"
 import student_list from "@/pages/teacherCenter/studentList";
 import teacher_application_center from "@/pages/teacherCenter/applicationCenter";
 import teacher_personal_center from "@/pages/teacherCenter/personalCenter";
-import teacher_add_class from "@/pages/teacherCenter/addCourse/addClasses"
+import teacher_add_class from "@/pages/teacherCenter/addClass/addClasses"
 import teacher_my_class_list from "@/pages/teacherCenter/classList"
-import teacher_course_chapter from "@/pages/teacherCenter/addCourse/courseChapter"
-import teacher_course_publish from "@/pages/teacherCenter/addCourse/coursePublish"
+import teacher_course_chapter from "@/pages/teacherCenter/addClass/classChapter"
+import teacher_course_publish from "@/pages/teacherCenter/addClass/classPublish"
 
 import admin_center from "@/pages/administratorCenter"
 import admin_personal_center from "@/pages/administratorCenter/personalCenter"

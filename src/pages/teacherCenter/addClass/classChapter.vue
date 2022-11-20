@@ -18,14 +18,28 @@
   </div>
 </template>
 <script>
+// import {showChapters} from "@/api/teacherAddClass/showChapter"
+
+// 这个页面在一开始要把courseID传递给后端，
+
+
 export default {
   name: "courseChapter",
   data() {
     return {
       saveBtnDisabled: false,
+      chapterList:[],
+
     };
   },
+  created() {
+
+  },
   methods: {
+    getChapterVideos() {
+      // this.chapterList = showChapters()
+    }
+    ,
     next() {
       // 跳转到第二部分
       this.$router.push({path: '/teacher_center/my_classes/publish/1'})
