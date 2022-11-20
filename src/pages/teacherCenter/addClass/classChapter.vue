@@ -6,7 +6,7 @@
         <el-steps :active="2" finish-status="success" align-center>
           <el-step title="填写课程基本信息"></el-step>
           <el-step title="填写课程大纲"></el-step>
-<!--          <el-step title="提交审核"></el-step>-->
+          <!--          <el-step title="提交审核"></el-step>-->
         </el-steps>
       </div>
     </div>
@@ -36,13 +36,13 @@
               label="简介">
           </el-table-column>
 
-<!--          先不写-->
-<!--          <el-table-column>-->
-<!--            <template slot-scope="scope">-->
-<!--              <el-button @click.native.prevent="Edit (scope.row)">编 辑</el-button>-->
-<!--              <el-button @click.native.prevent="Delete(scope.row)">删 除</el-button>-->
-<!--            </template>-->
-<!--          </el-table-column>-->
+          <!--          先不写-->
+          <!--          <el-table-column>-->
+          <!--            <template slot-scope="scope">-->
+          <!--              <el-button @click.native.prevent="Edit (scope.row)">编 辑</el-button>-->
+          <!--              <el-button @click.native.prevent="Delete(scope.row)">删 除</el-button>-->
+          <!--            </template>-->
+          <!--          </el-table-column>-->
         </el-table>
       </template>
 
@@ -60,21 +60,57 @@
           </el-form-item>
 
           <el-form-item label="封面" :label-width="formLabelWidth">
-<!--            <el-input v-model="chapterForm.content" autocomplete="off"></el-input>-->
+            <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="' '"
+                :on-success="handleCoverSuccess"
+                :auto-upload="false"
+                :limit="1"
+            >
+              <el-button slot="trigger" size="small" type="primary">选取封面</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
           </el-form-item>
 
           <el-form-item label="视频" :label-width="formLabelWidth">
-<!--            <el-input v-model="chapterForm.content" autocomplete="off"></el-input>-->
+            <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="' '"
+                :on-success="handleVodUploadSuccess"
+                :auto-upload="false"
+                :limit="1"
+            >
+              <el-button slot="trigger" size="small" type="primary">选取视频</el-button>
+            </el-upload>
           </el-form-item>
 
           <el-form-item label="作业" :label-width="formLabelWidth">
-<!--            <el-input v-model="chapterForm.content" autocomplete="off"></el-input>-->
+            <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="' '"
+                :on-success="handleHWSuccess"
+                :auto-upload="false"
+                :limit="1"
+            >
+              <el-button slot="trigger" size="small" type="primary">选取作业</el-button>
+            </el-upload>
           </el-form-item>
 
           <el-form-item label="习题" :label-width="formLabelWidth">
-<!--            <el-input v-model="chapterForm.content" autocomplete="off"></el-input>-->
+            <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="' '"
+                :on-success="handleProblemSuccess"
+                :auto-upload="false"
+                :limit="1"
+            >
+              <el-button slot="trigger" size="small" type="primary">选取习题</el-button>
+            </el-upload>
           </el-form-item>
-
 
 
         </el-form>
@@ -119,6 +155,14 @@ export default {
         content: "",
         course_id: this.course_ID,
       },
+      video: {
+        title: "",
+        videoId: "",
+        name: "",
+        cover: "",
+        HW: "",
+        problem: "",
+      },
 
       // 返回拿到的chapterList
       chapterList: [
@@ -145,15 +189,19 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-
-
-    Edit(row) {
-      console.log(row)
+    handleVodUploadSuccess(rep, file) {
+      this.video.videoId = rep.data.videoId
+      this.video.name = file.name
     },
-    Delete() {
-      console.log("Delete")
+    handleCoverSuccess(rep) {
+      this.video.cover = rep.data.url
     },
-
+    handleHWSuccess(rep) {
+      this.video.HW = rep.data.HW
+    },
+    handleProblemSuccess(rep) {
+      this.video.problem = rep.data.problem
+    },
     cancel() {
       // 关闭弹窗
       this.dialogFormVisible = false
@@ -167,7 +215,6 @@ export default {
       // 调用方法，数据交给后端
       // 拿到后端res之后，如果成功，显示成功message，失败则显示对应消息
 
-      //
       this.getChapterVideos()
     },
 

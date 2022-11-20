@@ -5,7 +5,7 @@
         <el-steps :active="1" finish-status="success" align-center>
           <el-step title="填写课程基本信息"></el-step>
           <el-step title="填写课程大纲"></el-step>
-<!--          <el-step title="提交审核"></el-step>-->
+          <!--          <el-step title="提交审核"></el-step>-->
         </el-steps>
       </div>
     </div>
@@ -34,11 +34,11 @@
           <el-upload
               class="upload-demo"
               ref="upload"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :file-list="course.cover"
-              :auto-upload="false">
+              action="' '"
+              :on-success="success"
+              :auto-upload="false"
+              :limit="1"
+          >
             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
@@ -63,18 +63,17 @@
 // 接下来就是路由跳转了
 
 
-
 export default {
   name: "addClasses",
   mounted() {
-    console.log(this)
+
   },
   data() {
     return {
       saveBtnDisabled: false,
       // 是否付费，boolean
       paid: "",
-      course_id : "1",
+      course_id: "1",
       // 新申请的课程的名字
       course: {
         course_name: "",
@@ -84,11 +83,17 @@ export default {
         // 若付费，则价格？
         price: "",
         // 封面
-        course_cover: "",
+        cover: "",
       },
+      fileList: [],
     };
   },
   methods: {
+    success(res, file) {
+      //
+      this.cover = res.data.url
+      console.log(file)
+    },
     next() {
       // this.$refs.add_course_form.validate(
       //     async valid => {
@@ -106,12 +111,6 @@ export default {
       this.$router.push({path: '/teacher_center/my_classes/chapter/' + this.course_id})
       // })
     },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      console.log(file);
-    }
   }
 }
 </script>

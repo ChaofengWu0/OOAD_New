@@ -153,6 +153,7 @@ export default {
       if (res.code != 0)
         return this.$message.error("Wrong!acceptClick failed")
       console.log("acceptClick")
+      await this.getUserList()
     },
     async refuseClick(row) {
       row.status = 0
@@ -164,6 +165,7 @@ export default {
       if (res.code != 0)
         return this.$message.error("Wrong!refuseClick failed")
       console.log("refuseClick")
+      await this.getUserList()
     }
   },
 
