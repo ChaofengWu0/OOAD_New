@@ -41,6 +41,10 @@ import {
   Step,
   Radio,
   Upload,
+  Dialog,
+  Select,
+
+
   Message
 } from "element-ui";
 
@@ -91,6 +95,8 @@ Vue.use(Step)
 Vue.use(Steps)
 Vue.use(Radio)
 Vue.use(Upload)
+Vue.use(Dialog)
+Vue.use(Select)
 Vue.use(VueRouter)
 // Vue.prototype.$http = axios
 Vue.prototype.$message = Message
