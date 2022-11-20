@@ -14,7 +14,7 @@ import teacher_course_chapter from "@/pages/teacherCenter/addClass/classChapter"
 import teacher_course_publish from "@/pages/teacherCenter/addClass/classPublish"
 
 import admin_center from "@/pages/administratorCenter"
-import admin_personal_center from "@/pages/administratorCenter/personalCenter"
+import admin_personal_center  from "@/pages/administratorCenter/personalCenter"
 import admin_application_center from "@/pages/administratorCenter/applications"
 import stu_center from "@/pages/studentCenter"
 import stu_personal_center from "@/pages/studentCenter/personalCenter"
@@ -33,9 +33,7 @@ VueRouter.prototype.push = function push(location) {
 }
 //解决vue路由重复导航错误
 //获取原型对象上的push函数
-
-
-export default new VueRouter({
+const Router= new VueRouter({
   routes: [
     {
       name: 'start',
@@ -233,6 +231,59 @@ export default new VueRouter({
 
   ]
 })
+export default Router
 
 
+Router.beforeEach((to, from, next) => {
+  if (to.path.startsWith('/login')) {
+    window.sessionStorage.removeItem('token')
+    next()
+  }
+  else if (from.path.startsWith('/login')){
+    let user = window.sessionStorage.getItem('token')
+
+    if (!user) {
+      console.log(this)
+      window.alert("请先登录");
+      next({
+        path: '/login'
+      })
+    } else {
+      next()
+    }
+  }
+  if (to.path.startsWith('/admin_center')) {
+    let user = window.sessionStorage.getItem('token')
+
+    if (user!=="1") {
+      console.log(this)
+      window.alert("你没有管理员权限");
+
+    } else {
+      next()
+    }
+  }
+  if (to.path.startsWith('/stu_center')) {
+    let user = window.sessionStorage.getItem('token')
+
+    if (user==="1") {
+      next()
+
+    } else {
+      console.log(this)
+      window.alert("你不是学生");
+    }
+  }
+  if (to.path.startsWith('/teacher_center')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user==="1") {
+      next()
+
+    } else {
+      console.log(this)
+      window.alert("你没有老师权限");
+
+    }
+  }
+});
 

@@ -30,15 +30,26 @@
 </template>
 
 <script>
+import {RendererAPI} from "@/api";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "notification",
-  methods: {},
+  created(){ this.getUserList()},
+  methods: {
+    async getUserList(){
+      const {data: res} = await RendererAPI({})
+      console.log(res);
+      this.notifications = res.data
+      if (res.code != 0)
+        return this.$message.error("Wrong! Renderer failed")
+    }
+  },
 
   data() {
     return {
       // 这个用来装notification
-      notifications: this.$store.state.notifications,
+      notifications: this.$store.state.notifications
     }
   }
 }

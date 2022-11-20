@@ -15,7 +15,8 @@
         </div>
       </template>
 
-      <el-dropdown>
+
+        <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
           <i class="el-icon-arrow-down el-icon--right">
           </i>
@@ -24,9 +25,11 @@
 <!--
 这里点击之后，要退出登录，要清空id和啥啥啥之类的
 -->
-          <el-dropdown-item>exit</el-dropdown-item>
+
+          <el-dropdown-item command="logout">Exit</el-dropdown-item>
         </el-dropdown-menu>
-      </el-dropdown>
+        </el-dropdown>
+
 
     </div>
   </div>
@@ -40,6 +43,17 @@ export default {
     bread_crumb_list() {
       return this.$route.matched
     }
+  },
+  methods:{
+    handleCommand(command) {
+      // 要具体处理对应的事件
+      console.log('click on item ' + command);
+      if (command === "logout") {
+        // 做一些处理，然后回到login界面
+        this.$router.push("/login")
+      }
+    }
+
   }
 }
 </script>

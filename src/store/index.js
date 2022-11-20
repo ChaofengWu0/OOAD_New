@@ -4,10 +4,23 @@ import Vue from "vue";
 // 使用Vuex插件
 Vue.use(Vuex)
 // 准备actions，其功能用于相应组件的动作,可以commit到mutation状态，并且是从vue components dispatch来的
-const actions = {}
+const actions = {
+  change({ commit }) {
+    commit("change");
+  }
+}
 
 // 准备mutation，用于操作（加工，修改）数据，state
-const mutations = {}
+const mutations = {
+  change(state,res) {
+    console.log(res)
+    state.id=res.id;
+    state.name=res.username
+    state.phone=res.phone;
+    state.address=res.address;
+
+  }
+}
 
 // 用于存储数据
 const state = {

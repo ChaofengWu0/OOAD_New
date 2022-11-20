@@ -85,6 +85,8 @@
 </template>
 
 <script>
+import {ButtonAPI, RendererAPI} from "@/api";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "applications",
@@ -101,35 +103,23 @@ export default {
         teacher: {
           id: "",
           name: ""
-        }
-      }, {
-        date: "",
-        course: {
-          name: 'OOAD',
-          id: 'CS309',
-          detail: "brief info of this course"
         },
-        teacher: {
-          id: "",
-          name: ""
-        }
-      }, {
-        date: "",
-        course: {
-          name: 'OOAD',
-          id: 'CS309',
-          detail: "brief info of this course"
-        },
-        teacher: {
-          id: "",
-          name: ""
-        }
-      },],
+        status: 0
+      }],
       multipleSelection: []
     }
   },
-
+  created(){ this.getUserList()},
   methods: {
+    async getUserList(){
+      const {data: res} = await RendererAPI({})
+      console.log(res);
+      this.tableData = res.data
+      if (res.code != 0)
+        return this.$message.error("Wrong! Renderer failed")
+    },
+
+
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -149,17 +139,32 @@ export default {
       column.index = columnIndex + 1;
     },
     refuseAll(){
+
       console.log("refuseAll")
     },
     acceptAll(){
       console.log("acceptAll")
     },
-    acceptClick(row){
+    async acceptClick(row) {
+      row.status = 0
       console.log(row)
+      const acceptData = {...row};
+      //发起请求
+      const {data: res} = await ButtonAPI(acceptData)
+      console.log(res);
+      if (res.code != 0)
+        return this.$message.error("Wrong!acceptClick failed")
       console.log("acceptClick")
     },
-    refuseClick(row){
+    async refuseClick(row) {
+      row.status = 0
       console.log(row)
+      const refuseData = {...row};
+      //发起请求
+      const {data: res} = await ButtonAPI(refuseData)
+      console.log(res);
+      if (res.code != 0)
+        return this.$message.error("Wrong!refuseClick failed")
       console.log("refuseClick")
     }
   },
