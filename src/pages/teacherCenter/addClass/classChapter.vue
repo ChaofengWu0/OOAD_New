@@ -17,10 +17,12 @@
     </el-form>
   </div>
 </template>
+
 <script>
+
 // import {showChapters} from "@/api/teacherAddClass/showChapter"
 
-// 这个页面在一开始要把courseID传递给后端，
+// 这个页面在一开始要在created()函数中把courseID传递给后端，需要从后端拿到这门课的所有chapter，并且把chapter全部存入data()中的chapterList中
 
 
 export default {
