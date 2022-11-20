@@ -4,7 +4,6 @@
       <template>
         <el-table
             :data="notifications"
-            :default-sort="{prop: 'date', order: 'ascending'}"
         >
           <el-table-column
               type="index"
@@ -35,9 +34,11 @@ import {RendererAPI} from "@/api";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "notification",
-  created(){ this.getUserList()},
+  created() {
+    this.getUserList()
+  },
   methods: {
-    async getUserList(){
+    async getUserList() {
       const {data: res} = await RendererAPI({})
       console.log(res);
       this.notifications = res.data

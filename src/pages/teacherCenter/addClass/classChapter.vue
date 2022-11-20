@@ -35,6 +35,7 @@
               prop="content"
               label="简介">
           </el-table-column>
+
 <!--          先不写-->
 <!--          <el-table-column>-->
 <!--            <template slot-scope="scope">-->
@@ -57,6 +58,25 @@
           <el-form-item label="内容简介" :label-width="formLabelWidth">
             <el-input v-model="chapterForm.content" autocomplete="off"></el-input>
           </el-form-item>
+
+          <el-form-item label="封面" :label-width="formLabelWidth">
+<!--            <el-input v-model="chapterForm.content" autocomplete="off"></el-input>-->
+          </el-form-item>
+
+          <el-form-item label="视频" :label-width="formLabelWidth">
+<!--            <el-input v-model="chapterForm.content" autocomplete="off"></el-input>-->
+          </el-form-item>
+
+          <el-form-item label="作业" :label-width="formLabelWidth">
+<!--            <el-input v-model="chapterForm.content" autocomplete="off"></el-input>-->
+          </el-form-item>
+
+          <el-form-item label="习题" :label-width="formLabelWidth">
+<!--            <el-input v-model="chapterForm.content" autocomplete="off"></el-input>-->
+          </el-form-item>
+
+
+
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="cancel">取 消</el-button>
