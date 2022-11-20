@@ -4,13 +4,14 @@ import login from '@/pages/login/'
 import enroll from '@/pages/enroll'
 import teacher_center from "@/pages/teacherCenter";
 import teacher_my_classes from "@/pages/teacherCenter/myClasses"
-import teacher_notification from "@/pages/teacherCenter/notification"
-import student_list from "@/pages/teacherCenter/studentList";
-import teacher_application_center from "@/pages/teacherCenter/applicationCenter";
 import teacher_personal_center from "@/pages/teacherCenter/personalCenter";
 import teacher_add_class from "@/pages/teacherCenter/addClass/addClasses"
-import teacher_my_class_list from "@/pages/teacherCenter/classList"
-import teacher_course_chapter from "@/pages/teacherCenter/addClass/classChapter"
+// import teacher_my_class_list from "@/pages/teacherCenter/classList"
+import teacher_add_course_chapter from "@/pages/teacherCenter/addClass/classChapter"
+import teacher_class_list_course from "@/pages/teacherCenter/classShow/courseList"
+import teacher_class_list_chapter from "@/pages/teacherCenter/classShow/chapterList"
+
+
 // import teacher_course_publish from "@/pages/teacherCenter/addClass/classPublish"
 
 import admin_center from "@/pages/administratorCenter"
@@ -92,7 +93,6 @@ const Router = new VueRouter({
           meta: {
             title: 'MyClasses'
           },
-          redirect: 'class_list',
           children: [
             {
               name: 'teacher_add_course',
@@ -100,14 +100,6 @@ const Router = new VueRouter({
               path: 'add_class',
               meta: {
                 title: 'AddClass'
-              }
-            },
-            {
-              name: 'teacher_class_list',
-              component: teacher_my_class_list,
-              path: 'class_list',
-              meta: {
-                title: 'ClassList'
               }
             },
             {
@@ -121,49 +113,42 @@ const Router = new VueRouter({
             },
             {
               name: 'teacher_add_course_chapter',
-              component: teacher_course_chapter,
+              component: teacher_add_course_chapter,
               path: 'chapter/:id',
               hidden: true,
               meta: {
                 title: 'AddClass'
               }
             },
-            // {
-            //   name: 'teacher_add_course_publish',
-            //   component: teacher_course_publish,
-            //   path: 'publish/:id',
-            //   hidden: true,
-            //   meta: {
-            //     title: 'AddClass'
-            //   }
-            // },
+
+            {
+              name: 'teacher_class_list',
+              component: teacher_class_list_course,
+              path: 'class_list',
+              meta: {
+                title: 'ClassList'
+              }
+            },
+            {
+              name: 'teacher_class_list_course',
+              component: teacher_class_list_course,
+              path: 'list_course/:id',
+              meta: {
+                title: 'ClassList'
+              }
+            },
+            {
+              name: 'teacher_course_list_chapter',
+              component: teacher_class_list_chapter,
+              path: 'list_chapter/:id',
+              meta: {
+                title: 'ClassList'
+              }
+            },
+
           ]
         },
 
-        {
-          name: 'teacher_notification',
-          component: teacher_notification,
-          path: 'notification',
-          meta: {
-            title: 'Notification'
-          }
-        },
-        {
-          name: 'teacher_student_list',
-          component: student_list,
-          path: 'student_list',
-          meta: {
-            title: 'StudentList'
-          }
-        },
-        {
-          name: 'teacher_application_center',
-          component: teacher_application_center,
-          path: 'application_center',
-          meta: {
-            title: 'ApplicationCenter'
-          }
-        }
       ]
     },
 
