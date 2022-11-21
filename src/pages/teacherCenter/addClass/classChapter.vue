@@ -63,7 +63,7 @@
             <el-upload
                 class="upload-demo"
                 ref="upload"
-                action="' '"
+                action="''"
                 :on-success="handleCoverSuccess"
                 :auto-upload="false"
                 :limit="1"

@@ -9,20 +9,14 @@
           :cell-class-name="tableCellClassName"
           tooltip-effect="dark"
           style="width: 100%"
-          @selection-change="handleSelectionChange"
           class="list_content">
-        <el-table-column
-            type="selection"
-            width="55">
-        </el-table-column>
+
 
         <el-table-column
             label="ApplyDate"
             prop="date"
             width="120"
         >
-          <template slot-scope="scope">{{ scope.row.date }}
-          </template>
         </el-table-column>
 
         <el-table-column
@@ -127,9 +121,9 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
+    // handleSelectionChange(val) {
+    //   this.multipleSelection = val;
+    // },
     tableCellClassName({row, column, rowIndex, columnIndex}) {
       //注意这里是解构
       //利用单元格的 className 的回调方法，给行列索引赋值

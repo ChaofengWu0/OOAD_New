@@ -6,11 +6,10 @@ import teacher_center from "@/pages/teacherCenter";
 import teacher_my_classes from "@/pages/teacherCenter/myClasses"
 import teacher_personal_center from "@/pages/teacherCenter/personalCenter";
 import teacher_add_class from "@/pages/teacherCenter/addClass/addClasses"
-// import teacher_my_class_list from "@/pages/teacherCenter/classList"
 import teacher_add_course_chapter from "@/pages/teacherCenter/addClass/classChapter"
 import teacher_class_list_course from "@/pages/teacherCenter/classShow/courseList"
 import teacher_class_list_chapter from "@/pages/teacherCenter/classShow/chapterList"
-
+import teacher_class_list_student from "@/pages/teacherCenter/classShow/studentList"
 
 // import teacher_course_publish from "@/pages/teacherCenter/addClass/classPublish"
 
@@ -145,7 +144,14 @@ const Router = new VueRouter({
                 title: 'ClassList'
               }
             },
-
+            {
+              name: 'teacher_course_list_student',
+              component: teacher_class_list_student,
+              path: 'student_list/:id',
+              meta: {
+                title: 'ClassList'
+              }
+            },
           ]
         },
 
