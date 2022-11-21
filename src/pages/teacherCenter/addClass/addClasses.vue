@@ -57,11 +57,9 @@
 
 <script>
 // import {TeacherAddClassNextAPI} from "@/api";
-// 在这个页面中，需两个地方要用到后端
-// 1. 上传图片（还没搞清楚）
-// 2. 点击下一步，此时要把course这个对象的所有信息全部传递给后端，后端需要为我们返回一个courseID，我们要把data()中的course_id置为后端返回的ID。
+// todo
+// 1.点击下一步，此时要把course这个对象的所有信息全部传递给后端，后端需要为我们返回一个courseID，我们要把data()中的course_id置为后端返回的ID。
 // 接下来就是路由跳转了
-
 
 export default {
   name: "addClasses",
@@ -73,9 +71,9 @@ export default {
       saveBtnDisabled: false,
       // 是否付费，boolean
       paid: "",
-      course_id: "1",
       // 新申请的课程的名字
       course: {
+        course_ID : "1",
         course_name: "",
         // 确定新申请的课的状态是applying
         state: "applying",
@@ -85,13 +83,11 @@ export default {
         // 封面
         cover: "",
       },
-      fileList: [],
     };
   },
   methods: {
     success(res, file) {
-      //
-      this.cover = res.data.url
+      this.course.cover = res.data.url
       console.log(file)
     },
     next() {
@@ -108,7 +104,7 @@ export default {
       // // 不知道返回给我的是什么，只是这样猜测
       // this.course_id = res.data.course_id
       // 跳转到第二部分
-      this.$router.push({path: '/teacher_center/my_classes/chapter/' + this.course_id})
+      this.$router.push({path: '/teacher_center/my_classes/chapter/' + this.course.course_ID})
       // })
     },
   }

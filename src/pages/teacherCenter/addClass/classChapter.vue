@@ -18,7 +18,6 @@
       <template>
         <el-table
             :data="chapterList"
-            :cell-class-name="tableCellClassName"
             stripe
             style="width: 100%">
           <el-table-column
@@ -69,7 +68,7 @@
                 :limit="1"
             >
               <el-button slot="trigger" size="small" type="primary">选取封面</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <!--              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
             </el-upload>
           </el-form-item>
 
@@ -132,12 +131,14 @@
 </template>
 
 <script>
+// todo
+// 1.这个页面在一开始要在created()函数中把courseID传递给后端，需要从后端拿到这门课的所有chapter，并且把chapter全部存入data()中的chapterList中,
+// 注意每个变量的名字要和table里面的prop的名字一模一样（或者修改成一模一样）
+// 在这个方法中我已经调用getChapterVideos方法，todo 补充这个方法即可
 
-// import {showChapters} from "@/api/teacherAddClass/showChapter"
+// 2.在submit()方法里面要添加的，将chapterForm中的所有内容，全部传递给后端
 
-// todo: 写getChapterVideos方法
-// 这个页面在一开始要在created()函数中把courseID传递给后端，需要从后端拿到这门课的所有chapter，并且把chapter全部存入data()中的chapterList中
-
+// 3.next()中要添加的，传给数据库courseID,调用一个方法，让后端更新相关的信息
 
 export default {
   name: "courseChapter",
@@ -154,14 +155,12 @@ export default {
         num: "",
         content: "",
         course_id: this.course_ID,
-      },
-      video: {
-        title: "",
-        videoId: "",
-        name: "",
-        cover: "",
-        HW: "",
-        problem: "",
+        video: {
+          videoId: "",
+          cover: "",
+          HW: "",
+          problem: "",
+        },
       },
 
       // 返回拿到的chapterList
@@ -183,29 +182,29 @@ export default {
     this.getChapterVideos()
   },
   methods: {
-    tableCellClassName({row, column, rowIndex, columnIndex}) {
-      //注意这里是解构
-      //利用单元格的 className 的回调方法，给行列索引赋值
-      row.index = rowIndex + 1;
-      column.index = columnIndex + 1;
-    },
+    // tableCellClassName({row, column, rowIndex, columnIndex}) {
+    //   //注意这里是解构
+    //   //利用单元格的 className 的回调方法，给行列索引赋值
+    //   row.index = rowIndex + 1;
+    //   column.index = columnIndex + 1;
+    // },
     handleVodUploadSuccess(rep, file) {
-      this.video.videoId = rep.data.videoId
-      this.video.name = file.name
+      this.chapterForm.video.videoId = rep.data.videoId
+      console.log(file)
+      // this.chapterForm.video. =
     },
     handleCoverSuccess(rep) {
-      this.video.cover = rep.data.url
+      this.chapterForm.video.cover = rep.data.url
     },
     handleHWSuccess(rep) {
-      this.video.HW = rep.data.HW
+      this.chapterForm.video.HW = rep.data.HW
     },
     handleProblemSuccess(rep) {
-      this.video.problem = rep.data.problem
+      this.chapterForm.video.problem = rep.data.problem
     },
+
     cancel() {
-      // 关闭弹窗
       this.dialogFormVisible = false
-      //
       this.getChapterVideos()
     },
     submit() {
@@ -217,7 +216,6 @@ export default {
 
       this.getChapterVideos()
     },
-
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_ID = this.$route.params.id
@@ -228,12 +226,15 @@ export default {
     },
     getChapterVideos() {
       // todo
-      // this.chapterList = showChapters()
+      // 拿到后端数据，传递给对应的值，如最开始todo中写的那样
     },
+
     next() {
       // 提交审核
       this.$router.push("/teacher_center/my_classes/class_list")
+
     },
+
     previous() {
       this.$router.push({path: '/teacher_center/my_classes/info/1'})
     }
