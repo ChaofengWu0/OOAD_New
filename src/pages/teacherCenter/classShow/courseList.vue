@@ -77,6 +77,13 @@
 </template>
 
 <script>
+// 注意，这里有个地方没写好，如我点击了“发送”只会，输入框内容不会清空
+// todo
+// 1. send_email
+// 2. send_notice
+// 1 2方法调用的api是一样的（后端只会写一个接口） 我们只需要把courseID，data()中的notice，以及一个int类型的数据给后端（用来标记是发送email还是发送notice）
+// 发送成功后可以显示一个发送成功的消息this.$message
+
 export default {
   name: "courseList",
   data() {
@@ -94,14 +101,12 @@ export default {
       },],
     }
   },
-  //
-  // watch: {
-  //   notice: {
-  //     handler(newV) {
-  //       console.log(newV)
-  //     }
-  //   }
-  // } ,
+  watch: {
+    notice(newV) {
+      console.log(newV
+      )
+    }
+  },
 
   methods: {
     // detail(row) {

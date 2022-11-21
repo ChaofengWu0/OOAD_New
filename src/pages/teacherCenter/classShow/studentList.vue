@@ -53,14 +53,17 @@
 </template>
 
 <script>
-// todo 这里要利用courseID获取上这门课的所有人
+// todo
+// 1. 在created()中要利用courseID获取上这门课的所有人
+// 2. 在export_grade()中要导出这一个学生的成绩，怎么导出来呢？不知道
+
 export default {
   name: "studentList",
   data() {
     return {
+      course_id: "",
       student_list: [{
         course_name: "名字",
-        course_ID: "课程ID",
         student_name: "学生名字",
         student_ID: "学生ID",
         progress: "完成度",
@@ -69,6 +72,18 @@ export default {
     }
   },
   methods: {
+    created() {
+      this.getCourseID()
+    },
+    getCourseID() {
+      if (this.$route.params && this.$route.params.id) {
+        this.course_id = this.$route.params.id
+        console.log(this.course_ID)
+      } else {
+        this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
+      }
+    },
+
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -91,9 +106,6 @@ export default {
     }
   },
 
-  created() {
-
-  }
 }
 </script>
 
