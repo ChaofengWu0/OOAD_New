@@ -15,7 +15,7 @@
         <el-table-column
             label="ApplyDate"
             prop="date"
-            width="120"
+            width="160"
         >
         </el-table-column>
 
@@ -105,10 +105,11 @@ export default {
   methods: {
     async getUserList(){
       const {data: res} = await RendererAPI({})
-      console.log(res);
+      console.log(res.data.length);
       this.tableData = res.data
-      if (res.code != 0)
+      if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
+      this.$forceUpdate()
     },
 
 
@@ -138,17 +139,18 @@ export default {
       console.log("acceptAll")
     },
     async acceptClick(row) {
-      row.status = 0
+      row.status = 1
       console.log(row)
       const acceptData = {...row};
       //发起请求
       const {data: res} = await ButtonAPI(acceptData)
       console.log(res);
-      if (res.code != 0)
+      if (res.code !== '0')
         return this.$message.error("Wrong!acceptClick failed")
       console.log("acceptClick")
       await this.getUserList()
     },
+
     async refuseClick(row) {
       row.status = 0
       console.log(row)
@@ -156,7 +158,7 @@ export default {
       //发起请求
       const {data: res} = await ButtonAPI(refuseData)
       console.log(res);
-      if (res.code != 0)
+      if (res.code !== '0')
         return this.$message.error("Wrong!refuseClick failed")
       console.log("refuseClick")
       await this.getUserList()
