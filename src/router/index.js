@@ -281,6 +281,7 @@ Router.beforeEach((to, from, next) => {
     window.sessionStorage.removeItem('token')
     next()
   }
+
   else if (to.path.startsWith('/enroll')) {
 
       next()
