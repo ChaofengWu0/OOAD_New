@@ -73,6 +73,8 @@ export default {
             //发起请求
             const {data: res} = await loginAPI(loginData)
             console.log(res);
+
+
             console.log(this.$store.state);
             if (res.code !== '0')
               return this.$message.error("Wrong!login failed")
