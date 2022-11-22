@@ -44,6 +44,9 @@
             <el-button @click.native.prevent="export_grade(scope.row)" type="primary">
               导出成绩
             </el-button>
+            <el-button @click.native.prevent="delete_student(scope.row)" type="primary">
+              删除学生
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -56,7 +59,7 @@
 // todo
 // 1. 在created()中要利用courseID获取上这门课的所有人
 // 2. 在export_grade()中要导出这一个学生的成绩，怎么导出来呢？不知道
-
+// 3. 在delete_student()中要删除这个学生，给后端发送 course_id，以及这个学生的id，后端负责改变数据库内容
 export default {
   name: "studentList",
   data() {
@@ -103,7 +106,12 @@ export default {
     export_grade(row) {
       console.log(row)
       console.log("asdhkl")
+    },
+    delete_student(row){
+      console.log(row)
+      console.log("del_stu")
     }
+
   },
 
 }

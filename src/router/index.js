@@ -11,6 +11,8 @@ import teacher_class_list_course from "@/pages/teacherCenter/classShow/courseLis
 import teacher_class_list_chapter from "@/pages/teacherCenter/classShow/chapterList"
 import teacher_class_list_student from "@/pages/teacherCenter/classShow/studentList"
 
+// player
+import player from "@/pages/player";
 // import teacher_course_publish from "@/pages/teacherCenter/addClass/classPublish"
 
 import admin_center from "@/pages/administratorCenter"
@@ -26,6 +28,8 @@ import main_page from "@/pages/mainPage"
 // import test from "@/pages/test";
 import classDetail from "@/pages/studentCenter/stuClass/classDetail";
 import chapter from "@/pages/studentCenter/stuClass/chapter";
+import test from "@/pages/test";
+// import test from "@/pages/test";
 
 
 Vue.use(VueRouter)
@@ -249,10 +253,23 @@ const Router = new VueRouter({
     },
 
     {
+      name: 'player',
+      path: '/player/:id',
+      component: player,
+    },
+
+    {
       name: 'MainPage',
       path: '/main_page',
       component: main_page,
-    }
+    },
+
+    {
+      name: "test",
+      path: "/test",
+      component: test
+    },
+
 
   ]
 })
@@ -263,7 +280,13 @@ Router.beforeEach((to, from, next) => {
   if (to.path.startsWith('/login')) {
     window.sessionStorage.removeItem('token')
     next()
-  } else if (from.path.startsWith('/login')) {
+  }
+  else if (to.path.startsWith('/enroll')) {
+
+      next()
+
+  }
+  else if (from.path.startsWith('/login')) {
     let user = window.sessionStorage.getItem('token')
 
     if (!user) {
@@ -309,5 +332,33 @@ Router.beforeEach((to, from, next) => {
 
     }
   }
+
+  if (to.path.startsWith('/main_page')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+    } else {
+      window.alert("你没有老师权限");
+    }
+  }
+
+  if (to.path.startsWith('/test')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+    } else {
+      window.alert("你没有老师权限");
+    }
+  }
+
+  if (to.path.startsWith('/player')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+    } else {
+      window.alert("你没有老师权限");
+    }
+  }
+
 });
 

@@ -44,9 +44,16 @@
 
       <el-main class="main_container">
         <!--    就只设置付费和免费模块    -->
+
+
         <div class="free_videos_container">
 
         </div>
+
+        <div class="paid-videos_container">
+
+        </div>
+
       </el-main>
     </el-container>
 
