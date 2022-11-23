@@ -31,8 +31,14 @@
               width="180">
           </el-table-column>
           <el-table-column
+              prop="grade"
+              label="分数"
+              width="180">
+          </el-table-column>
+          <el-table-column
               prop="content"
-              label="简介">
+              label="简介"
+          >
           </el-table-column>
 
           <!--          先不写-->
@@ -52,12 +58,14 @@
             <el-input v-model="chapterForm.name" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="第几章" :label-width="formLabelWidth">
-            <el-input-number v-model="chapterForm.num" :min="1" :step="1" label="描述文字"></el-input-number>
+            <el-input-number v-model="chapterForm.num" :min="1" :step="1"></el-input-number>
           </el-form-item>
           <el-form-item label="内容简介" :label-width="formLabelWidth">
             <el-input v-model="chapterForm.content" autocomplete="off"></el-input>
           </el-form-item>
-
+          <el-form-item label="章节分数" :label-width="formLabelWidth">
+            <el-input-number v-model="chapterForm.grade" :min="1" :step="10"></el-input-number>
+          </el-form-item>
           <el-form-item label="封面" :label-width="formLabelWidth">
             <el-upload
                 class="upload-demo"
@@ -155,6 +163,7 @@ export default {
         num: "",
         content: "",
         course_id: this.course_ID,
+        grade: "",
         video: {
           videoId: "",
           cover: "",
@@ -169,6 +178,7 @@ export default {
           num: "第一章",
           name: 'test',
           content: 'asdasda',
+          grade: 1,
           id: "asdas"
         },
 

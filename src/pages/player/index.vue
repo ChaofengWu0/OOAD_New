@@ -13,7 +13,7 @@
               :encryptType="1"
               :source="source"
               :useFlashPrism="false"
-              :isLive="false"
+              :isLive="true"
               :showBuffer="true"
               :disableSeek="true"
               controlBarVisibility="always"
@@ -27,9 +27,20 @@
           <!--          <span @click="getStatus_test()">获取播放器状态</span>-->
         </div>
 
-        <el-button class="homework" @click="view_homework">
-          查看作业
-        </el-button>
+        <div>
+          <el-button class="homework" @click="view_homework">
+            查看作业并下载作业
+          </el-button>
+        </div>
+
+        <div>
+          <el-upload
+              class="submit_homework"
+              action="''"
+              :on-remove="handleRemove">
+            <span @click="submit_homework">上传作业</span>
+          </el-upload>
+        </div>
 
       </el-main>
 
@@ -51,7 +62,7 @@ export default {
   },
   data() {
     return {
-      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669182421&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=YmH%2FPN4zoTO1wQUz8y1CPhTxois%3D",
+      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669189291&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=X%2FKBaqHC7JcboRAiJDdRpzCwyC0%3D",
       status: ""
     }
   },
@@ -161,4 +172,5 @@ export default {
     cursor: pointer;
   }
 }
+
 </style>
