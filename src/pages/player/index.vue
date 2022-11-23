@@ -21,27 +21,30 @@
           />
         </div>
 
-        <div class="player-btns">
-          <span @click="play">播放</span>
-          <span @click="pause">暂停</span>
-          <!--          <span @click="getStatus_test()">获取播放器状态</span>-->
+        <div class="function_area">
+          <div class="player-btns">
+            <span @click="play">播放</span>
+            <span @click="pause">暂停</span>
+            <!--          <span @click="getStatus_test()">获取播放器状态</span>-->
+          </div>
+
+          <el-button class="homework" @click="view_homework">
+            查看作业并下载作业
+          </el-button>
+
+          <div class="upload_homework">
+            <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="' '"
+                :on-success="handleVodUploadSuccess"
+                :auto-upload="false"
+                :limit="1"
+            >
+              <span @click="pause" class="letter">点击此处上传作业</span>
+            </el-upload>
+          </div>
         </div>
-
-        <el-button class="homework" @click="view_homework">
-          查看作业并下载作业
-        </el-button>
-
-        <el-upload
-            class="upload-demo"
-            ref="upload"
-            action="' '"
-            :on-success="handleVodUploadSuccess"
-            :auto-upload="false"
-            :limit="1"
-        >
-          <span @click="pause" class="upload_homework">点击上传作业</span>
-        </el-upload>
-
       </el-main>
 
       <el-footer>Footer</el-footer>
@@ -61,7 +64,7 @@ export default {
   },
   data() {
     return {
-      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669189291&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=X%2FKBaqHC7JcboRAiJDdRpzCwyC0%3D",
+      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669194778&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=gQG5LB758aAy5kX68KJBr0RjvZU%3D",
       status: ""
     }
   },
@@ -114,6 +117,8 @@ export default {
 }
 
 
+
+
 .video_page_container {
   position: relative;
   width: 100%;
@@ -143,12 +148,18 @@ export default {
 
 .upload_homework {
   background-image: url("../../assets/img/upload_hw_banner.png");
-  align-content: center;
   left: 18%;
   top: 72%;
   position: absolute;
   width: 1000px;
   height: 50px;
+}
+
+
+.letter {
+  left: 43%;
+  position: absolute;
+  align-content: center;
 }
 
 
@@ -173,5 +184,7 @@ export default {
     cursor: pointer;
   }
 }
+
+
 
 </style>

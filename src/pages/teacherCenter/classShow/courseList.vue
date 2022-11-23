@@ -67,8 +67,8 @@
         </el-input>
 
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submit">确 定</el-button>
         </div>
       </el-dialog>
     </template>
@@ -103,16 +103,19 @@ export default {
   },
   watch: {
     notice(newV) {
-      console.log(newV
-      )
+      console.log(newV)
     }
   },
 
   methods: {
-    // detail(row) {
-    //   this.$router.push({path: '/teacher_center/my_classes/list_chapter/' + this.course_id})
-    //   console.log(row.row)
-    // },
+    cancel() {
+      this.dialogFormVisible = false
+      this.notice = ""
+    },
+    submit() {
+      this.dialogFormVisible = false
+      this.notice = ""
+    },
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
