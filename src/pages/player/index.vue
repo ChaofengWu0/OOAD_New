@@ -52,10 +52,26 @@
 
 
     <el-dialog title="来答题测试一下吧" :visible.sync="dialogFormVisible">
-      <!--      <el-button></el-button>-->
-      <!--      <div slot="footer" class="dialog-footer" style="font-size: 50px">-->
+
+      <!-- 考试 -->
+      <div class="examination">
+        <ul v-for="(item,i) in examinationData" :key="i">
+          <div>{{ i + 1 }}、{{ item.question }}</div>
+
+          <li style="list-style:none" v-for="(son,index) in item.answer" :key="index" class="question">
+            <el-radio
+                v-model="radio[i]"
+                :label="son.value"
+                @change="getInputValue(i)"
+            ></el-radio>
+          </li>
+
+        </ul>
+      </div>
+      <!-- 考试 -->
+
+
       <el-button @click="submit_ans">提交答案</el-button>
-      <!--      </div>-->
     </el-dialog>
 
 
@@ -74,8 +90,67 @@ export default {
   },
   data() {
     return {
-      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669194778&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=gQG5LB758aAy5kX68KJBr0RjvZU%3D",
-      dialogFormVisible: false,
+      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669206430&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=uA1JRRsF6zaWUzqKwwibPyDOUp4%3D",
+      dialogFormVisible: true,
+      examinationData: [
+        {
+          id: "1",
+          question:
+              "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
+          answer: [
+            {value: "A.Python"},
+            {value: "B.Vue"},
+            {value: "C.Php"},
+            {value: "D.Java"}
+          ]
+        },
+        {
+          id: "1",
+          question:
+              "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
+          answer: [
+            {value: "A.问题一"},
+            {value: "B.Vue2"},
+            {value: "C.Php2"},
+            {value: "D.Java2"}
+          ]
+        },
+        {
+          id: "1",
+          name: "three",
+          question:
+              "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
+          answer: [
+            {value: "A.问题二"},
+            {value: "B.Vue3"},
+            {value: "C.Php3"},
+            {value: "D.Java3"}
+          ]
+        },
+        {
+          id: "1",
+          question:
+              "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
+          answer: [
+            {value: "A.课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握"},
+            {value: "B.Vue4"},
+            {value: "C.Php4"},
+            {value: "D.Java4"}
+          ]
+        },
+        {
+          id: "1",
+          question: "How about your in skills?",
+          answer: [
+            {value: "A.问题四"},
+            {value: "B.Vue5"},
+            {value: "C.Php5"},
+            {value: "D.Java5"}
+          ]
+        }
+      ],
+      allRadio: [],//提交给后台的真题数据
+      radio: []//单选真题答案
     }
   },
   created() {
@@ -97,15 +172,12 @@ export default {
       // todo
       // 给后端这个video的source，让后端把这个video的题目发过来，
       // 解析这个题目，然后弹出dialog
-
       this.dialogFormVisible = true;
-    }
-    ,
+    },
 
     view_homework() {
       console.log("homework")
-    }
-    ,
+    },
 
 
     play() {
@@ -117,9 +189,13 @@ export default {
       this.$refs.VueAliplayerV2.pause();
     },
 
-    handleVodUploadSuccess(){
+    handleVodUploadSuccess() {
 
-    }
+    },
+    getInputValue(index) {
+      this.allRadio[index] = this.radio[index]; // 将数据存入提交给后台的数据中
+      console.log(this.allRadio);
+    },
   },
 }
 
@@ -207,4 +283,55 @@ export default {
 }
 
 
+
+
+
+
+
+ul {
+  background: white;
+  border: 1px solid #ffdc82;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  margin: 20px;
+
+  li {
+    font-size: 20px;
+    padding-top: 35px;
+    padding-left: 37px;
+
+    /deep/ .el-radio__inner:hover {
+      border-color: #DD4A68;
+    }
+
+    /deep/ .el-radio__label {
+      color: black;
+    }
+    /deep/ .el-radio__inner {
+      border-color: #ffdc82;
+      background: none;
+      width: 20px;
+      height: 20px;
+    }
+    /deep/.el-radio__input {
+      vertical-align: sub;
+    }
+    /deep/ .el-radio__inner::after {
+      width: 7px;
+      height: 7px;
+    }
+    /deep/ .el-radio__input.is-checked + .el-radio__label {
+      color: black;
+    }
+    /deep/ .el-radio__input.is-checked .el-radio__inner {
+      border-color: #ffdc82;
+      background: #ffdc82;
+    }
+
+  }
+}
+
+
+
 </style>
+

@@ -26,11 +26,6 @@ import stu_notification from "@/pages/studentCenter/notification"
 import stu_my_classes from "@/pages/studentCenter/myClasses"
 import main_page from "@/pages/mainPage"
 
-
-// import test from "@/pages/test";
-// import test from "@/pages/test";
-
-
 Vue.use(VueRouter)
 
 
@@ -42,7 +37,6 @@ VueRouter.prototype.push = function push(location) {
 //解决vue路由重复导航错误
 //获取原型对象上的push函数
 const Router = new VueRouter({
-
   routes: [
     {
       name: 'start',
