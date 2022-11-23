@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import './assets/css/global.css'
+// 引入阿里云视频播放器
+import VueAliplayerV2 from "vue-aliplayer-v2";
+
+
 // 引入ElementUI全部样式
 // import ElementUI, {Message} from 'element-ui';
 // 引入ElementUI的全部样式
@@ -22,6 +26,7 @@ import {
   Header,
   Main,
   Aside,
+  Footer,
   Dropdown,
   Breadcrumb,
   BreadcrumbItem,
@@ -98,10 +103,15 @@ Vue.use(Upload)
 Vue.use(Dialog)
 Vue.use(Select)
 Vue.use(InputNumber)
+Vue.use(Footer)
 Vue.use(VueRouter)
+Vue.use(VueAliplayerV2)
 // Vue.prototype.$http = axios
 Vue.prototype.$message = Message
 Vue.component(Message.name, Message)
+
+
+
 
 new Vue({
   render: h => h(App),

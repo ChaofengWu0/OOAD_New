@@ -300,6 +300,7 @@ Router.beforeEach((to, from, next) => {
       next()
     }
   }
+
   if (to.path.startsWith('/admin_center')) {
     let user = window.sessionStorage.getItem('token')
 
@@ -311,6 +312,7 @@ Router.beforeEach((to, from, next) => {
       next()
     }
   }
+
   if (to.path.startsWith('/stu_center')) {
     let user = window.sessionStorage.getItem('token')
 
@@ -322,6 +324,7 @@ Router.beforeEach((to, from, next) => {
       window.alert("你不是学生");
     }
   }
+
   if (to.path.startsWith('/teacher_center')) {
     let user = window.sessionStorage.getItem('token')
     if (user === "1") {

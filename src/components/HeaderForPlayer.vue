@@ -1,34 +1,29 @@
 <template>
   <div class="center_head_container">
     <div class="header_left">
-      <el-breadcrumb separator="/" class="bread_crumb">
-        <el-breadcrumb-item v-for="(item,index) in bread_crumb_list" :key="index">
-          {{ item.meta.title }}
-        </el-breadcrumb-item>
-      </el-breadcrumb>
+      观看课程
     </div>
 
     <div class="header_right">
       <template>
         <div class="avatar">
-          <div class="block"><el-avatar :size="50" :src="this.$store.state.avatar_path"></el-avatar></div>
+          <div class="block">
+            <el-avatar :size="50" :src="this.$store.state.avatar_path"></el-avatar>
+          </div>
         </div>
       </template>
 
 
-        <el-dropdown @command="handleCommand">
+      <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
           <i class="el-icon-arrow-down el-icon--right">
           </i>
         </span>
         <el-dropdown-menu slot="dropdown">
-<!--
-这里点击之后，要退出登录，要清空id和啥啥啥之类的
--->
 
           <el-dropdown-item command="logout">退出</el-dropdown-item>
         </el-dropdown-menu>
-        </el-dropdown>
+      </el-dropdown>
 
 
     </div>
@@ -44,7 +39,7 @@ export default {
       return this.$route.matched
     }
   },
-  methods:{
+  methods: {
     handleCommand(command) {
       // 要具体处理对应的事件
       console.log('click on item ' + command);
@@ -67,8 +62,11 @@ export default {
 
 .header_left {
   position: absolute;
-  height: 100%;
-  width: 100%;
+  font-size: 50px;
+  color: #DD4A68;
+  font-family: 华文琥珀;
+  left: 44%;
+  top: 30%;
 }
 
 .header_right {
@@ -78,37 +76,17 @@ export default {
   top: 20%;
 }
 
-.avatar{
+.avatar {
   position: absolute;
   right: 20px;
   top: 0;
 }
-.el-dropdown-link{
+
+.el-dropdown-link {
   position: absolute;
-  right:0;
-  bottom:0
+  right: 0;
+  bottom: 0
 }
-
-.bread_crumb{
-  position: absolute;
-  top: 40%;
-  left: 20px;
-}
-
-
-/* 不被选中时的颜色 */
-.el-breadcrumb ::v-deep .el-breadcrumb__inner {
-  color: #d9bb95 !important;
-  font-weight:400 !important;
-  font-size: x-large;
-}
-/* 被选中时的颜色 */
-.el-breadcrumb__item:last-child ::v-deep .el-breadcrumb__inner {
-  color: #fc9105 !important;
-  font-weight:800 !important;
-  font-size: x-large;
-}
-
 
 
 </style>
