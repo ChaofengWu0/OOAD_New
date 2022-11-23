@@ -78,6 +78,10 @@ export default {
         // 做一些处理，然后回到login界面
         this.$router.push("/login")
       }
+      // else if (command === "enter_center") {
+      //   if (this.$store.state.role === )
+      //   this.$router.push("/")
+      // }
     }
   }
 

@@ -74,7 +74,6 @@ export default {
             const {data: res} = await loginAPI(loginData)
             console.log(res);
 
-
             console.log(this.$store.state);
             if (res.code !== '0')
               return this.$message.error("Wrong!login failed")
@@ -83,7 +82,7 @@ export default {
             this.$store.commit('change',res.data);
             this.$message.success("Successfully login")
             window.sessionStorage.setItem('token', res.data.role)
-            this.$router.push('/main_page')
+            await this.$router.push('/main_page')
           })
     },
     resetForm() {

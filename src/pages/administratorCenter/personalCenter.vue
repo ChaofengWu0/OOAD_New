@@ -14,7 +14,7 @@
         <div class="right_container">
           <el-descriptions title="Info" class="info_items" :column="1">
             <el-descriptions-item label="UserId">{{ this.id }}</el-descriptions-item>
-            <el-descriptions-item label="Name">{{ this.name }}</el-descriptions-item>
+            <el-descriptions-item label="Name">{{ this.username }}</el-descriptions-item>
             <el-descriptions-item label="Phone">{{ this.phone }}</el-descriptions-item>
             <el-descriptions-item label="Address">{{ this.address }}</el-descriptions-item>
             <el-descriptions-item label="Subject">{{ this.subject }}</el-descriptions-item>
@@ -32,9 +32,11 @@ export default {
   data() {
     return {
       id: this.$store.state.id,
-      name: this.$store.state.name,
-      avatar_path: this.$store.state.avatar_path,
+      username: this.$store.state.username,
+      nickname: this.$store.state.nickname,
+      email: this.$store.state.email,
       phone: this.$store.state.phone,
+      avatar_path: this.$store.state.avatar_path,
       address: this.$store.state.address,
       subject: this.$store.state.subject
     }
