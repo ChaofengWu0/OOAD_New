@@ -4,6 +4,7 @@
       <el-header height="90px">
         <HeaderForPlayer></HeaderForPlayer>
       </el-header>
+
       <el-main>
         <div>
           <vue-aliplayer-v2
@@ -16,14 +17,14 @@
               :showBuffer="true"
               :disableSeek="true"
               controlBarVisibility="always"
+              @ended="problem"
           />
         </div>
 
         <div class="player-btns">
-          <span @click="play()">播放</span>
-          <span @click="pause()">暂停</span>
-          <span @click="getStatus()">获取播放器状态</span>
-          <span @click="ended()">testEnded</span>
+          <span @click="play">播放</span>
+          <span @click="pause">暂停</span>
+          <!--          <span @click="getStatus_test()">获取播放器状态</span>-->
         </div>
 
         <el-button class="homework" @click="view_homework">
@@ -64,14 +65,17 @@ export default {
       // 2、将对应的值分别赋值
     },
 
+    problem() {
+      console.log("ended")
+      // todo
+      // 给后端这个video的source，让后端把这个video的题目发过来，
+      // 解析这个题目，然后弹出dialog
+    },
+
     view_homework() {
       console.log("homework")
     },
 
-    ended() {
-      this.$refs.VueAliplayerV2.ended();
-      console.log("ended")
-    },
 
     play() {
       this.$refs.VueAliplayerV2.play();
@@ -79,12 +83,6 @@ export default {
 
     pause() {
       this.$refs.VueAliplayerV2.pause();
-    },
-
-    getStatus() {
-      const status = this.$refs.VueAliplayerV2.getStatus();
-      console.log(`getStatus:`, status);
-      this.status = status
     },
   },
   // watch: {
