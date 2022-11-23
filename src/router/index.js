@@ -43,6 +43,7 @@ VueRouter.prototype.push = function push(location) {
 //解决vue路由重复导航错误
 //获取原型对象上的push函数
 const Router = new VueRouter({
+
   routes: [
     {
       name: 'start',
