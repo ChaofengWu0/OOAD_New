@@ -29,7 +29,6 @@ import main_page from "@/pages/mainPage"
 // import test from "@/pages/test";
 import classDetail from "@/pages/studentCenter/stuClass/classDetail";
 import chapter from "@/pages/studentCenter/stuClass/chapter";
-import test from "@/pages/test";
 // import test from "@/pages/test";
 
 

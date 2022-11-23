@@ -27,20 +27,20 @@
           <!--          <span @click="getStatus_test()">获取播放器状态</span>-->
         </div>
 
-        <div>
-          <el-button class="homework" @click="view_homework">
-            查看作业并下载作业
-          </el-button>
-        </div>
+        <el-button class="homework" @click="view_homework">
+          查看作业并下载作业
+        </el-button>
 
-        <div>
-          <el-upload
-              class="submit_homework"
-              action="''"
-              :on-remove="handleRemove">
-            <span @click="submit_homework">上传作业</span>
-          </el-upload>
-        </div>
+        <el-upload
+            class="upload-demo"
+            ref="upload"
+            action="' '"
+            :on-success="handleVodUploadSuccess"
+            :auto-upload="false"
+            :limit="1"
+        >
+          <span @click="pause" class="upload_homework">点击上传作业</span>
+        </el-upload>
 
       </el-main>
 
@@ -51,7 +51,6 @@
 <script>
 // import AliPlayer from "../../components/AliPlayer";
 import HeaderForPlayer from "@/components/HeaderForPlayer";
-
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -96,18 +95,9 @@ export default {
       this.$refs.VueAliplayerV2.pause();
     },
   },
-  // watch: {
-  //   status: {
-  //     handler(newV) {
-  //       console.log(newV)
-  //
-  //     }
-  //   }
-  // }
-
 }
-</script>
 
+</script>
 
 <style scoped lang="less">
 * {
@@ -150,6 +140,17 @@ export default {
   width: 1000px;
   height: 50px;
 }
+
+.upload_homework {
+  background-image: url("../../assets/img/upload_hw_banner.png");
+  align-content: center;
+  left: 18%;
+  top: 72%;
+  position: absolute;
+  width: 1000px;
+  height: 50px;
+}
+
 
 .player-btns {
   width: 100%;
