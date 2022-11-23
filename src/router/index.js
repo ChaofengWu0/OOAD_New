@@ -11,7 +11,8 @@ import teacher_class_list_course from "@/pages/teacherCenter/classShow/courseLis
 import teacher_class_list_chapter from "@/pages/teacherCenter/classShow/chapterList"
 import teacher_class_list_student from "@/pages/teacherCenter/classShow/studentList"
 import teacher_class_list_student_grade from "@/pages/teacherCenter/classShow/studentGrade"
-
+import student_course_chapter from "@/pages/studentCenter/openClass/classChapter"
+import student_class_detail from "@/pages/studentCenter/openClass/myClass"
 // player
 import player from "@/pages/player";
 // import teacher_course_publish from "@/pages/teacherCenter/addClass/classPublish"
@@ -27,8 +28,6 @@ import main_page from "@/pages/mainPage"
 
 
 // import test from "@/pages/test";
-import classDetail from "@/pages/studentCenter/stuClass/classDetail";
-import chapter from "@/pages/studentCenter/stuClass/chapter";
 // import test from "@/pages/test";
 
 
@@ -230,37 +229,48 @@ const Router = new VueRouter({
           meta: {
             title: 'MyClasses'
           },
-          children: [
+          redirect: 'classes',
+          children: [{
+            name: 'student_add_course_chapter',
+            component: student_course_chapter,
+            path: 'chapter/:id',
+            hidden: true,
+            meta: {
+              title: 'My Classes'
+            }
+          },
             {
-              name: '',
-              component: classDetail,
+              name: 'student_add_course_chapter',
+              component: student_class_detail,
               path: 'classes',
+              hidden: true,
               meta: {
-                title: 'AddClass'
+                title: 'My classes'
               }
             },
             {
-              name: '',
-              component: classDetail,
+              name: 'student_add_course_chapter',
+              component: student_class_detail,
               path: 'class_detail/:id',
               hidden: true,
               meta: {
-                title: 'AddClass'
+                title: 'My classes'
               }
             },
-            {
-              name: '',
-              component: chapter,
-              path: 'chapter/:id',
-              hidden: true,
-              meta: {
-                title: 'AddClass'
-              }
-            },
+
+
+
+
+
+
           ]
         },
+
+
+
       ]
     },
+
 
     {
       name: 'player',

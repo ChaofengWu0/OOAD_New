@@ -42,7 +42,7 @@ export default {
       const {data: res} = await RendererAPI({})
       console.log(res);
       this.notifications = res.data
-      if (res.code !== '0')
+      if (res.code != 0)
         return this.$message.error("Wrong! Renderer failed")
     }
   },

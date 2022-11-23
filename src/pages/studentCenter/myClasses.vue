@@ -1,5 +1,5 @@
 <template>
-  <div class="my_classes_container">
+  <div className="my_class_container">
     <router-view></router-view>
   </div>
 </template>
@@ -11,8 +11,17 @@ export default {
 </script>
 
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.my_classes_container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
 
 </style>
-
-
-
