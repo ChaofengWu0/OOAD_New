@@ -15,7 +15,8 @@ const mutations = {
     change(state, res) {
         console.log(res)
         state.id = res.id;
-        state.name = res.username
+        state.username = res.username
+        state.nickname = res.nickname
         state.phone = res.phone;
         state.address = res.address;
     }
@@ -31,7 +32,7 @@ const state = {
     avatar_path: "https://ts1.cn.mm.bing.net/th/id/R-C.d07bfdfef4c5b7fc9d0154bde181ec03?rik=42pHBThOWIAXJA&riu=http%3a%2f%2ftupian.qqw21.com" +
         "%2farticle%2fUploadPic%2f2019-9%2f201991821452013634.jpg&ehk=axY34pDbRrYLxCfGMRnO70M6DB6dXpPr3ykDnjNYJR8%3d&risl=&pid=ImgRaw&r=0&sres=" +
         "1&sresct=1",
-    role: "",
+    role: 3,
     address: "",
     // notifications: [
     //   {
