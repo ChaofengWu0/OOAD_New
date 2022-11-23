@@ -47,6 +47,9 @@
             <el-button @click.native.prevent="delete_student(scope.row)" type="primary">
               删除学生
             </el-button>
+            <el-button @click.native.prevent="view_chapter(scope.row)" type="primary">
+              查看学生所有章节的成绩
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -107,9 +110,17 @@ export default {
       console.log(row)
       console.log("asdhkl")
     },
-    delete_student(row){
+    delete_student(row) {
       console.log(row)
       console.log("del_stu")
+    },
+    view_chapter(row) {
+      console.log(row)
+      console.log('chapter')
+      // 获取点击行的student的id（通过row这个参数，和student_list这个数组获取）
+      let student_id = "1"
+      this.$router.push({path: '/teacher_center/my_classes/student_grade/' + student_id})
+
     }
 
   },

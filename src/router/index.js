@@ -10,6 +10,7 @@ import teacher_add_course_chapter from "@/pages/teacherCenter/addClass/classChap
 import teacher_class_list_course from "@/pages/teacherCenter/classShow/courseList"
 import teacher_class_list_chapter from "@/pages/teacherCenter/classShow/chapterList"
 import teacher_class_list_student from "@/pages/teacherCenter/classShow/studentList"
+import teacher_class_list_student_grade from "@/pages/teacherCenter/classShow/studentGrade"
 
 // player
 import player from "@/pages/player";
@@ -156,6 +157,15 @@ const Router = new VueRouter({
                 title: 'ClassList'
               }
             },
+            {
+              name: 'teacher_course_list_student_grade',
+              component: teacher_class_list_student_grade,
+              path: 'student_grade/:id',
+              meta:{
+                title: 'ClassList'
+              }
+            }
+
           ]
         },
 
@@ -264,12 +274,6 @@ const Router = new VueRouter({
       component: main_page,
     },
 
-    {
-      name: "test",
-      path: "/test",
-      component: test
-    },
-
 
   ]
 })
@@ -280,14 +284,11 @@ Router.beforeEach((to, from, next) => {
   if (to.path.startsWith('/login')) {
     window.sessionStorage.removeItem('token')
     next()
-  }
+  } else if (to.path.startsWith('/enroll')) {
 
-  else if (to.path.startsWith('/enroll')) {
+    next()
 
-      next()
-
-  }
-  else if (from.path.startsWith('/login')) {
+  } else if (from.path.startsWith('/login')) {
     let user = window.sessionStorage.getItem('token')
 
     if (!user) {
