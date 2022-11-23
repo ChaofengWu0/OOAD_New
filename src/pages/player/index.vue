@@ -40,6 +40,7 @@
 // import AliPlayer from "../../components/AliPlayer";
 import HeaderForPlayer from "@/components/HeaderForPlayer";
 
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'index',
