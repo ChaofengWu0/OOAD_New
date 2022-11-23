@@ -84,7 +84,7 @@ export default {
 
   methods: {
     submit_ans() {
-      console.log("test")
+      this.dialogFormVisible = false
     },
 
     getVideoData() {
@@ -94,13 +94,11 @@ export default {
     ,
 
     problem() {
-      console.log("ended")
       // todo
       // 给后端这个video的source，让后端把这个video的题目发过来，
       // 解析这个题目，然后弹出dialog
 
       this.dialogFormVisible = true;
-
     }
     ,
 
@@ -170,7 +168,7 @@ export default {
 }
 
 .upload_homework {
-  background-image: url("../../assets/img/upload_hw_banner.png");
+  background-image: url("../../assets/img/hw_banner.jpg");
   left: 18%;
   top: 72%;
   position: absolute;
