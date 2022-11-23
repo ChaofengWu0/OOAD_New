@@ -41,7 +41,7 @@
                 :auto-upload="false"
                 :limit="1"
             >
-              <span @click="pause" class="letter">点击此处上传作业</span>
+              <span class="letter">点击此处上传作业</span>
             </el-upload>
           </div>
         </div>
@@ -49,6 +49,16 @@
 
       <el-footer>Footer</el-footer>
     </el-container>
+
+
+    <el-dialog title="来答题测试一下吧" :visible.sync="dialogFormVisible">
+      <!--      <el-button></el-button>-->
+      <!--      <div slot="footer" class="dialog-footer" style="font-size: 50px">-->
+      <el-button @click="submit_ans">提交答案</el-button>
+      <!--      </div>-->
+    </el-dialog>
+
+
   </div>
 </template>
 <script>
@@ -65,7 +75,7 @@ export default {
   data() {
     return {
       source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669194778&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=gQG5LB758aAy5kX68KJBr0RjvZU%3D",
-      status: ""
+      dialogFormVisible: false,
     }
   },
   created() {
@@ -73,30 +83,45 @@ export default {
   },
 
   methods: {
+    submit_ans() {
+      console.log("test")
+    },
+
     getVideoData() {
       //1、调用后台接口获取视频vid,playAuth(鉴权地址),cover(视频封面)的逻辑
       // 2、将对应的值分别赋值
-    },
+    }
+    ,
 
     problem() {
       console.log("ended")
       // todo
       // 给后端这个video的source，让后端把这个video的题目发过来，
       // 解析这个题目，然后弹出dialog
-    },
+
+      this.dialogFormVisible = true;
+
+    }
+    ,
 
     view_homework() {
       console.log("homework")
-    },
+    }
+    ,
 
 
     play() {
       this.$refs.VueAliplayerV2.play();
-    },
+    }
+    ,
 
     pause() {
       this.$refs.VueAliplayerV2.pause();
     },
+
+    handleVodUploadSuccess(){
+
+    }
   },
 }
 
@@ -115,8 +140,6 @@ export default {
   background-color: bisque;
   height: 100%;
 }
-
-
 
 
 .video_page_container {
@@ -184,7 +207,6 @@ export default {
     cursor: pointer;
   }
 }
-
 
 
 </style>
