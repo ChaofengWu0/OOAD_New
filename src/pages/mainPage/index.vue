@@ -77,6 +77,19 @@ export default {
       if (command === "logout") {
         // 做一些处理，然后回到login界面
         this.$router.push("/login")
+      } else if (command === "enter_center") {
+        console.log(this.$store.state.role)
+        switch (this.$store.state.role) {
+          case 1:
+            this.$router.push("/admin_center/personal_center")
+            break
+          case 2:
+            this.$router.push("/teacher_center/personal_center")
+            break
+          case 3:
+            this.$router.push("/stu_center/personal_center")
+            break
+        }
       }
     }
   }
