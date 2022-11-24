@@ -1,7 +1,9 @@
 import Vue from "vue";
 import VueRouter from 'vue-router'
+// login & enroll
 import login from '@/pages/login/'
 import enroll from '@/pages/enroll'
+// teacher
 import teacher_center from "@/pages/teacherCenter";
 import teacher_my_classes from "@/pages/teacherCenter/myClasses"
 import teacher_personal_center from "@/pages/teacherCenter/personalCenter";
@@ -11,23 +13,23 @@ import teacher_class_list_course from "@/pages/teacherCenter/classShow/courseLis
 import teacher_class_list_chapter from "@/pages/teacherCenter/classShow/chapterList"
 import teacher_class_list_student from "@/pages/teacherCenter/classShow/studentList"
 import teacher_class_list_student_grade from "@/pages/teacherCenter/classShow/studentGrade"
+// student
 import student_course_chapter from "@/pages/studentCenter/openClass/classChapter"
 import student_class_detail from "@/pages/studentCenter/openClass/myClass"
-// player
-import player from "@/pages/player";
-// import teacher_course_publish from "@/pages/teacherCenter/addClass/classPublish"
-
-import admin_center from "@/pages/administratorCenter"
-import admin_personal_center from "@/pages/administratorCenter/personalCenter"
-import admin_application_center from "@/pages/administratorCenter/applications"
 import stu_center from "@/pages/studentCenter"
 import stu_personal_center from "@/pages/studentCenter/personalCenter"
 import stu_notification from "@/pages/studentCenter/notification"
 import stu_my_classes from "@/pages/studentCenter/myClasses"
+// player
+import player from "@/pages/player";
+// import teacher_course_publish from "@/pages/teacherCenter/addClass/classPublish"
+import admin_center from "@/pages/administratorCenter"
+import admin_personal_center from "@/pages/administratorCenter/personalCenter"
+import admin_application_center from "@/pages/administratorCenter/applications"
+
 import main_page from "@/pages/mainPage"
 
 Vue.use(VueRouter)
-
 
 const originalPush = VueRouter.prototype.push
 //修改原型对象中的push方法

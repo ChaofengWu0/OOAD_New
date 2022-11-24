@@ -1,4 +1,3 @@
-
 <template>
 
   <div class="login_container">
@@ -6,24 +5,24 @@
       <!--登录表单 -->
       <el-form class="login_form" :model="login_form" :rules="login_rule" ref="login_form_ref">
         <!--   用户名     -->
-        <el-form-item label="Username" class="user_input" prop="username">
+        <el-form-item label="账户" class="user_input" prop="username">
           <el-input v-model="login_form.username" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
 
         <!--密码-->
-        <el-form-item label="Password" class="pwd_input" prop="password">
+        <el-form-item label="密码" class="pwd_input" prop="password">
           <el-input v-model="login_form.password" prefix-icon="el-icon_pwd" type="password"></el-input>
         </el-form-item>
 
         <el-form-item class="select_button">
           <!--登录按钮-->
           <el-button type="primary" @click="login_test" class="login_button">
-            login
+            登录
           </el-button>
 
           <router-link to="/enroll">
-            <el-button type="primary"  class="enroll_button">
-              enroll
+            <el-button type="primary" class="enroll_button">
+              注册
             </el-button>
           </router-link>
         </el-form-item>
@@ -35,7 +34,8 @@
 <script>
 //导入登录接口模块
 
-import { loginAPI } from "@/api";
+import {loginAPI} from "@/api";
+
 export default {
 
   // eslint-disable-next-line vue/multi-word-component-names
@@ -66,10 +66,9 @@ export default {
     login_test() {
       // p22
       this.$refs.login_form_ref.validate(
-
           async valid => {
             if (!valid) return
-            const loginData={...this.login_form};
+            const loginData = {...this.login_form};
             //发起请求
             const {data: res} = await loginAPI(loginData)
             console.log(res);
@@ -79,7 +78,7 @@ export default {
               return this.$message.error("Wrong!login failed")
             // 如果成功
             // 将返回的token 保存到 sessionStorage
-            this.$store.commit('change',res.data);
+            this.$store.commit('change', res.data);
             this.$message.success("Successfully login")
             window.sessionStorage.setItem('token', res.data.role)
             await this.$router.push('/main_page')

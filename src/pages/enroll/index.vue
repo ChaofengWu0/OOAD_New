@@ -4,38 +4,48 @@
       <!--      注册表单-->
       <el-form class="enroll_form" :model="enroll_form" ref="enroll_form_ref" :rules="enroll_rules">
         <!--   用户名-->
-        <el-form-item label="Username" class="enroll_username" prop="username">
+        <el-form-item label="账户" class="enroll_username" prop="userID">
+          <el-input v-model="enroll_form.userID" prefix-icon="el-icon-user"></el-input>
+        </el-form-item>
+
+        <el-form-item label="用户名" class="enroll_username" prop="username">
           <el-input v-model="enroll_form.username" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
 
         <!--        密码-->
-        <el-form-item label="Password" class="enroll_password" prop="password">
+        <el-form-item label="密码" class="enroll_password" prop="password">
           <el-input v-model="enroll_form.password" prefix-icon="el-icon_pwd" type="password"></el-input>
         </el-form-item>
 
         <!--     再次输入密码   -->
-        <el-form-item label="Password_again" class="enroll_password_again" prop="password_again">
+        <el-form-item label="请再次输入密码" class="enroll_password_again" prop="password_again">
           <el-input v-model="enroll_form.password_again" prefix-icon="el-icon_pwd" type="password"></el-input>
         </el-form-item>
+
+        <el-form-item label="邮箱" class="enroll_password_again" prop="email">
+          <el-input v-model="enroll_form.email" prefix-icon="el-icon_pwd" type="password"></el-input>
+        </el-form-item>
+
 
         <el-form-item class="enroll_button">
           <el-button type="primary"
                      @click="enroll_test">
-            enroll
+            注册
           </el-button>
         </el-form-item>
       </el-form>
 
-      <div class="another_choose">
-        Already have accounts?
-        <router-link to="/login">LogIn</router-link>
-      </div>
+      <h4 class="another_choose">
+        已经有账户了？
+        <router-link to="/login">登录</router-link>
+      </h4>
     </div>
   </div>
 </template>
 
 <script>
-import { EnrollAPI } from "@/api";
+import {EnrollAPI} from "@/api";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "index",
@@ -50,9 +60,12 @@ export default {
 
     return {
       enroll_form: {
+        userID: "",
         username: "",
         password: "",
-        password_again: ""
+        password_again: "",
+        email: "",
+        phone: "",
       },
       enroll_rules: {
         username: [
@@ -79,7 +92,7 @@ export default {
       this.$refs.enroll_form_ref.validate(
           async valid => {
             if (!valid) return
-            const EnrollData={...this.enroll_form};
+            const EnrollData = {...this.enroll_form};
             //发起请求
 
             const {data: res} = await EnrollAPI(EnrollData)
@@ -109,7 +122,7 @@ export default {
 }
 
 .enroll_box {
-  height: 400px;
+  height: 600px;
   width: 500px;
   background: white;
   position: absolute;

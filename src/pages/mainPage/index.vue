@@ -5,13 +5,10 @@
       <el-header height="144px" class="head_container">
         <div class="banner">
           <div class="left_ele">
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
-              <!--                     @select="handleSelect">-->
-              <el-menu-item index="1">Main Page</el-menu-item>
-              <!--              <el-menu-item index="2">Calculus</el-menu-item>-->
-              <!--              <el-menu-item index="3">Linear Algebra</el-menu-item>-->
-              <!--              <el-menu-item index="4">Physics</el-menu-item>-->
-            </el-menu>
+            <!--            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">-->
+            <!--                     @select="handleSelect">-->
+            <h2>欢迎来到在线视频学习网站</h2>
+            <!--            </el-menu>-->
             <div class="line"></div>
           </div>
 
@@ -47,7 +44,20 @@
 
 
         <div class="free_videos_container">
-
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <div class="grid-content bg-purple"></div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple"></div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple"></div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple"></div>
+            </el-col>
+          </el-row>
         </div>
 
         <div class="paid-videos_container">
@@ -67,10 +77,12 @@ export default {
   name: "index",
   data() {
     return {
+      //
       activeIndex: "1"
     }
   },
   methods: {
+    // 下拉框的方法
     handleCommand(command) {
       // 要具体处理对应的事件
       console.log('click on item ' + command);
@@ -92,12 +104,13 @@ export default {
         }
       }
     }
+
   }
 
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 * {
   padding: 0;
   margin: 0;
@@ -130,7 +143,8 @@ export default {
 
 
 .left_ele {
-  left: 10px;
+  left: 40%;
+  top: 20%;
   height: 100%;
   position: absolute;
 }
@@ -159,11 +173,25 @@ export default {
 }
 
 
-.main_container {
-  height: 100%;
-  width: 100%;
-  background-color: gray;
-  position: relative;
+.el-row {
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.el-col {
+  border-radius: 4px;
+}
+
+.bg-purple {
+  background: #d3dce6;
+}
+
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
 }
 
 

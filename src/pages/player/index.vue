@@ -47,33 +47,33 @@
         </div>
       </el-main>
 
-      <el-footer>
-        Footer
+<!--      <el-footer>-->
+<!--        Footer-->
 
-        <el-dialog title="来答题测试一下吧" :visible.sync="dialogFormVisible">
-          <h3>
-            您已用时 {{ this.one }}:{{ this.two }}:{{ this.three }}
-          </h3>
-          <!-- 考试 -->
-          <div class="examination">
-            <ul v-for="(item,i) in examinationData" :key="i">
-              <div>{{ i + 1 }}、{{ item.question }}</div>
+<!--        <el-dialog title="来答题测试一下吧" :visible.sync="dialogFormVisible">-->
+<!--          <h3>-->
+<!--            您已用时 {{ this.one }}:{{ this.two }}:{{ this.three }}-->
+<!--          </h3>-->
+<!--          &lt;!&ndash; 考试 &ndash;&gt;-->
+<!--          <div class="examination">-->
+<!--            <ul v-for="(item,i) in examinationData" :key="i">-->
+<!--              <div>{{ i + 1 }}、{{ item.question }}</div>-->
 
-              <li style="list-style:none" v-for="(son,index) in item.answer" :key="index" class="question">
-                <el-radio
-                    v-model="radio[i]"
-                    :label="son.value"
-                    @change="getInputValue(i)"
-                ></el-radio>
-              </li>
+<!--              <li style="list-style:none" v-for="(son,index) in item.answer" :key="index" class="question">-->
+<!--                <el-radio-->
+<!--                    v-model="radio[i]"-->
+<!--                    :label="son.value"-->
+<!--                    @change="getInputValue(i)"-->
+<!--                ></el-radio>-->
+<!--              </li>-->
 
-            </ul>
-          </div>
-          <!-- 考试 -->
-          <el-button @click="submit_ans">提交答案</el-button>
-        </el-dialog>
+<!--            </ul>-->
+<!--          </div>-->
+<!--          &lt;!&ndash; 考试 &ndash;&gt;-->
+<!--          <el-button @click="submit_ans">提交答案</el-button>-->
+<!--        </el-dialog>-->
 
-      </el-footer>
+<!--      </el-footer>-->
     </el-container>
   </div>
 </template>
@@ -88,7 +88,8 @@ export default {
   },
   data() {
     return {
-      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669257318&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=PmQbmwU3Z5OT8MvLd87we5JQiSo%3D",
+      source:"https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669276146&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=w2MTujkdgoxb6ajucHk8d1lYQLs%3D",
+
       dialogFormVisible: false,
       flag: null,
       total_time: 10,
@@ -330,7 +331,7 @@ export default {
 
 .under_player{
   background-image: url("../../assets/img/player.jpg");
-  height: 270px;
+  height: 330px;
 }
 
 ul {
