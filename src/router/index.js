@@ -30,6 +30,8 @@ import admin_application_center from "@/pages/administratorCenter/applications"
 import main_page from "@/pages/mainPage"
 
 import test from "@/pages/test";
+// import anoTest from "@/pages/anoTest";
+
 
 Vue.use(VueRouter)
 const originalPush = VueRouter.prototype.push
@@ -74,7 +76,7 @@ const Router = new VueRouter({
       path: '/teacher_center',
       redirect: 'teacher_center/personal_center',
       meta: {
-        title: 'TeacherCenter'
+        title: '教师中心'
       },
       children: [
         {
@@ -82,7 +84,7 @@ const Router = new VueRouter({
           component: teacher_personal_center,
           path: 'personal_center',
           meta: {
-            title: 'PersonalCenter'
+            title: '个人中心'
           }
         },
 
@@ -91,7 +93,7 @@ const Router = new VueRouter({
           component: teacher_my_classes,
           path: 'my_classes',
           meta: {
-            title: 'MyClasses'
+            title: '我的课程'
           },
           children: [
             {
@@ -99,7 +101,7 @@ const Router = new VueRouter({
               component: teacher_add_class,
               path: 'add_class',
               meta: {
-                title: 'AddClass'
+                title: '添加课程'
               }
             },
             {
@@ -108,7 +110,7 @@ const Router = new VueRouter({
               path: 'info/:id',
               hidden: true,
               meta: {
-                title: 'AddClass'
+                title: '添加课程'
               }
             },
             {
@@ -117,7 +119,7 @@ const Router = new VueRouter({
               path: 'chapter/:id',
               hidden: true,
               meta: {
-                title: 'AddClass'
+                title: '添加课程'
               }
             },
 
@@ -126,7 +128,7 @@ const Router = new VueRouter({
               component: teacher_class_list_course,
               path: 'class_list',
               meta: {
-                title: 'ClassList'
+                title: '课程列表'
               }
             },
             {
@@ -134,7 +136,7 @@ const Router = new VueRouter({
               component: teacher_class_list_course,
               path: 'list_course/:id',
               meta: {
-                title: 'ClassList'
+                title: '课程列表'
               }
             },
             {
@@ -150,7 +152,7 @@ const Router = new VueRouter({
               component: teacher_class_list_student,
               path: 'student_list/:id',
               meta: {
-                title: 'ClassList'
+                title: '课程列表'
               }
             },
             {
@@ -158,7 +160,7 @@ const Router = new VueRouter({
               component: teacher_class_list_student_grade,
               path: 'student_grade/:id',
               meta: {
-                title: 'ClassList'
+                title: '课程列表'
               }
             }
 
@@ -174,21 +176,21 @@ const Router = new VueRouter({
       component: admin_center,
       redirect: '/admin_center/personal_center',
       meta: {
-        title: 'AdminCenter'
+        title: '管理员中心'
       },
       children: [
         {
           name: 'admin_personal_center',
           path: 'personal_center',
           component: admin_personal_center,
-          meta: {title: 'PersonalCenter'}
+          meta: {title: '个人中心'}
         },
         {
           name: 'admin_application_center',
           path: 'application_center',
           component: admin_application_center,
           meta: {
-            title: 'ApplicationCenter'
+            title: '申请中心'
           }
         }
       ]
@@ -200,7 +202,7 @@ const Router = new VueRouter({
       component: stu_center,
       redirect: 'stu_center/personal_center',
       meta: {
-        title: 'StudentCenter'
+        title: '学生中心'
       },
       children: [
         {
@@ -208,7 +210,7 @@ const Router = new VueRouter({
           path: 'personal_center',
           component: stu_personal_center,
           meta: {
-            title: 'PersonalCenter'
+            title: '个人中心'
           }
         },
         {
@@ -216,7 +218,7 @@ const Router = new VueRouter({
           path: 'notification',
           component: stu_notification,
           meta: {
-            title: 'Notification'
+            title: '通知'
           }
         },
         {
@@ -224,7 +226,7 @@ const Router = new VueRouter({
           path: 'my_classes',
           component: stu_my_classes,
           meta: {
-            title: 'MyClasses'
+            title: '我的课程'
           },
           redirect: 'classes',
           children: [{
@@ -233,7 +235,7 @@ const Router = new VueRouter({
             path: 'chapter/:id',
             hidden: true,
             meta: {
-              title: 'My Classes'
+              title: '我的课程'
             }
           },
             {
@@ -242,7 +244,7 @@ const Router = new VueRouter({
               path: 'classes',
               hidden: true,
               meta: {
-                title: 'My classes'
+                title: '我的课程'
               }
             },
             {
@@ -251,7 +253,7 @@ const Router = new VueRouter({
               path: 'class_detail/:id',
               hidden: true,
               meta: {
-                title: 'My classes'
+                title: '我的课程'
               }
             },
 
@@ -262,6 +264,13 @@ const Router = new VueRouter({
 
       ]
     },
+
+
+    // {
+    //   path:"/anoTest",
+    //   component:anoTest
+    // },
+
 
     {
       name: 'test',
@@ -279,7 +288,6 @@ const Router = new VueRouter({
       path: '/main_page',
       component: main_page,
     },
-
 
   ]
 })
@@ -368,6 +376,16 @@ Router.beforeEach((to, from, next) => {
       window.alert("你没有老师权限");
     }
   }
+  if (to.path.startsWith('/anoTest')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+    } else {
+      window.alert("你没有老师权限");
+    }
+  }
+
 
 });
+
 

@@ -4,7 +4,8 @@
       <!--      注册表单-->
       <el-form class="enroll_form" :model="enroll_form" ref="enroll_form_ref" :rules="enroll_rules">
         <!--   用户名-->
-        <el-form-item label="账户" class="enroll_username" prop="userID">
+        <el-form-item label="账户" class="enroll_username" prop="userID"
+                      :rules="[{ required: true, message: '请输入账户', trigger: 'blur' },]">
           <el-input v-model="enroll_form.userID" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
 
@@ -22,8 +23,11 @@
           <el-input v-model="enroll_form.password_again" prefix-icon="el-icon_pwd" type="password"></el-input>
         </el-form-item>
 
-        <el-form-item label="邮箱" class="enroll_password_again" prop="email">
-          <el-input v-model="enroll_form.email" prefix-icon="el-icon_pwd" type="password"></el-input>
+        <el-form-item label="邮箱" class="enroll_password_again" prop="email" :rules="[
+      { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+      ]">
+          <el-input v-model="enroll_form.email" prefix-icon="el-icon_pwd"></el-input>
         </el-form-item>
 
 
