@@ -1,11 +1,15 @@
 <template>
   <div class="video_page_container">
     <el-container class="page_container">
+
       <el-header height="90px">
         <HeaderForPlayer></HeaderForPlayer>
       </el-header>
 
       <el-main>
+
+
+
         <div>
           <vue-aliplayer-v2
               class="multiple-player"
@@ -21,7 +25,7 @@
           />
         </div>
 
-        <div class="function_area">
+        <div>
           <div class="player-btns">
             <span @click="play">播放</span>
             <span @click="pause">暂停</span>
@@ -47,51 +51,58 @@
         </div>
       </el-main>
 
-      <el-footer>Footer</el-footer>
+      <el-footer>
+        Footer
+
+        <el-dialog title="来答题测试一下吧" :visible.sync="dialogFormVisible">
+          <h3>
+            您已用时 {{ this.one }}:{{ this.two }}:{{ this.three }}
+          </h3>
+          <!-- 考试 -->
+          <div class="examination">
+            <ul v-for="(item,i) in examinationData" :key="i">
+              <div>{{ i + 1 }}、{{ item.question }}</div>
+
+              <li style="list-style:none" v-for="(son,index) in item.answer" :key="index" class="question">
+                <el-radio
+                    v-model="radio[i]"
+                    :label="son.value"
+                    @change="getInputValue(i)"
+                ></el-radio>
+              </li>
+
+            </ul>
+          </div>
+          <!-- 考试 -->
+          <el-button @click="submit_ans">提交答案</el-button>
+        </el-dialog>
+
+      </el-footer>
     </el-container>
-
-
-    <el-dialog title="来答题测试一下吧" :visible.sync="dialogFormVisible">
-
-      <!-- 考试 -->
-      <div class="examination">
-        <ul v-for="(item,i) in examinationData" :key="i">
-          <div>{{ i + 1 }}、{{ item.question }}</div>
-
-          <li style="list-style:none" v-for="(son,index) in item.answer" :key="index" class="question">
-            <el-radio
-                v-model="radio[i]"
-                :label="son.value"
-                @change="getInputValue(i)"
-            ></el-radio>
-          </li>
-
-        </ul>
-      </div>
-      <!-- 考试 -->
-
-
-      <el-button @click="submit_ans">提交答案</el-button>
-    </el-dialog>
-
-
   </div>
 </template>
 <script>
-// import AliPlayer from "../../components/AliPlayer";
 import HeaderForPlayer from "@/components/HeaderForPlayer";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'index',
   components: {
-    // "ali-player": AliPlayer,
     HeaderForPlayer
   },
   data() {
     return {
-      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669206430&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=uA1JRRsF6zaWUzqKwwibPyDOUp4%3D",
-      dialogFormVisible: true,
+      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669257318&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=PmQbmwU3Z5OT8MvLd87we5JQiSo%3D",
+      dialogFormVisible: false,
+      flag: null,
+      total_time: 10,
+      one: '00', // 时
+      two: '00', // 分
+      three: '00', // 秒
+      abc: 0, // 秒的计数
+      cde: 0, // 分的计数
+      efg: 0, // 时的计数
+
       examinationData: [
         {
           id: "1",
@@ -157,22 +168,39 @@ export default {
     this.getVideoData()
   },
 
+  mounted() {
+    // this.dialogFormVisible = true
+  },
+
   methods: {
     submit_ans() {
       this.dialogFormVisible = false
+      this.endHandler()
+
+
     },
 
     getVideoData() {
       //1、调用后台接口获取视频vid,playAuth(鉴权地址),cover(视频封面)的逻辑
       // 2、将对应的值分别赋值
-    }
-    ,
+    },
 
     problem() {
       // todo
       // 给后端这个video的source，让后端把这个video的题目发过来，
       // 解析这个题目，然后弹出dialog
       this.dialogFormVisible = true;
+      this.startHandler()
+      this.initial_time()
+    },
+
+    initial_time() {
+      this.abc = 0
+      this.cde = 0
+      this.efg = 0
+      this.one = "00"
+      this.two = "00"
+      this.three = "00"
     },
 
     view_homework() {
@@ -196,7 +224,57 @@ export default {
       this.allRadio[index] = this.radio[index]; // 将数据存入提交给后台的数据中
       console.log(this.allRadio);
     },
+
+
+    startHandler() {
+      this.flag = setInterval(() => {
+        if (this.three === 60 || this.three === '60') {
+          this.three = '00';
+          this.abc = 0;
+          if (this.two === 60 || this.two === '60') {
+            this.two = '00';
+            this.cde = 0;
+            if (this.efg + 1 <= 9) {
+              this.efg++;
+              this.one = '0' + this.efg;
+            } else {
+              this.efg++;
+              this.one = this.efg;
+            }
+          } else {
+            if (this.cde + 1 <= 9) {
+              this.cde++;
+              this.two = '0' + this.cde;
+            } else {
+              this.cde++;
+              this.two = this.cde;
+            }
+          }
+        } else {
+          if (this.abc + 1 <= 9) {
+            this.abc++;
+            this.three = '0' + this.abc;
+          } else {
+            this.abc++;
+            this.three = this.abc;
+          }
+        }
+      }, 1000)
+    },
+    // 暂停计时
+    endHandler() {
+      this.flag = clearInterval(this.flag)
+    }
+
   },
+  // watch: {
+  //   dialogFormVisible: {
+  //     handler(newV) {
+  //       console.log(newV)
+  //       this.startHandler();
+  //     }
+  //   }
+  // }
 }
 
 </script>
@@ -207,7 +285,6 @@ export default {
   margin: 0;
   border: 0;
 }
-
 
 .el-header {
   position: relative;
@@ -223,7 +300,7 @@ export default {
 }
 
 .video {
-  position: fixed;
+  position: relative;
   width: 100%;
   background-color: #42b983;
 }
@@ -267,7 +344,6 @@ export default {
   flex-wrap: wrap;
 
   span {
-    margin: 0 auto;
     display: inline-block;
     padding: 5px 10px;
     width: 150px;
@@ -283,17 +359,9 @@ export default {
 }
 
 
-
-
-
-
-
 ul {
   background: white;
-  border: 1px solid #ffdc82;
-  box-sizing: border-box;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-  margin: 20px;
+  margin: 50px;
 
   li {
     font-size: 20px;
@@ -307,30 +375,27 @@ ul {
     /deep/ .el-radio__label {
       color: black;
     }
+
     /deep/ .el-radio__inner {
-      border-color: #ffdc82;
-      background: none;
       width: 20px;
       height: 20px;
     }
-    /deep/.el-radio__input {
+
+    /deep/ .el-radio__input {
       vertical-align: sub;
     }
+
     /deep/ .el-radio__inner::after {
       width: 7px;
       height: 7px;
     }
+
     /deep/ .el-radio__input.is-checked + .el-radio__label {
       color: black;
-    }
-    /deep/ .el-radio__input.is-checked .el-radio__inner {
-      border-color: #ffdc82;
-      background: #ffdc82;
     }
 
   }
 }
-
 
 
 </style>
