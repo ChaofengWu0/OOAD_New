@@ -167,11 +167,6 @@ export default {
   created() {
     this.getVideoData()
   },
-
-  mounted() {
-    // this.dialogFormVisible = true
-  },
-
   methods: {
     submit_ans() {
       this.dialogFormVisible = false
