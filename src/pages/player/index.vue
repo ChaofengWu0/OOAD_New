@@ -6,7 +6,7 @@
         <HeaderForPlayer></HeaderForPlayer>
       </el-header>
 
-      <el-main>
+      <el-main style="padding: 0;margin: 0;border: 0">
         <div>
           <vue-aliplayer-v2
               class="multiple-player"
@@ -18,7 +18,7 @@
               :showBuffer="true"
               :disableSeek="true"
               controlBarVisibility="always"
-              @ended="problem"
+              @ended="end"
           />
         </div>
         <div class="under_player">
@@ -44,36 +44,35 @@
               <span class="letter">点击此处上传作业</span>
             </el-upload>
           </div>
+          <el-button class="homework" @click="do_problem" style="margin-top: 20px">
+            做此视频的习题
+          </el-button>
         </div>
+        <el-dialog title="来答题测试一下吧" :visible.sync="dialogFormVisible">
+          <h3>
+            您已用时 {{ this.one }}:{{ this.two }}:{{ this.three }}
+          </h3>
+          <!-- 考试 -->
+          <div class="examination">
+            <ul v-for="(item,i) in examinationData" :key="i">
+              <div>{{ i + 1 }}、{{ item.question }}</div>
+
+              <li style="list-style:none" v-for="(son,index) in item.answer" :key="index" class="question">
+                <el-radio
+                    v-model="radio[i]"
+                    :label="son.value"
+                    @change="getInputValue(i)"
+                ></el-radio>
+              </li>
+
+            </ul>
+          </div>
+          <!-- 考试 -->
+          <el-button @click="submit_ans">提交答案</el-button>
+        </el-dialog>
       </el-main>
 
-<!--      <el-footer>-->
-<!--        Footer-->
 
-<!--        <el-dialog title="来答题测试一下吧" :visible.sync="dialogFormVisible">-->
-<!--          <h3>-->
-<!--            您已用时 {{ this.one }}:{{ this.two }}:{{ this.three }}-->
-<!--          </h3>-->
-<!--          &lt;!&ndash; 考试 &ndash;&gt;-->
-<!--          <div class="examination">-->
-<!--            <ul v-for="(item,i) in examinationData" :key="i">-->
-<!--              <div>{{ i + 1 }}、{{ item.question }}</div>-->
-
-<!--              <li style="list-style:none" v-for="(son,index) in item.answer" :key="index" class="question">-->
-<!--                <el-radio-->
-<!--                    v-model="radio[i]"-->
-<!--                    :label="son.value"-->
-<!--                    @change="getInputValue(i)"-->
-<!--                ></el-radio>-->
-<!--              </li>-->
-
-<!--            </ul>-->
-<!--          </div>-->
-<!--          &lt;!&ndash; 考试 &ndash;&gt;-->
-<!--          <el-button @click="submit_ans">提交答案</el-button>-->
-<!--        </el-dialog>-->
-
-<!--      </el-footer>-->
     </el-container>
   </div>
 </template>
@@ -88,7 +87,7 @@ export default {
   },
   data() {
     return {
-      source:"https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669276146&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=w2MTujkdgoxb6ajucHk8d1lYQLs%3D",
+      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669276146&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=w2MTujkdgoxb6ajucHk8d1lYQLs%3D",
 
       dialogFormVisible: false,
       flag: null,
@@ -165,13 +164,16 @@ export default {
       // 2、将对应的值分别赋值
     },
 
-    problem() {
+    end() {
       // todo
-      // 给后端这个video的source，让后端把这个video的题目发过来，
-      // 解析这个题目，然后弹出dialog
+      // 告诉后端视频看完了，要记录完成度
+
+    },
+
+    do_problem() {
       this.dialogFormVisible = true;
-      this.startHandler()
       this.initial_time()
+      this.startHandler()
     },
 
     initial_time() {
@@ -250,12 +252,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-* {
-  padding: 0;
-  margin: 0;
-  border: 0;
-}
-
 .el-header {
   position: relative;
   background-color: bisque;
@@ -329,9 +325,9 @@ export default {
 }
 
 
-.under_player{
+.under_player {
   background-image: url("../../assets/img/player.jpg");
-  height: 330px;
+  height: 315px;
 }
 
 ul {
