@@ -11,46 +11,47 @@ import VueAliplayerV2 from "vue-aliplayer-v2";
 // import 'element-ui/lib/theme-chalk/index.css';
 // 引入需要的elementUI
 import {
-  Button,
-  Row,
-  Col,
-  Menu,
-  MenuItem,
-  Submenu,
-  MenuItemGroup,
-  Icon,
-  Form,
-  FormItem,
-  Input,
-  Container,
-  Header,
-  Main,
-  Aside,
-  Footer,
-  Dropdown,
-  Breadcrumb,
-  BreadcrumbItem,
-  DropdownItem,
-  DropdownMenu,
-  Image,
-  Avatar,
-  Descriptions,
-  DescriptionsItem,
-  Tag,
-  Table,
-  TableColumn,
-  Tabs,
-  TabPane,
-  Tree,
-  Steps,
-  Step,
-  Radio,
-  Upload,
-  Dialog,
-  Select,
-  InputNumber,
+    Button,
+    Row,
+    Col,
+    Menu,
+    MenuItem,
+    Submenu,
+    MenuItemGroup,
+    Icon,
+    Form,
+    FormItem,
+    Input,
+    Container,
+    Header,
+    Main,
+    Aside,
+    Footer,
+    Dropdown,
+    Breadcrumb,
+    BreadcrumbItem,
+    DropdownItem,
+    DropdownMenu,
+    Image,
+    Avatar,
+    Descriptions,
+    DescriptionsItem,
+    Tag,
+    Table,
+    TableColumn,
+    Tabs,
+    TabPane,
+    Tree,
+    Steps,
+    Step,
+    Radio,
+    Upload,
+    Dialog,
+    Select,
+    InputNumber,
+    Checkbox,
 
-  Message
+    Message
 } from "element-ui";
 
 // 引入路由相关的包
@@ -104,6 +105,8 @@ Vue.use(Dialog)
 Vue.use(Select)
 Vue.use(InputNumber)
 Vue.use(Footer)
+Vue.use(Checkbox)
+
 Vue.use(VueRouter)
 Vue.use(VueAliplayerV2)
 // Vue.prototype.$http = axios
@@ -111,12 +114,10 @@ Vue.prototype.$message = Message
 Vue.component(Message.name, Message)
 
 
-
-
 new Vue({
-  render: h => h(App),
-  router: router,
-  store: store
+    render: h => h(App),
+    router: router,
+    store: store
 }).$mount('#app')
 
 

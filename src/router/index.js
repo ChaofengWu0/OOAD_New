@@ -1,10 +1,11 @@
-import Vue from "vue";
+import Vue from "vue"
 import VueRouter from 'vue-router'
+
 import login from '@/pages/login/'
 import enroll from '@/pages/enroll'
-import teacher_center from "@/pages/teacherCenter";
+import teacher_center from "@/pages/teacherCenter"
 import teacher_my_classes from "@/pages/teacherCenter/myClasses"
-import teacher_personal_center from "@/pages/teacherCenter/personalCenter";
+import teacher_personal_center from "@/pages/teacherCenter/personalCenter"
 import teacher_add_class from "@/pages/teacherCenter/addClass/addClasses"
 import teacher_add_course_chapter from "@/pages/teacherCenter/addClass/classChapter"
 import teacher_class_list_course from "@/pages/teacherCenter/classShow/courseList"
@@ -16,7 +17,6 @@ import student_class_detail from "@/pages/studentCenter/openClass/myClass"
 // player
 import player from "@/pages/player";
 // import teacher_course_publish from "@/pages/teacherCenter/addClass/classPublish"
-
 import admin_center from "@/pages/administratorCenter"
 import admin_personal_center from "@/pages/administratorCenter/personalCenter"
 import admin_application_center from "@/pages/administratorCenter/applications"
@@ -62,6 +62,15 @@ const Router = new VueRouter({
             path: '/enroll',
             meta: {
                 title: 'Enroll'
+            }
+        },
+        {
+            name: 'MainPage',
+            path: '/main_page',
+            component: main_page,
+            meta: {
+                title: 'MainPage',
+                keepalive: true
             }
         },
 
@@ -265,12 +274,6 @@ const Router = new VueRouter({
             name: 'player',
             path: '/player/:id',
             component: player,
-        },
-
-        {
-            name: 'MainPage',
-            path: '/main_page',
-            component: main_page,
         },
 
 

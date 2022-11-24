@@ -30,13 +30,14 @@
 export default {
   name: "personalCenter",
   data() {
+    const userInfo = this.$store.getters.getUserInfo
     return {
-      id: this.$store.state.id,
-      name: this.$store.state.name,
-      avatar_path: this.$store.state.avatar_path,
-      phone: this.$store.state.phone,
-      address: this.$store.state.address,
-      subject: this.$store.state.subject
+      id: userInfo.id,
+      name: userInfo.name,
+      avatar_path: userInfo.avatar_path,
+      phone: userInfo.phone,
+      address: userInfo.address,
+      subject: userInfo.subject
     }
   },
 
