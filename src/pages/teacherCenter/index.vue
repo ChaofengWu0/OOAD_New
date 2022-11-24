@@ -8,25 +8,25 @@
       <el-aside width="200px">
         <el-row class="tac">
           <el-col>
-            <h5 class="nav_title">Navigation</h5>
+            <h5 class="nav_title">导航</h5>
             <!--
             下面开始是整个导航栏
             -->
             <el-menu default-active="1" class="el-menu-vertical-demo">
               <el-menu-item index="1" @click="clickMenu(1)">
                 <i class="el-icon-user"></i>
-                <span slot="title">Personal Center</span>
+                <span slot="title">个人中心</span>
               </el-menu-item>
 
               <el-submenu index="2">
                 <template slot="title">
                   <i class="el-icon-reading"></i>
-                  <span slot="title">Classes</span>
+                  <span slot="title">课程</span>
                 </template>
 
                 <el-menu-item-group class="class_sub_menu">
-                  <el-menu-item index="1-1" @click="clickMenu(21)">My Classes</el-menu-item>
-                  <el-menu-item index="1-2" @click="clickMenu(22)">Add Classes</el-menu-item>
+                  <el-menu-item index="1-1" @click="clickMenu(21)">我的课程</el-menu-item>
+                  <el-menu-item index="1-2" @click="clickMenu(22)">添加课程</el-menu-item>
                 </el-menu-item-group>
 
               </el-submenu>

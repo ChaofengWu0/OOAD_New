@@ -8,19 +8,19 @@
       <el-aside width="200px">
         <el-row class="tac">
           <el-col>
-            <h5 class="nav_title">Navigation</h5>
+            <h5 class="nav_title">导航</h5>
             <!--
             下面开始是整个导航栏
             -->
             <el-menu default-active="1" class="el-menu-vertical-demo">
               <el-menu-item index="1" @click="clickMenu(1)">
                 <i class="el-icon-user"></i>
-                <span slot="title">Personal Center</span>
+                <span slot="title">个人中心</span>
               </el-menu-item>
 
               <el-menu-item index="2" @click="clickMenu(2)">
                 <i class="el-icon-document"></i>
-                <span slot="title">Application Center</span>
+                <span slot="title">申请中心</span>
               </el-menu-item>
 
             </el-menu>

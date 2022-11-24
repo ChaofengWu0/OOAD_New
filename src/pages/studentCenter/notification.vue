@@ -7,19 +7,30 @@
         >
           <el-table-column
               type="index"
-              label="index"
+              label="序号"
               width="100">
           </el-table-column>
           <el-table-column
               prop="date"
-              label="date"
-              width="180"
-              sortable
+              label="日期"
+              width="100"
+          >
+          </el-table-column>
+          <el-table-column
+              prop="course_id"
+              label="课程名字"
+              width="200"
+          >
+          </el-table-column>
+          <el-table-column
+              prop="teacher_name"
+              label="教师姓名"
+              width="100"
           >
           </el-table-column>
           <el-table-column
               prop="content"
-              label="content"
+              label="内容"
           >
           </el-table-column>
         </el-table>

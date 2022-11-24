@@ -13,7 +13,7 @@
 
 
         <el-table-column
-            label="ApplyDate"
+            label="申请日期"
             prop="date"
             width="160"
         >
@@ -21,31 +21,31 @@
 
         <el-table-column
             prop="course.id"
-            label="CourseID"
+            label="课程ID"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="course.name"
-            label="CourseName"
+            label="课程名字"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="teacher.name"
-            label="TeacherName"
+            label="教师姓名"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="teacher.id"
-            label="TeacherID"
+            label="教师ID"
             width="140">
         </el-table-column>
 
         <el-table-column
             prop="course.detail"
-            label="CourseDetail"
+            label="课程简介"
 
             show-overflow-tooltip>
         </el-table-column>
@@ -54,23 +54,23 @@
 
           <template slot-scope="scope">
             <el-button type="danger" @click.native.prevent="refuseClick (scope.row)">
-              Refuse
+              拒绝
             </el-button>
             <br>
             <br>
             <el-button type="success" @click.native.prevent="acceptClick (scope.row)">
-              Accept
+              接受
             </el-button>
           </template>
 
         </el-table-column>
       </el-table>
 
-      <div style="margin-top: 20px" class="button_container">
-        <el-button @click="toggleSelection()">Deselect</el-button>
-        <el-button @click="acceptAll">AcceptAll</el-button>
-        <el-button @click="refuseAll">RefuseAll</el-button>
-      </div>
+<!--      <div style="margin-top: 20px" class="button_container">-->
+<!--        <el-button @click="toggleSelection()">Deselect</el-button>-->
+<!--        <el-button @click="acceptAll">AcceptAll</el-button>-->
+<!--        <el-button @click="refuseAll">RefuseAll</el-button>-->
+<!--      </div>-->
     </template>
 
   </div>

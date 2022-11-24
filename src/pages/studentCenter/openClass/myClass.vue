@@ -1,6 +1,3 @@
-
-
-
 <template>
   <div class="my_classes_container">
 
@@ -15,40 +12,33 @@
           @selection-change="handleSelectionChange"
           class="list_content">
         <el-table-column
-            type="selection"
-            width="55">
-        </el-table-column>
-
-
-
-        <el-table-column
             prop="id"
-            label="CourseID"
+            label="课程编号"
             width="200">
         </el-table-column>
 
         <el-table-column
             prop="course_name"
-            label="CourseName"
+            label="课程名字"
             width="200">
         </el-table-column>
 
         <el-table-column
             prop="teacher_name"
-            label="TeacherName"
+            label="教师姓名"
             width="200">
         </el-table-column>
 
         <el-table-column
             prop="course_detail"
-            label="CourseDetail"
+            label="课程详情"
 
             show-overflow-tooltip>
         </el-table-column>
 
         <el-table-column
             prop="progress"
-            label="Progress"
+            label="完成度"
 
             show-overflow-tooltip>
         </el-table-column>
@@ -67,9 +57,9 @@
         </el-table-column>
       </el-table>
 
-      <div style="margin-top: 20px" class="button_container">
-        <el-button @click="toggleSelection()">Deselect</el-button>
-      </div>
+<!--      <div style="margin-top: 20px" class="button_container">-->
+<!--        <el-button @click="toggleSelection()">Deselect</el-button>-->
+<!--      </div>-->
     </template>
 
   </div>
@@ -77,7 +67,6 @@
 
 <script>
 import {ButtonAPI, RendererAPI} from "@/api";
-
 
 
 export default {
@@ -102,9 +91,11 @@ export default {
       multipleSelection: []
     }
   },
-  created(){ this.getUserList()},
+  created() {
+    this.getUserList()
+  },
   methods: {
-    async getUserList(){
+    async getUserList() {
       const {data: res} = await RendererAPI({})
       console.log(res);
       this.tableData = res.data
