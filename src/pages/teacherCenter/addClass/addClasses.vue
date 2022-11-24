@@ -16,8 +16,8 @@
           <el-input v-model="course.course_name" placeholder="请输入内容"></el-input>
         </el-form-item>
 
-        <el-form-item label="课程简介" style="width: 500px;">
-          <el-input v-model="course.course_content" placeholder="请输入内容"></el-input>
+        <el-form-item label="课程简介" style="width: 500px;" >
+          <el-input v-model="course.course_content" type="textarea" placeholder="请输入内容"></el-input>
         </el-form-item>
 
         <el-form-item label="付费" prop="paid">

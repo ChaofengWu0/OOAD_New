@@ -61,7 +61,7 @@
             <el-input-number v-model="chapterForm.num" :min="1" :step="1"></el-input-number>
           </el-form-item>
           <el-form-item label="内容简介" :label-width="formLabelWidth">
-            <el-input v-model="chapterForm.content" autocomplete="off"></el-input>
+            <el-input v-model="chapterForm.content" type="textarea" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="章节分数" :label-width="formLabelWidth">
             <el-input-number v-model="chapterForm.grade" :min="1" :step="10"></el-input-number>
