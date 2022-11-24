@@ -7,9 +7,6 @@
       </el-header>
 
       <el-main>
-
-
-
         <div>
           <vue-aliplayer-v2
               class="multiple-player"
@@ -24,8 +21,7 @@
               @ended="problem"
           />
         </div>
-
-        <div>
+        <div class="under_player">
           <div class="player-btns">
             <span @click="play">播放</span>
             <span @click="pause">暂停</span>
@@ -140,17 +136,6 @@ export default {
         },
         {
           id: "1",
-          question:
-              "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
-          answer: [
-            {value: "A.课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握"},
-            {value: "B.Vue4"},
-            {value: "C.Php4"},
-            {value: "D.Java4"}
-          ]
-        },
-        {
-          id: "1",
           question: "How about your in skills?",
           answer: [
             {value: "A.问题四"},
@@ -167,12 +152,11 @@ export default {
   created() {
     this.getVideoData()
   },
+
   methods: {
     submit_ans() {
       this.dialogFormVisible = false
       this.endHandler()
-
-
     },
 
     getVideoData() {
@@ -202,11 +186,9 @@ export default {
       console.log("homework")
     },
 
-
     play() {
       this.$refs.VueAliplayerV2.play();
-    }
-    ,
+    },
 
     pause() {
       this.$refs.VueAliplayerV2.pause();
@@ -215,6 +197,7 @@ export default {
     handleVodUploadSuccess() {
 
     },
+
     getInputValue(index) {
       this.allRadio[index] = this.radio[index]; // 将数据存入提交给后台的数据中
       console.log(this.allRadio);
@@ -260,16 +243,7 @@ export default {
     endHandler() {
       this.flag = clearInterval(this.flag)
     }
-
   },
-  // watch: {
-  //   dialogFormVisible: {
-  //     handler(newV) {
-  //       console.log(newV)
-  //       this.startHandler();
-  //     }
-  //   }
-  // }
 }
 
 </script>
@@ -286,7 +260,6 @@ export default {
   background-color: bisque;
   height: 100%;
 }
-
 
 .video_page_container {
   position: relative;
@@ -309,7 +282,7 @@ export default {
 .homework {
   background-image: url('../../assets/img/hw_banner.jpg');
   align-content: center;
-  position: absolute;
+  position: relative;
   left: 18%;
   width: 1000px;
   height: 50px;
@@ -318,16 +291,17 @@ export default {
 .upload_homework {
   background-image: url("../../assets/img/hw_banner.jpg");
   left: 18%;
-  top: 72%;
-  position: absolute;
+  margin-top: 20px;
+  position: relative;
   width: 1000px;
   height: 50px;
 }
 
 
 .letter {
-  left: 43%;
-  position: absolute;
+  top: 15px;
+  left: 435px;
+  position: relative;
   align-content: center;
 }
 
@@ -353,6 +327,11 @@ export default {
   }
 }
 
+
+.under_player{
+  background-image: url("../../assets/img/player.jpg");
+  height: 270px;
+}
 
 ul {
   background: white;
