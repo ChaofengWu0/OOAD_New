@@ -116,6 +116,7 @@ export default {
     edit_info() {
       this.dialogFormVisible = true
     },
+
     cancel() {
       this.initial_change_form()
       this.dialogFormVisible = false

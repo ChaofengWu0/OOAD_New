@@ -1,11 +1,10 @@
 <template>
   <div class="personal_center_container">
 
-
     <div class="info_box">
       <div class="left_ele">
         <div class="avatar">
-          <el-avatar :size="250" :src="this.avatar_path"></el-avatar>
+          <el-avatar :size="250" :src="this.change_form.avatar_path"></el-avatar>
         </div>
 
       </div>
@@ -13,18 +12,65 @@
 
       <div class="right_ele">
         <div class="right_container">
-          <el-descriptions title="Info" class="info_items" :column="1">
-            <el-descriptions-item label="UserId">{{ this.id }}</el-descriptions-item>
-            <el-descriptions-item label="Name">{{ this.name }}</el-descriptions-item>
-            <el-descriptions-item label="Phone">{{this.phone}}</el-descriptions-item>
-            <el-descriptions-item label="Address">{{this.address}}</el-descriptions-item>
-            <el-descriptions-item label="Subject">{{this.subject}}</el-descriptions-item>
-          </el-descriptions>
+          <ul class="info_items">
+            <li style="list-style:none">
+              <h3> 账号: {{ this.original_data.id }} </h3>
+            </li>
+            <li style="list-style:none">
+              <h3> 昵称: {{ this.original_data.name }}</h3>
+            </li>
+            <li style="list-style:none">
+              <h3> 邮件: {{ this.original_data.email }}</h3>
+            </li>
+            <li style="list-style:none">
+              <h3> 电话: {{ this.original_data.phone }}</h3>
+            </li>
+          </ul>
+
+          <el-button type="text" class="down_ele" @click="edit_info" style="color: black">
+            <h3 style="color: #DD4A68">编 辑</h3>
+          </el-button>
+
         </div>
       </div>
-
-
     </div>
+    <el-dialog title="个人信息" :visible.sync="dialogFormVisible">
+      <el-form :model="change_form">
+        <el-form-item label="昵称" :label-width="formLabelWidth">
+          <el-input v-model="change_form.name" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email" :rules="[
+      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+      ]">
+          <el-input v-model="change_form.email" autocomplete="off"></el-input>
+        </el-form-item>
+
+
+        <el-form-item label="电话" :label-width="formLabelWidth">
+          <el-input v-model="change_form.phone" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="头像" :label-width="formLabelWidth">
+          <el-upload
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+          >
+            <el-button size="text" type="primary">点击上传</el-button>
+          </el-upload>
+        </el-form-item>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancel" style="width: 80px; height: 50px">
+          <h3>取 消</h3>
+        </el-button>
+        <el-button type="primary" @click="submit" style="width: 80px; height: 50px">
+          <h3>确 定</h3>
+        </el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -33,16 +79,53 @@ export default {
   name: "personalCenter",
   data() {
     return {
-      id: this.$store.state.id,
-      name: this.$store.state.name,
-      avatar_path: this.$store.state.avatar_path,
-      phone: this.$store.state.phone,
-      address: this.$store.state.address,
-      subject: this.$store.state.subject
+      original_data: {
+        id: this.$store.state.id,
+        name: this.$store.state.name,
+        avatar_path: this.$store.state.avatar_path,
+        phone: this.$store.state.phone,
+        address: this.$store.state.address,
+        subject: this.$store.state.subject,
+      },
+
+      formLabelWidth: "120px",
+      dialogFormVisible: false,
+      change_form: {
+        name: "",
+        avatar_path: "",
+        phone: "",
+        email: ""
+      }
     }
   },
-  mounted() {
+  created() {
+    this.initial_change_form()
+  },
 
+  methods: {
+    initial_change_form() {
+      this.change_form.name = this.original_data.name
+      this.change_form.avatar_path = this.original_data.avatar_path
+      this.change_form.phone = this.original_data.phone
+      this.change_form.email = this.original_data.email
+    },
+
+    edit_info() {
+      this.dialogFormVisible = true
+    },
+
+    cancel() {
+      this.initial_change_form()
+      this.dialogFormVisible = false
+    },
+    submit() {
+      // 要交给后端数据，并且从后端拿到数据，再赋给头像
+      this.original_data.name = this.change_form.name
+      // this.original_data.avatar_path =
+      this.original_data.phone = this.change_form.phone
+      this.original_data.email = this.change_form.email
+      this.dialogFormVisible = false
+    },
   }
 
 }
@@ -54,10 +137,11 @@ export default {
 }
 
 .personal_center_container {
+  position: relative;
   height: 100%;
   width: 100%;
-  position: relative;
 }
+
 
 .info_box {
   width: 100%;
@@ -72,14 +156,21 @@ export default {
   height: 100%;
   width: 70%;
   right: 0;
-  background-color: #42b983;
+  background-image: url("../../assets/img/personalCenter.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  /*background-color: #42b983;*/
 }
 
 .left_ele {
   position: absolute;
+  background-image: url("../../assets/img/personalCenterLeft.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
   height: 100%;
   width: 30%;
-  background-color: #795da3;
 }
 
 .avatar {
@@ -88,18 +179,24 @@ export default {
   left: 18%;
 }
 
-.right_container{
+.right_container {
   position: absolute;
   top: 30%;
+  width: 100%;
+
 
 }
 
-.info_items{
+.info_items {
+  background-color: white;
   height: 100%;
   width: 100%;
   /*position: absolute;*/
 }
 
-
+li {
+  font-family: 隶书;
+  font-size: 20px;
+}
 
 </style>
