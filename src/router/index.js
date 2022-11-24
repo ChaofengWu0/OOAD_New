@@ -30,7 +30,7 @@ import admin_application_center from "@/pages/administratorCenter/applications"
 import main_page from "@/pages/mainPage"
 
 import test from "@/pages/test";
-// import anoTest from "@/pages/anoTest";
+import anoTest from "@/pages/addProblemComponent";
 
 
 Vue.use(VueRouter)
@@ -266,10 +266,10 @@ const Router = new VueRouter({
     },
 
 
-    // {
-    //   path:"/anoTest",
-    //   component:anoTest
-    // },
+    {
+      path:"/anoTest",
+      component:anoTest
+    },
 
 
     {
