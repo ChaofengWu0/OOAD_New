@@ -11,6 +11,7 @@
     "axios": "^1.1.2",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.10",
+    "js-export-excel": "^1.1.4",
     "pubsub-js": "^1.9.4",
     "video.js": "^7.20.3",
     "vue": "^2.6.14",

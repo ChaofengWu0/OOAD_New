@@ -29,340 +29,345 @@ import admin_application_center from "@/pages/administratorCenter/applications"
 
 import main_page from "@/pages/mainPage"
 
-Vue.use(VueRouter)
+import test from "@/pages/test";
 
+Vue.use(VueRouter)
 const originalPush = VueRouter.prototype.push
 //修改原型对象中的push方法
 VueRouter.prototype.push = function push(location) {
-    return originalPush.call(this, location).catch(err => err)
+  return originalPush.call(this, location).catch(err => err)
 }
 //解决vue路由重复导航错误
 //获取原型对象上的push函数
 const Router = new VueRouter({
-    routes: [
+  routes: [
+    {
+      name: 'start',
+      path: '',
+      redirect: '/login',
+      meta: {
+        title: 'Start'
+      }
+    },
+
+    {
+      name: 'login_page',
+      component: login,
+      path: '/login',
+      meta: {
+        title: 'Login'
+      }
+    },
+
+    {
+      name: 'enroll_page',
+      component: enroll,
+      path: '/enroll',
+      meta: {
+        title: 'Enroll'
+      }
+    },
+
+    {
+      name: 'teacher_center',
+      component: teacher_center,
+      path: '/teacher_center',
+      redirect: 'teacher_center/personal_center',
+      meta: {
+        title: 'TeacherCenter'
+      },
+      children: [
         {
-            name: 'start',
-            path: '',
-            redirect: '/login',
-            meta: {
-                title: 'Start'
-            }
+          name: 'teacher_personal_center',
+          component: teacher_personal_center,
+          path: 'personal_center',
+          meta: {
+            title: 'PersonalCenter'
+          }
         },
 
         {
-            name: 'login_page',
-            component: login,
-            path: '/login',
-            meta: {
-                title: 'Login'
-            }
-        },
-
-        {
-            name: 'enroll_page',
-            component: enroll,
-            path: '/enroll',
-            meta: {
-                title: 'Enroll'
-            }
-        },
-
-        {
-            name: 'teacher_center',
-            component: teacher_center,
-            path: '/teacher_center',
-            redirect: 'teacher_center/personal_center',
-            meta: {
-                title: 'TeacherCenter'
+          name: 'teacher_my_classes',
+          component: teacher_my_classes,
+          path: 'my_classes',
+          meta: {
+            title: 'MyClasses'
+          },
+          children: [
+            {
+              name: 'teacher_add_course',
+              component: teacher_add_class,
+              path: 'add_class',
+              meta: {
+                title: 'AddClass'
+              }
             },
-            children: [
-                {
-                    name: 'teacher_personal_center',
-                    component: teacher_personal_center,
-                    path: 'personal_center',
-                    meta: {
-                        title: 'PersonalCenter'
-                    }
-                },
-
-                {
-                    name: 'teacher_my_classes',
-                    component: teacher_my_classes,
-                    path: 'my_classes',
-                    meta: {
-                        title: 'MyClasses'
-                    },
-                    children: [
-                        {
-                            name: 'teacher_add_course',
-                            component: teacher_add_class,
-                            path: 'add_class',
-                            meta: {
-                                title: 'AddClass'
-                            }
-                        },
-                        {
-                            name: 'add_course_info',
-                            component: teacher_add_class,
-                            path: 'info/:id',
-                            hidden: true,
-                            meta: {
-                                title: 'AddClass'
-                            }
-                        },
-                        {
-                            name: 'teacher_add_course_chapter',
-                            component: teacher_add_course_chapter,
-                            path: 'chapter/:id',
-                            hidden: true,
-                            meta: {
-                                title: 'AddClass'
-                            }
-                        },
-
-                        {
-                            name: 'teacher_class_list',
-                            component: teacher_class_list_course,
-                            path: 'class_list',
-                            meta: {
-                                title: 'ClassList'
-                            }
-                        },
-                        {
-                            name: 'teacher_class_list_course',
-                            component: teacher_class_list_course,
-                            path: 'list_course/:id',
-                            meta: {
-                                title: 'ClassList'
-                            }
-                        },
-                        {
-                            name: 'teacher_course_list_chapter',
-                            component: teacher_class_list_chapter,
-                            path: 'list_chapter/:id',
-                            meta: {
-                                title: 'ClassList'
-                            }
-                        },
-                        {
-                            name: 'teacher_course_list_student',
-                            component: teacher_class_list_student,
-                            path: 'student_list/:id',
-                            meta: {
-                                title: 'ClassList'
-                            }
-                        },
-                        {
-                            name: 'teacher_course_list_student_grade',
-                            component: teacher_class_list_student_grade,
-                            path: 'student_grade/:id',
-                            meta: {
-                                title: 'ClassList'
-                            }
-                        }
-
-                    ]
-                },
-
-            ]
-        },
-
-        {
-            name: 'administratorCenter',
-            path: '/admin_center',
-            component: admin_center,
-            redirect: '/admin_center/personal_center',
-            meta: {
-                title: 'AdminCenter'
+            {
+              name: 'add_course_info',
+              component: teacher_add_class,
+              path: 'info/:id',
+              hidden: true,
+              meta: {
+                title: 'AddClass'
+              }
             },
-            children: [
-                {
-                    name: 'admin_personal_center',
-                    path: 'personal_center',
-                    component: admin_personal_center,
-                    meta: {title: 'PersonalCenter'}
-                },
-                {
-                    name: 'admin_application_center',
-                    path: 'application_center',
-                    component: admin_application_center,
-                    meta: {
-                        title: 'ApplicationCenter'
-                    }
-                }
-            ]
-        },
-
-        {
-            name: 'stuCenter',
-            path: '/stu_center',
-            component: stu_center,
-            redirect: 'stu_center/personal_center',
-            meta: {
-                title: 'StudentCenter'
+            {
+              name: 'teacher_add_course_chapter',
+              component: teacher_add_course_chapter,
+              path: 'chapter/:id',
+              hidden: true,
+              meta: {
+                title: 'AddClass'
+              }
             },
-            children: [
-                {
-                    name: 'stu_personal_center',
-                    path: 'personal_center',
-                    component: stu_personal_center,
-                    meta: {
-                        title: 'PersonalCenter'
-                    }
-                },
-                {
-                    name: 'stu_notification',
-                    path: 'notification',
-                    component: stu_notification,
-                    meta: {
-                        title: 'Notification'
-                    }
-                },
-                {
-                    name: 'stu_my_classes',
-                    path: 'my_classes',
-                    component: stu_my_classes,
-                    meta: {
-                        title: 'MyClasses'
-                    },
-                    redirect: 'classes',
-                    children: [{
-                        name: 'student_add_course_chapter',
-                        component: student_course_chapter,
-                        path: 'chapter/:id',
-                        hidden: true,
-                        meta: {
-                            title: 'My Classes'
-                        }
-                    },
-                        {
-                            name: 'student_add_course_chapter',
-                            component: student_class_detail,
-                            path: 'classes',
-                            hidden: true,
-                            meta: {
-                                title: 'My classes'
-                            }
-                        },
-                        {
-                            name: 'student_add_course_chapter',
-                            component: student_class_detail,
-                            path: 'class_detail/:id',
-                            hidden: true,
-                            meta: {
-                                title: 'My classes'
-                            }
-                        },
 
+            {
+              name: 'teacher_class_list',
+              component: teacher_class_list_course,
+              path: 'class_list',
+              meta: {
+                title: 'ClassList'
+              }
+            },
+            {
+              name: 'teacher_class_list_course',
+              component: teacher_class_list_course,
+              path: 'list_course/:id',
+              meta: {
+                title: 'ClassList'
+              }
+            },
+            {
+              name: 'teacher_course_list_chapter',
+              component: teacher_class_list_chapter,
+              path: 'list_chapter/:id',
+              meta: {
+                title: 'ClassList'
+              }
+            },
+            {
+              name: 'teacher_course_list_student',
+              component: teacher_class_list_student,
+              path: 'student_list/:id',
+              meta: {
+                title: 'ClassList'
+              }
+            },
+            {
+              name: 'teacher_course_list_student_grade',
+              component: teacher_class_list_student_grade,
+              path: 'student_grade/:id',
+              meta: {
+                title: 'ClassList'
+              }
+            }
 
-                    ]
-                },
-
-
-            ]
+          ]
         },
 
+      ]
+    },
 
+    {
+      name: 'administratorCenter',
+      path: '/admin_center',
+      component: admin_center,
+      redirect: '/admin_center/personal_center',
+      meta: {
+        title: 'AdminCenter'
+      },
+      children: [
         {
-            name: 'player',
-            path: '/player/:id',
-            component: player,
+          name: 'admin_personal_center',
+          path: 'personal_center',
+          component: admin_personal_center,
+          meta: {title: 'PersonalCenter'}
         },
-
         {
-            name: 'MainPage',
-            path: '/main_page',
-            component: main_page,
+          name: 'admin_application_center',
+          path: 'application_center',
+          component: admin_application_center,
+          meta: {
+            title: 'ApplicationCenter'
+          }
+        }
+      ]
+    },
+
+    {
+      name: 'stuCenter',
+      path: '/stu_center',
+      component: stu_center,
+      redirect: 'stu_center/personal_center',
+      meta: {
+        title: 'StudentCenter'
+      },
+      children: [
+        {
+          name: 'stu_personal_center',
+          path: 'personal_center',
+          component: stu_personal_center,
+          meta: {
+            title: 'PersonalCenter'
+          }
+        },
+        {
+          name: 'stu_notification',
+          path: 'notification',
+          component: stu_notification,
+          meta: {
+            title: 'Notification'
+          }
+        },
+        {
+          name: 'stu_my_classes',
+          path: 'my_classes',
+          component: stu_my_classes,
+          meta: {
+            title: 'MyClasses'
+          },
+          redirect: 'classes',
+          children: [{
+            name: 'student_add_course_chapter',
+            component: student_course_chapter,
+            path: 'chapter/:id',
+            hidden: true,
+            meta: {
+              title: 'My Classes'
+            }
+          },
+            {
+              name: 'student_add_course_chapter',
+              component: student_class_detail,
+              path: 'classes',
+              hidden: true,
+              meta: {
+                title: 'My classes'
+              }
+            },
+            {
+              name: 'student_add_course_chapter',
+              component: student_class_detail,
+              path: 'class_detail/:id',
+              hidden: true,
+              meta: {
+                title: 'My classes'
+              }
+            },
+
+
+          ]
         },
 
 
-    ]
+      ]
+    },
+
+    {
+      name: 'test',
+      path: '/test',
+      component: test
+    },
+    {
+      name: 'player',
+      path: '/player/:id',
+      component: player,
+    },
+
+    {
+      name: 'MainPage',
+      path: '/main_page',
+      component: main_page,
+    },
+
+
+  ]
 })
 export default Router
 
 
 Router.beforeEach((to, from, next) => {
-    if (to.path.startsWith('/login')) {
-        window.sessionStorage.removeItem('token')
-        next()
-    } else if (to.path.startsWith('/enroll')) {
+  if (to.path.startsWith('/login')) {
+    window.sessionStorage.removeItem('token')
+    next()
+  } else if (to.path.startsWith('/enroll')) {
 
-        next()
+    next()
 
-    } else if (from.path.startsWith('/login')) {
-        let user = window.sessionStorage.getItem('token')
+  } else if (from.path.startsWith('/login')) {
+    let user = window.sessionStorage.getItem('token')
 
-        if (!user) {
-            console.log(this)
-            window.alert("请先登录");
-            next({
-                path: '/login'
-            })
-        } else {
-            next()
-        }
+    if (!user) {
+      console.log(this)
+      window.alert("请先登录");
+      next({
+        path: '/login'
+      })
+    } else {
+      next()
     }
+  }
 
-    if (to.path.startsWith('/admin_center')) {
-        let user = window.sessionStorage.getItem('token')
+  if (to.path.startsWith('/admin_center')) {
+    let user = window.sessionStorage.getItem('token')
 
-        if (user !== "1") {
-            console.log(this)
-            window.alert("你没有管理员权限");
+    if (user !== "1") {
+      console.log(this)
+      window.alert("你没有管理员权限");
 
-        } else {
-            next()
-        }
+    } else {
+      next()
     }
-    if (to.path.startsWith('/teacher_center')) {
-        let user = window.sessionStorage.getItem('token')
-        if (user === "1") {
-            next()
+  }
+  if (to.path.startsWith('/teacher_center')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
 
-        } else {
-            console.log(this)
-            window.alert("你没有老师权限");
+    } else {
+      console.log(this)
+      window.alert("你没有老师权限");
 
-        }
     }
-    if (to.path.startsWith('/stu_center')) {
-        let user = window.sessionStorage.getItem('token')
+  }
+  if (to.path.startsWith('/stu_center')) {
+    let user = window.sessionStorage.getItem('token')
 
-        if (user === "1") {
-            next()
+    if (user === "1") {
+      next()
 
-        } else {
-            console.log(this)
-            window.alert("你不是学生");
-        }
+    } else {
+      console.log(this)
+      window.alert("你不是学生");
     }
+  }
 
-    if (to.path.startsWith('/main_page')) {
-        let user = window.sessionStorage.getItem('token')
-        if (user === "1") {
-            next()
-        } else {
-            window.alert("你没有老师权限");
-        }
+  if (to.path.startsWith('/main_page')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+    } else {
+      window.alert("你没有老师权限");
     }
+  }
 
-    if (to.path.startsWith('/test')) {
-        let user = window.sessionStorage.getItem('token')
-        if (user === "1") {
-            next()
-        } else {
-            window.alert("你没有老师权限");
-        }
+  if (to.path.startsWith('/test')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+    } else {
+      window.alert("你没有老师权限");
     }
+  }
 
-    if (to.path.startsWith('/player')) {
-        let user = window.sessionStorage.getItem('token')
-        if (user === "1") {
-            next()
-        } else {
-            window.alert("你没有老师权限");
-        }
+  if (to.path.startsWith('/player')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+    } else {
+      window.alert("你没有老师权限");
     }
+  }
 
 });
 
