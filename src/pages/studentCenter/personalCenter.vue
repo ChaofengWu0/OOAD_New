@@ -17,7 +17,7 @@
               <h3> 账号: {{ this.original_data.id }} </h3>
             </li>
             <li style="list-style:none">
-              <h3> 名称: {{ this.original_data.name }}</h3>
+              <h3> 昵称: {{ this.original_data.name }}</h3>
             </li>
             <li style="list-style:none">
               <h3> 邮件: {{ this.original_data.email }}</h3>
@@ -26,6 +26,7 @@
               <h3> 电话: {{ this.original_data.phone }}</h3>
             </li>
           </ul>
+
           <el-button type="text" class="down_ele" @click="edit_info" style="color: black">
             <h3 style="color: #DD4A68">编 辑</h3>
           </el-button>
@@ -37,9 +38,30 @@
 
     <el-dialog title="个人信息" :visible.sync="dialogFormVisible">
       <el-form :model="change_form">
-        <el-form-item label="" :label-width="formLabelWidth">
+        <el-form-item label="昵称" :label-width="formLabelWidth">
           <el-input v-model="change_form.name" autocomplete="off"></el-input>
         </el-form-item>
+
+        <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email" :rules="[
+      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+      ]">
+          <el-input v-model="change_form.email" autocomplete="off"></el-input>
+        </el-form-item>
+
+
+        <el-form-item label="电话" :label-width="formLabelWidth">
+          <el-input v-model="change_form.phone" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="头像" :label-width="formLabelWidth">
+          <el-upload
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+          >
+            <el-button size="text" type="primary">点击上传</el-button>
+          </el-upload>
+        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel" style="width: 80px; height: 50px">
@@ -70,19 +92,43 @@ export default {
 
       formLabelWidth: "120px",
       dialogFormVisible: false,
-      change_form: {}
+      change_form: {
+        name: "",
+        avatar_path: "",
+        phone: "",
+        email: ""
+      }
     }
   },
+
+  created() {
+    this.initial_change_form()
+  },
+
   methods: {
+    initial_change_form() {
+      this.change_form.name = this.original_data.name
+      this.change_form.avatar_path = this.original_data.avatar_path
+      this.change_form.phone = this.original_data.phone
+      this.change_form.email = this.original_data.email
+    },
+
     edit_info() {
       this.dialogFormVisible = true
     },
     cancel() {
+      this.initial_change_form()
       this.dialogFormVisible = false
     },
     submit() {
+      // 要交给后端数据，并且从后端拿到数据，再赋给头像
+      this.original_data.name = this.change_form.name
+      // this.original_data.avatar_path =
+      this.original_data.phone = this.change_form.phone
+      this.original_data.email = this.change_form.email
       this.dialogFormVisible = false
-    }
+    },
+
   },
 
 }
