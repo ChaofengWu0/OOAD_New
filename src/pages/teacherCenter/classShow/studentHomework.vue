@@ -1,15 +1,6 @@
-
-
-
-
-
-
-
 <template>
-  <div >
-
+  <div>
     <template>
-
       <el-table
           ref="multipleTable"
           :data="tableData"
@@ -19,52 +10,41 @@
           @selection-change="handleSelectionChange"
           class="list_content">
         <el-table-column
-            type="selection"
-            width="55">
+            prop="teacher_name"
+            label="章节序号"
+            width="150">
         </el-table-column>
-
-
-
-        <el-table-column
-            prop="id"
-            label="HomeworkID"
-            width="200">
-        </el-table-column>
-
-
 
         <el-table-column
             prop="teacher_name"
-            label="score"
-            width="200">
+            label="章节名字"
+            width="150">
         </el-table-column>
-
+        <el-table-column
+            prop="teacher_name"
+            label="批改与否"
+            width="150">
+        </el-table-column>
         <el-table-column
             prop="course_detail"
-            label="done"
-
-            show-overflow-tooltip>
-          <br>
-          <br>
+            label="分数"
+            width="150"
+        >
         </el-table-column>
         <el-table-column class="export_button">
 
           <template slot-scope="scope">
-            <br>
             <el-button type="success" @click.native.prevent="getDoucument (scope.row)">
-
-              getDoucument
+              在线查看本章作业
             </el-button>
-            <br>
-            <br>
+            <!--             -->
+            <el-button type="success" @click.native.prevent="getDoucument (scope.row)">
+              打分
+            </el-button>
           </template>
 
         </el-table-column>
       </el-table>
-
-      <div style="margin-top: 20px" class="button_container">
-        <el-button @click="toggleSelection()">Deselect</el-button>
-      </div>
     </template>
 
   </div>
@@ -96,34 +76,34 @@ export default {
       multipleSelection: []
     }
   },
-  created(){ this.getUserList()},
+  created() {
+    this.getUserList()
+  },
   methods: {
-    previous(){
+    previous() {
       this.$router.push("/stu_center/my_classes/class_detail/1")
     },
 
 
     previewFileEvent() {
-
       let url = ''
-
       // 使用微软的office online
       url = 'http://view.officeapps.live.com/op/view.aspx?src=' + ' http://www.cnblogs.com/xiyangbaixue/'
-
       // window.open()居中打开
-      const width = 1000; const height = 800
+      const width = 1000;
+      const height = 800
       const top = (window.screen.availHeight - height) / 2
       const left = (window.screen.availWidth - width) / 2
       window.open(url, '', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left)
     },
-    async getUserList(){
+    async getUserList() {
       const {data: res} = await RendererAPI({})
       console.log(res);
       this.tableData = res.data
-      if (res.code != 0)
+      if (res.code !== 0)
         return this.$message.error("Wrong! Renderer failed")
     },
-    getDoucument(){
+    getDoucument() {
       window.open('http://www.xdocin.com/xdoc?_key=g54srfoj7fgmrh6dfufin6rtn4&_func=down&_dir=Project2.pdf')
     },
     async refuseClick(row) {
@@ -134,7 +114,7 @@ export default {
       const {data: res} = await ButtonAPI(acceptData)
       console.log(res);
 
-      if (res.code != 0)
+      if (res.code !== 0)
         return this.$message.error("Wrong!acceptClick failed")
       console.log("acceptClick")
 
@@ -157,7 +137,6 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-
 
 
   },

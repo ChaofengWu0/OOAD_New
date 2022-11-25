@@ -11,11 +11,11 @@
           class="list_content">
         <el-table-column>
           <template slot-scope="scope">
-            <el-button @click.native.prevent="getStudent(scope.row)" type="primary">课程学生名单</el-button>
-            <el-button @click.native.prevent="send_notice(scope.row)" @click="dialogFormVisible=true" type="primary">
+            <el-button @click.native.prevent="getStudent(scope.row)" type="text">课程学生名单</el-button>
+            <el-button @click.native.prevent="send_notice(scope.row)" @click="dialogFormVisible=true" type="text">
               发送通知
             </el-button>
-            <el-button @click.native.prevent="send_email(scope.row)" @click="dialogFormVisible=true" type="primary">
+            <el-button @click.native.prevent="send_email(scope.row)" @click="dialogFormVisible=true" type="text">
               发送邮件与通知
             </el-button>
           </template>
@@ -45,9 +45,9 @@
       <img :src="defaultImg" style="width:800px" class="course_img"/>
 
       <div class="text_info">
-        <input v-model="course_text_info" type="textarea">
+        <el-input v-model="course_text_info" type="textarea" :rows="24">
 
-<!--        </input>-->
+        </el-input>
       </div>
     </div>
 
@@ -64,7 +64,7 @@ export default {
   name: "courseDetail",
   data() {
     return {
-      course_text_info: "",
+      course_text_info: "课程介绍",
       course_id: "",
       notice: "",
       dialogFormVisible: false,
@@ -156,15 +156,17 @@ export default {
 <style scoped>
 .class_info {
   position: relative;
-  background-color: #DD4A68;
 }
 
 .course_img {
-  position: relative;
+  position: absolute;
 }
 
 .text_info {
-  position: relative;
+  position: absolute;
+  left: 60%;
+  width: 530px;
+  top: 10px;
 }
 
 </style>
