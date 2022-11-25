@@ -11,11 +11,11 @@
           class="list_content">
         <el-table-column>
           <template slot-scope="scope">
-            <el-button @click.native.prevent="getStudent(scope.row)" type="text">课程学生名单</el-button>
-            <el-button @click.native.prevent="send_notice(scope.row)" @click="dialogFormVisible=true" type="text">
+            <el-button @click.native.prevent="getStudent(scope.row)" type="primary">课程学生名单</el-button>
+            <el-button @click.native.prevent="send_notice(scope.row)" @click="dialogFormVisible=true" type="primary">
               发送通知
             </el-button>
-            <el-button @click.native.prevent="send_email(scope.row)" @click="dialogFormVisible=true" type="text">
+            <el-button @click.native.prevent="send_email(scope.row)" @click="dialogFormVisible=true" type="primary">
               发送邮件与通知
             </el-button>
           </template>
