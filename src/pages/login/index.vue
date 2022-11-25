@@ -13,7 +13,6 @@
         <el-form-item label="Password" class="pwd_input" prop="password">
           <el-input v-model="loginForm.password" prefix-icon="el-icon_pwd" type="password"></el-input>
         </el-form-item>
-
         <!-- 记住密码 -->
         <el-form-item class="select_button">
           <!--登录按钮-->
