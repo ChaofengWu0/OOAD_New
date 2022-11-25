@@ -49,7 +49,7 @@ import {
   Dialog,
   Select,
   InputNumber,
-
+  Checkbox,
   Message
 } from "element-ui";
 
@@ -106,6 +106,7 @@ Vue.use(InputNumber)
 Vue.use(Footer)
 Vue.use(VueRouter)
 Vue.use(VueAliplayerV2)
+Vue.use(Checkbox)
 // Vue.prototype.$http = axios
 Vue.prototype.$message = Message
 Vue.component(Message.name, Message)
