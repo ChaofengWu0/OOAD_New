@@ -1,7 +1,6 @@
 <template>
   <div class="main_page_container">
-
-    <el-container>
+    <el-container >
       <el-header height="144px" class="head_container">
         <div class="banner">
           <div class="left_ele">
@@ -29,8 +28,8 @@
                 <!--
                 这里点击之后，要退出登录，要清空id和啥啥啥之类的
                 -->
-                <el-dropdown-item command="logout">Exit</el-dropdown-item>
-                <el-dropdown-item command="enter_center">Personal_center</el-dropdown-item>
+                <el-dropdown-item command="logout">退出</el-dropdown-item>
+                <el-dropdown-item command="enter_center">个人中心</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
 
@@ -42,33 +41,147 @@
       <el-main class="main_container">
         <!--    就只设置付费和免费模块    -->
 
-
-        <div class="free_videos_container">
+        <div class="free-videos_container">
           <el-row :gutter="20">
             <el-col :span="6">
-              <div class="grid-content bg-purple"></div>
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
             </el-col>
             <el-col :span="6">
-              <div class="grid-content bg-purple"></div>
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
             </el-col>
             <el-col :span="6">
-              <div class="grid-content bg-purple"></div>
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
             </el-col>
             <el-col :span="6">
-              <div class="grid-content bg-purple"></div>
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
             </el-col>
           </el-row>
+
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+          </el-row>
+
         </div>
 
         <div class="paid-videos_container">
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <a href="#">
+                  <img src="#">
+                </a>
+              </div>
+            </el-col>
+          </el-row>
 
         </div>
 
       </el-main>
+
+      <el-footer style="height: 100px">
+
+      </el-footer>
+
     </el-container>
 
 
   </div>
+
 </template>
 
 <script>
@@ -117,6 +230,14 @@ export default {
   border: 0;
 }
 
+.el-main {
+  height: 1000px;
+  background-image: url('../../assets/img/main_page.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
 .banner {
   background-color: white;
   width: 100%;
@@ -127,7 +248,6 @@ export default {
 
 
 .main_page_container {
-  background-color: white;
   position: relative;
   height: 100%;
   width: 100%;
@@ -139,6 +259,7 @@ export default {
   width: 100%;
   background-image: url("../../assets/img/banner.png");
   position: relative;
+
 }
 
 
@@ -172,9 +293,37 @@ export default {
   opacity: 65%;
 }
 
+.free-videos_container {
+  margin-top: 20px;
+  background-color: white;
+  opacity: 70%;
+  left: 15%;
+  position: absolute;
+  height: 400px;
+  width: 70%;
+}
+
+.paid-videos_container {
+  margin-top: 100px;
+  background-color: white;
+  opacity: 80%;
+  top: 500px;
+  left: 15%;
+  position: absolute;
+  height: 400px;
+  width: 70%;
+}
+
+
+.el-footer {
+  background-color: #B3C0D1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
 
 .el-row {
-  margin-bottom: 20px;
+  padding: 20px;
 
   &:last-child {
     margin-bottom: 0;
@@ -185,14 +334,31 @@ export default {
   border-radius: 4px;
 }
 
+.bg-purple-dark {
+  background: #99a9bf;
+}
+
 .bg-purple {
   background: #d3dce6;
 }
 
 .grid-content {
   border-radius: 4px;
-  min-height: 36px;
+  min-height: 150px;
 }
 
+.el-footer {
+  background-color: #B3C0D1;
+  background-image: url("../../assets/img/main_page_footer2.jpg");
+  background-repeat: no-repeat;
+  //background-size: 100% 100%;
+  color: #333;
+  text-align: center;
+  width: 100%;
+  position: relative;
+}
 
+body > .el-container {
+  margin-bottom: 40px;
+}
 </style>
