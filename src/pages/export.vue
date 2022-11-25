@@ -65,14 +65,14 @@ export default {
 
       let dataTable = [];   //   dataTable代表excel文件中的数据内容
 
+
       if (dataList) {
         for (let i in dataList) {
           let obj = {
-            序号: dataList[i].id,
-            省份: dataList[i].province,
-            城市: dataList[i].city,
+            1: dataList[i].id,
+            2: dataList[i].province,
+            3: dataList[i].city,
           };
-
           dataTable.push(obj);   //   设置excel每列获取的数据源
         }
       }
@@ -87,8 +87,6 @@ export default {
           sheetName: "sheet",
           //   excel文件表头名
           sheetHeader: ["序号", "省份", "城市"],
-          //   excel文件列名
-          sheetFilter: ["序号", "省份", "城市"],
         },
       ];
       //   创建ExportJsonExcel实例对象

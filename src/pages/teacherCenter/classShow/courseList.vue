@@ -99,6 +99,8 @@ export default {
       // const Teacherr = {...this.teacher_username};
       // const {data: res} = await RTeaCourseListAPI("Zhang")
       const {data: res} = await requestUtil.get('/course/teacher?teacherUsername=' +"Zhang" )
+      // todo
+      // this.$store.getters.getUserInfo.username
       console.log(res);
       this.course_data = res.data
       if (res.code !== '0')

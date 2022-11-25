@@ -300,12 +300,9 @@ const Router = new VueRouter({
       path: '/main_page',
       component: main_page,
     },
-
   ]
 })
 export default Router
-
-
 Router.beforeEach((to, from, next) => {
   if (to.path.startsWith('/login')) {
     Cookies.remove('username')
