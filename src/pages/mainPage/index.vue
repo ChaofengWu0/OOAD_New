@@ -1,6 +1,6 @@
 <template>
   <div class="main_page_container">
-    <el-container >
+    <el-container>
       <el-header height="144px" class="head_container">
         <div class="banner">
           <div class="left_ele">
@@ -174,7 +174,21 @@
       </el-main>
 
       <el-footer style="height: 100px">
+        <div class="foot_left_ele">
+          <div class="foot_company">
+            <h3>公司:南方科技大学</h3>
+          </div>
+          <div class="foot_address">
+            <h5>地址:广东省深圳市南山区桃园街道南方科技大学</h5>
+          </div>
+        </div>
 
+
+        <div class="foot_right_ele">
+          <div class="contact_us">
+            <h3>联系我们: asdlljasd@mail.sustech.edu.cn </h3>
+          </div>
+        </div>
       </el-footer>
 
     </el-container>
@@ -361,4 +375,37 @@ export default {
 body > .el-container {
   margin-bottom: 40px;
 }
+
+.foot_left_ele {
+  position: absolute;
+  width: 30%;
+  height: 100%;
+}
+
+
+.foot_company {
+  margin: 0;
+  position: absolute;
+  left: 20px;
+  color: white;
+}
+
+.foot_address {
+  margin: 0;
+  position: absolute;
+  color: white;
+  left: 20px;
+  bottom: 0;
+}
+
+.foot_right_ele{
+  position: absolute;
+  width: 30%;
+  height: 100%;
+  right: 50px;
+  color: white;
+  top: 20px;
+}
+
+
 </style>
