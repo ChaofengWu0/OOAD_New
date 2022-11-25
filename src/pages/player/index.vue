@@ -56,7 +56,6 @@
           <div class="examination">
             <ul v-for="(item,i) in examinationData" :key="i">
               <div>{{ i + 1 }}、{{ item.question }}</div>
-
               <li style="list-style:none" v-for="(son,index) in item.answer" :key="index" class="question">
                 <el-radio
                     v-model="radio[i]"
@@ -101,7 +100,6 @@ export default {
 
       examinationData: [
         {
-          id: "1",
           question:
               "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
           answer: [
@@ -112,7 +110,6 @@ export default {
           ]
         },
         {
-          id: "1",
           question:
               "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
           answer: [
@@ -123,8 +120,6 @@ export default {
           ]
         },
         {
-          id: "1",
-          name: "three",
           question:
               "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
           answer: [
@@ -135,7 +130,6 @@ export default {
           ]
         },
         {
-          id: "1",
           question: "How about your in skills?",
           answer: [
             {value: "A.问题四"},
@@ -156,6 +150,9 @@ export default {
   methods: {
     submit_ans() {
       this.dialogFormVisible = false
+      // 计算分数，返回给后端。
+      this.allRadio = []
+      this.radio = []
       this.endHandler()
     },
 

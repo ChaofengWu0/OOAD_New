@@ -29,7 +29,7 @@ import admin_application_center from "@/pages/administratorCenter/applications"
 
 import main_page from "@/pages/mainPage"
 
-import test from "@/pages/test";
+import test from "@/pages/export";
 import anoTest from "@/pages/addProblemComponent";
 
 

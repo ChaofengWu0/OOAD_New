@@ -18,10 +18,10 @@ margin: 0;
 }
 
 .my_classes_container{
-  position: relative;
+  position: absolute;
   height: 100%;
   width: 100%;
-  background-color: white;
+  background-color: gray;
 }
 
 </style>
