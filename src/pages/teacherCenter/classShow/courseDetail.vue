@@ -8,52 +8,40 @@
           tooltip-effect="dark"
           style="width: 100%"
           class="list_content">
-
-        <el-table-column
-            prop="course_name"
-            label="课程名字"
-            width="140">
-        </el-table-column>
-
-        <el-table-column
-            prop="student_name"
-            label="学生名字"
-            width="140">
-        </el-table-column>
-
-        <el-table-column
-            prop="student_ID"
-            label="学生ID"
-            width="140">
-        </el-table-column>
-
-        <el-table-column
-            prop="progress"
-            label="完成度"
-            width="140">
-        </el-table-column>
-
-        <el-table-column
-            prop="grades"
-            label="目前成绩"
-            width="140">
-        </el-table-column>
-
         <el-table-column>
           <template slot-scope="scope">
-            <el-button @click.native.prevent="export_grade(scope.row)" type="primary">
-              导出成绩
+            <el-button @click.native.prevent="getStudent(scope.row)" type="primary">课程学生名单</el-button>
+            <el-button @click.native.prevent="send_notice(scope.row)" @click="dialogFormVisible=true" type="primary">
+              发送通知
             </el-button>
-            <el-button @click.native.prevent="delete_student(scope.row)" type="primary">
-              删除学生
-            </el-button>
-            <el-button @click.native.prevent="view_chapter(scope.row)" type="primary">
-              查看学生所有章节的成绩
+            <el-button @click.native.prevent="send_email(scope.row)" @click="dialogFormVisible=true" type="primary">
+              发送邮件与通知
             </el-button>
           </template>
         </el-table-column>
+
       </el-table>
+
+      <template>
+        <el-dialog title="发送内容" :visible.sync="dialogFormVisible">
+
+          <el-input
+              type="textarea"
+              :row="10"
+              v-model="notice"
+              size="large"
+          >
+          </el-input>
+
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="cancel">取 消</el-button>
+            <el-button type="primary" @click="submit">确 定</el-button>
+          </div>
+        </el-dialog>
+      </template>
+
     </template>
+    <img :src="defaultImg" style="width:700px"/>
 
   </div>
 </template>
@@ -68,13 +56,19 @@ export default {
   data() {
     return {
       course_id: "",
+      notice: "",
+      dialogFormVisible: false,
       student_list: [{
         course_name: "名字",
         student_name: "学生名字",
         student_ID: "学生ID",
         progress: "完成度",
         grades: "目前成绩",
-      }]
+      }],
+
+      defaultImg: require('@/assets/img/enroll.jpg')
+
+
     }
   },
   methods: {
@@ -105,7 +99,20 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-
+    getStudent(row) {
+      this.$router.push({path: '/teacher_center/my_classes/student_list/' + this.index})
+      console.log(row)
+    },
+    getDetail(row) {
+      this.$router.push({path: '/teacher_center/my_classes/course_detail/' + this.index})
+      console.log(row)
+    },
+    send_email(row) {
+      console.log(row)
+    },
+    send_notice(row) {
+      console.log(row.row)
+    },
     export_grade(row) {
       console.log(row)
       console.log("asdhkl")
@@ -120,8 +127,16 @@ export default {
       // 获取点击行的student的id（通过row这个参数，和student_list这个数组获取）
       let student_id = "1"
       this.$router.push({path: '/teacher_center/my_classes/student_grade/' + student_id})
+    },
+    cancel() {
+      this.dialogFormVisible = false
+      this.notice = ""
+    },
+    submit() {
+      this.dialogFormVisible = false
+      this.notice = ""
+    },
 
-    }
 
   },
 

@@ -41,14 +41,6 @@
 
         <el-table-column>
           <template slot-scope="scope">
-            <!--            <el-button @click.native.prevent="detail(scope.row)" type="primary">课程详情</el-button>-->
-            <el-button @click.native.prevent="getStudent(scope.row)" type="primary">课程学生名单</el-button>
-            <el-button @click.native.prevent="send_notice(scope.row)" @click="dialogFormVisible=true" type="primary">
-              发送通知
-            </el-button>
-            <el-button @click.native.prevent="send_email(scope.row)" @click="dialogFormVisible=true" type="primary">
-              发送邮件与通知
-            </el-button>
             <el-button @click.native.prevent="getDetail(scope.row)" @click="dialogFormVisible=true" type="primary">
               详情
             </el-button>
@@ -57,24 +49,7 @@
       </el-table>
     </template>
 
-    <template>
 
-      <el-dialog title="发送内容" :visible.sync="dialogFormVisible">
-
-        <el-input
-            type="textarea"
-            :row="10"
-            v-model="notice"
-            size="large"
-        >
-        </el-input>
-
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="cancel">取 消</el-button>
-          <el-button type="primary" @click="submit">确 定</el-button>
-        </div>
-      </el-dialog>
-    </template>
 
   </div>
 </template>
@@ -134,18 +109,8 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-    getStudent(row) {
-      this.$router.push({path: '/teacher_center/my_classes/student_list/' + this.course_id})
-      console.log(row.row)
-    },
     getDetail(row) {
       this.$router.push({path: '/teacher_center/my_classes/course_detail/' + this.course_id})
-      console.log(row.row)
-    },
-    send_email(row) {
-      console.log(row.row)
-    },
-    send_notice(row) {
       console.log(row.row)
     }
   }
