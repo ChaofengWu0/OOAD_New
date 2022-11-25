@@ -40,7 +40,8 @@
 </template>
 
 <script>
-import {RendererAPI} from "@/api";
+import requestUtil from "@/utils/request";
+// import qs from "qs";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -50,16 +51,17 @@ export default {
   },
   methods: {
     async getUserList() {
-      const {data: res} = await RendererAPI({})
+      const {data: res} = await requestUtil.get('/notice/{id}?student_id='+this.studentid)
       console.log(res);
-      this.notifications = res.data
-      if (res.code != 0)
+      this.notifications1 = res.data
+      if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
     }
   },
 
   data() {
     return {
+      studentid:"",
       // 这个用来装notification
       notifications: this.$store.state.notifications
     }

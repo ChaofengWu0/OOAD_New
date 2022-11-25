@@ -1,9 +1,3 @@
-
-
-
-
-
-
 <template>
   <div >
 
@@ -17,21 +11,17 @@
           style="width: 100%"
           @selection-change="handleSelectionChange"
           class="list_content">
-        <el-table-column
-            type="selection"
-            width="55">
-        </el-table-column>
 
 
 
         <el-table-column
-            prop="id"
+            prop="course.id"
             label="ChapterID"
             width="200">
         </el-table-column>
 
         <el-table-column
-            prop="course_name"
+            prop="name"
             label="ChapterName"
             width="200">
         </el-table-column>
@@ -44,18 +34,18 @@
 
         <el-table-column
             prop="course_detail"
-            label="done"
-
-            show-overflow-tooltip>
-          <br>
-          <br>
+            label="done">
         </el-table-column>
 
-      </el-table>
+      <el-table-column>
 
-      <div style="margin-top: 20px" class="button_container">
-        <el-button @click="toggleSelection()">Deselect</el-button>
-      </div>
+      <template slot-scope="scope">
+        <el-button type="success" @click.native.prevent="refuseClick (scope.row)">
+          观看视频
+        </el-button>
+      </template>
+      </el-table-column>
+      </el-table>
     </template>
 
   </div>
@@ -63,6 +53,8 @@
 
 <script>
 import { RendererAPI} from "@/api";
+import requestUtil from "@/utils/request";
+import qs from "qs";
 
 
 
@@ -72,6 +64,12 @@ export default {
 
   data() {
     return {
+      chapter_return:{
+        chapter_id:"",
+        course_id:""
+
+      },
+      course_id:"",
       tableData: [{
         date: "",
         course: {
@@ -88,16 +86,32 @@ export default {
       multipleSelection: []
     }
   },
-  created(){ this.getUserList()},
+  created(){ this.getUserList()
+    this.getCourseID()},
   methods: {
     previous(){
       this.$router.push("/stu_center/my_classes/class_detail/1")
     },
+    getCourseID() {
+      if (this.$route.params && this.$route.params.id) {
+        this.course_id = this.$route.params.id
+        console.log(this.course_ID)
+      } else {
+        this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
+      }
+    },
+    async refuseClick(row) {
+      this.chapter_return.course_id=this.course_id
+      this.chapter_return.chapter_id=row.chapter_id
+      const {data: res} = await requestUtil.get('/send-email/simple?'+qs.stringify(this.chapter_return))
+      console.log(res);
+    },
+
     async getUserList(){
       const {data: res} = await RendererAPI({})
       console.log(res);
-      this.tableData = res.data
-      if (res.code != 0)
+      this.tableData1 = res.data
+      if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
     },
 

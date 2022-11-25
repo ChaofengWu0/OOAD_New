@@ -66,7 +66,9 @@
 </template>
 
 <script>
-import {ButtonAPI, RendererAPI} from "@/api";
+
+import requestUtil from "@/utils/request";
+
 
 
 export default {
@@ -96,13 +98,18 @@ export default {
   },
   methods: {
     async getUserList() {
-      const {data: res} = await RendererAPI({})
+      const {data: res} = await requestUtil.get('/course/student?studentUsername='+this.$store.getters.getUserInfo.username )
       console.log(res);
-      this.tableData = res.data
-      if (res.code != 0)
+      this.tableData1 = res.data
+      if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
     },
+    async refuseClick(row) {
+      row.status = 0
+      console.log(row)
+      this.$router.push({path: "/stu_center/my_classes/chapter/"+ row.id})
 
+    },
 
     toggleSelection(rows) {
       if (rows) {
@@ -123,19 +130,7 @@ export default {
       column.index = columnIndex + 1;
     },
 
-    async refuseClick(row) {
-      row.status = 0
-      console.log(row)
-      const acceptData = {...row};
-      //发起请求
-      const {data: res} = await ButtonAPI(acceptData)
-      console.log(res);
-      this.$router.push({path: '/stu_center/my_classes/chapter/' + row.id})
-      if (res.code != 0)
-        return this.$message.error("Wrong!acceptClick failed")
-      console.log("acceptClick")
 
-    },
 
   },
 
