@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <template>
       <el-table
           ref="multipleTable"
@@ -39,9 +40,16 @@
           </div>
         </el-dialog>
       </template>
-
     </template>
-    <img :src="defaultImg" style="width:700px"/>
+    <div class="class_info">
+      <img :src="defaultImg" style="width:800px"/>
+      <div class="text_info">
+        <el-input v-model="this.course_text_info">
+
+        </el-input>
+      </div>
+    </div>
+
 
   </div>
 </template>
@@ -55,6 +63,7 @@ export default {
   name: "courseDetail",
   data() {
     return {
+      course_text_info: "",
       course_id: "",
       notice: "",
       dialogFormVisible: false,
@@ -144,5 +153,9 @@ export default {
 </script>
 
 <style scoped>
+.class_info {
+
+}
+
 
 </style>
