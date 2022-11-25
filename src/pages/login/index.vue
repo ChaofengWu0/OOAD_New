@@ -5,12 +5,12 @@
       <!--登录表单 -->
       <el-form class="login_form" :model="loginForm" :rules="loginRules" ref="login_form_ref">
         <!--   用户名     -->
-        <el-form-item label="Username" class="user_input" prop="username">
+        <el-form-item label="账号" class="user_input" prop="username">
           <el-input v-model="loginForm.username" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
 
         <!--密码-->
-        <el-form-item label="Password" class="pwd_input" prop="password">
+        <el-form-item label="密码" class="pwd_input" prop="password">
           <el-input v-model="loginForm.password" prefix-icon="el-icon_pwd" type="password"></el-input>
         </el-form-item>
         <!-- 记住密码 -->
