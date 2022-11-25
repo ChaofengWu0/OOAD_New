@@ -17,12 +17,12 @@
         <el-form-item class="select_button">
           <!--登录按钮-->
           <el-button type="primary" @click="loginHandler" class="login_button">
-            login
+            登录
           </el-button>
 
           <router-link to="/enroll">
             <el-button type="primary" class="enroll_button">
-              enroll
+              注册
             </el-button>
           </router-link>
         </el-form-item>
