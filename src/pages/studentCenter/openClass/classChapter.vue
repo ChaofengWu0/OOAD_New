@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import {ButtonAPI, RendererAPI} from "@/api";
+import { RendererAPI} from "@/api";
 
 
 
@@ -121,19 +121,7 @@ export default {
       column.index = columnIndex + 1;
     },
 
-    async refuseClick(row) {
-      row.status = 0
-      console.log(row)
-      const acceptData = {...row};
-      //发起请求
-      const {data: res} = await ButtonAPI(acceptData)
-      console.log(res);
-      this.$router.push({path: '/stu_center/my_classes/chapter/' + row.id})
-      if (res.code != 0)
-        return this.$message.error("Wrong!acceptClick failed")
-      console.log("acceptClick")
 
-    },
 
   },
 

@@ -48,7 +48,7 @@
               删除学生
             </el-button>
             <el-button @click.native.prevent="view_chapter(scope.row)" type="primary">
-              查看学生所有章节的成绩
+              查看学生所有章节的作业
             </el-button>
           </template>
         </el-table-column>

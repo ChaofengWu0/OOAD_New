@@ -2,7 +2,7 @@ import axios from "@/utils/request.js";
 export const Renderer =(data)=>
     axios(
         {
-            url: 'course/verification',
+            url: 'notice/findAll',
             method: 'get',
             data
         }
