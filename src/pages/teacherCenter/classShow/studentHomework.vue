@@ -21,18 +21,15 @@
             width="150">
         </el-table-column>
         <el-table-column
-            prop="teacher_name"
-            label="批改与否"
-            width="150">
-        </el-table-column>
-        <el-table-column
             prop="course_detail"
             label="分数"
             width="150"
+            show-overflow-tooltip
         >
         </el-table-column>
-        <el-table-column class="export_button">
-
+        <el-table-column
+            align="center"
+            class="export_button">
           <template slot-scope="scope">
             <el-button type="success" @click.native.prevent="getDoucument (scope.row)">
               在线查看本章作业
@@ -42,7 +39,6 @@
               打分
             </el-button>
           </template>
-
         </el-table-column>
       </el-table>
     </template>
