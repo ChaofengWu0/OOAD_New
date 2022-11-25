@@ -101,6 +101,7 @@ export default {
     previous(){
       this.$router.push("/stu_center/my_classes/class_detail/1")
     },
+
     previewFileEvent() {
 
       let url = ''
