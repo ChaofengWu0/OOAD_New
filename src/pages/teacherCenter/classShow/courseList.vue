@@ -49,6 +49,9 @@
             <el-button @click.native.prevent="send_email(scope.row)" @click="dialogFormVisible=true" type="primary">
               发送邮件与通知
             </el-button>
+            <el-button @click.native.prevent="getDetail(scope.row)" @click="dialogFormVisible=true" type="primary">
+              详情
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -133,6 +136,10 @@ export default {
     },
     getStudent(row) {
       this.$router.push({path: '/teacher_center/my_classes/student_list/' + this.course_id})
+      console.log(row.row)
+    },
+    getDetail(row) {
+      this.$router.push({path: '/teacher_center/my_classes/course_detail/' + this.course_id})
       console.log(row.row)
     },
     send_email(row) {

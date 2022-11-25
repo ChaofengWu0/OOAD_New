@@ -259,7 +259,6 @@ export default {
     end() {
       // todo
       // 告诉后端视频看完了，要记录完成度
-      console.log("tets")
       this.check_time_flag = null
       this.current_time = null
     },
