@@ -35,19 +35,32 @@
               在线查看本章作业
             </el-button>
             <!--             -->
-            <el-button type="success" @click.native.prevent="getDoucument (scope.row)">
+            <el-button type="success" @click.native.prevent="score (scope.row)">
               打分
             </el-button>
           </template>
         </el-table-column>
       </el-table>
     </template>
+    <el-dialog title="给这份作业打个分吧" :visible.sync="score_dialog">
+      <el-form>
+        <el-form-item label="分数" :label-width="formLabelWidth">
+          <el-input-number v-model="score_return.score" label="打分"></el-input-number>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancel_score">取 消</el-button>
+        <el-button type="primary" @click="submit_score">确 定</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
 
 <script>
-import {ButtonAPI, RendererAPI} from "@/api";
+
+import requestUtil from "@/utils/request";
+import qs from "qs";
 
 
 export default {
@@ -56,6 +69,18 @@ export default {
 
   data() {
     return {
+      course_id:null,
+      chapter_id:null,
+      student_id:null,
+      score_dialog:false,
+      formLabelWidth:'120px',
+      score_return:{
+        student_id:'',
+        score:'',
+        course_id:'',
+        chapter_id:''
+      }
+      ,
       tableData: [{
         date: "",
         course: {
@@ -73,13 +98,22 @@ export default {
     }
   },
   created() {
+    this.getCourseID()
     this.getUserList()
   },
   methods: {
-    previous() {
-      this.$router.push("/stu_center/my_classes/class_detail/1")
-    },
 
+    getCourseID() {
+      if (this.$route.params && this.$route.params.id) {
+        let String_all=this.$route.params.id
+        this.student_id=String_all.split("+")[1]
+        this.course_id = String_all.split("+")[0]
+        // console.log(this.course_id)
+        // console.log(this.student_id)
+      } else {
+        this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
+      }
+    },
 
     previewFileEvent() {
       let url = ''
@@ -93,28 +127,24 @@ export default {
       window.open(url, '', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left)
     },
     async getUserList() {
-      const {data: res} = await RendererAPI({})
+      const {data: res} = await requestUtil.get('/course/enroll/id?id='+this.course_id )
       console.log(res);
-      this.tableData = res.data
-      if (res.code !== 0)
+      this.tableData1 = res.data
+      if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
     },
-    getDoucument() {
+    async getDoucument() {
+      const {data: res} = await requestUtil.post('/notice?' +qs.stringify(this.score_return) )
+      console.log(res);
       window.open('http://www.xdocin.com/xdoc?_key=g54srfoj7fgmrh6dfufin6rtn4&_func=down&_dir=Project2.pdf')
     },
-    async refuseClick(row) {
-      row.status = 0
-      console.log(row)
-      const acceptData = {...row};
-      //发起请求
-      const {data: res} = await ButtonAPI(acceptData)
-      console.log(res);
+     score(row) {
+      this.score_dialog= true
+      this.chapter_id=row.chapter_id
 
-      if (res.code !== 0)
-        return this.$message.error("Wrong!acceptClick failed")
-      console.log("acceptClick")
 
     },
+
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -133,7 +163,20 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-
+    async submit_score(){
+      this.score_dialog = false
+      this.score_return.chapter_id=this.chapter_id
+      this.score_return.course_id=this.course_id
+      this.score_return.student_id=this.student_id
+      // console.log(this.score_return.score);
+      const {data: res} = await requestUtil.post('/notice?' +qs.stringify(this.score_return) )
+      console.log(res);
+      this.score_return.score = 0
+    },
+    cancel_score(){
+      this.score_dialog = false
+      this.score_return.score = 0
+    }
 
   },
 

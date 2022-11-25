@@ -60,12 +60,25 @@
 // 1. 在created()中要利用courseID获取上这门课的所有人
 // 2. 在export_grade()中要导出这一个学生的成绩，怎么导出来呢？不知道
 // 3. 在delete_student()中要删除这个学生，给后端发送 course_id，以及这个学生的id，后端负责改变数据库内容
+import requestUtil from "@/utils/request";
+import qs from "qs";
+
+
 export default {
   name: "courseDetail",
   data() {
     return {
+
       course_text_info: "课程介绍",
       course_id: "",
+      notice_return:{
+        sendTo:this.course_id,
+        content:this.notice
+      },
+      email_return:{
+        sendTo:this.course_id,
+        text:this.notice
+      },
       notice: "",
       dialogFormVisible: false,
       student_list: [{
@@ -83,10 +96,17 @@ export default {
   },
   created() {
     this.getCourseID()
+    this.getUserList()
     console.log(this.course_id)
   },
   methods: {
-
+    async getUserList() {
+      const {data: res} = await requestUtil.get('/course/enroll/id?id='+this.course_id )
+      console.log(res);
+      this.course_text_info = res.data.text
+      if (res.code !== '0')
+        return this.$message.error("Wrong! Renderer failed")
+    },
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
@@ -119,10 +139,14 @@ export default {
       this.$router.push({path: '/teacher_center/my_classes/course_detail/' + this.index})
       console.log(row)
     },
-    send_email(row) {
+    async send_email(row) {
+      const {data: res} = await requestUtil.post('/send-email/simple?'+qs.stringify(this.email_return))
+      console.log(res);
       console.log(row)
     },
-    send_notice(row) {
+    async send_notice(row) {
+      const {data: res} = await requestUtil.post('/notice?' +qs.stringify(this.notice_return) )
+      console.log(res);
       console.log(row.row)
     },
     export_grade(row) {
