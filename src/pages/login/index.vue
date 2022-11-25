@@ -35,7 +35,7 @@
 import Cookies from 'js-cookie'
 import qs from 'qs'
 import requestUtil from "@/utils/request"
-import {encrypt, decrypt} from "@/utils/jsencrypt"
+import { decrypt} from "@/utils/jsencrypt"
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'index',
@@ -69,30 +69,28 @@ export default {
           console.log('验证失败')
           return
         }
-        if (this.loginForm.rememberMe) {
-          console.log('remember')
-          // 记住用户名和密码，7天有效
-          Cookies.set('username', this.loginForm.username, {expires: 7})
-          Cookies.set('password', encrypt(this.loginForm.password), {expires: 7})
-          Cookies.set("rememberMe", this.loginForm.rememberMe, { expires: 30 })
-        } else {
+
+        if (Cookies.get('username')!==this.loginForm.username){
           Cookies.remove('username')
-          Cookies.remove('password')
-          Cookies.remove("rememberMe")
+          Cookies.set('username', this.loginForm.username, {expires: 7})
+          const {data: res} = await requestUtil.post('/login?' + qs.stringify(this.loginForm))
+          console.log(res);
+          // 失败
+          if (res.code !== 200)
+            return this.$message.error("Wrong!login failed")
+          // 成功，将返回的token 保存到 sessionStorage
+          this.$message.success("Successfully login")
+          this.$store.commit('setUserInfo', res.data)
+          this.$store.commit('setToken', res.authorization)
+          window.sessionStorage.setItem('token', res.data.role)
+          this.getCookie()
+          await this.$router.push('/main_page')
+        }
+        else {
+          return this.$message.error("已登陆")
         }
         // 向后端发送请求，获得数据
-        const {data: res} = await requestUtil.post('/login?' + qs.stringify(this.loginForm))
-        console.log(res);
-        // 失败
-        if (res.code !== 200)
-          return this.$message.error("Wrong!login failed")
-        // 成功，将返回的token 保存到 sessionStorage
-        this.$message.success("Successfully login")
-        this.$store.commit('setUserInfo', res.data)
-        this.$store.commit('setToken', res.authorization)
-        window.sessionStorage.setItem('token', res.data.role)
-        this.getCookie()
-        await this.$router.push('/main_page')
+
       })
     },
     getCookie() {

@@ -81,10 +81,12 @@ export default {
 
     }
   },
+  created() {
+    this.getCourseID()
+    console.log(this.course_id)
+  },
   methods: {
-    created() {
-      this.getCourseID()
-    },
+
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
@@ -110,7 +112,7 @@ export default {
       column.index = columnIndex + 1;
     },
     getStudent(row) {
-      this.$router.push({path: '/teacher_center/my_classes/student_list/' + this.index})
+      this.$router.push({path: '/teacher_center/my_classes/student_list/' + this.course_id})
       console.log(row)
     },
     getDetail(row) {
@@ -135,8 +137,7 @@ export default {
       console.log(row)
       console.log('chapter')
       // 获取点击行的student的id（通过row这个参数，和student_list这个数组获取）
-      let student_id = "1"
-      this.$router.push({path: '/teacher_center/my_classes/student_grade/' + student_id})
+      this.$router.push({path: '/teacher_center/my_classes/student_grade/' + this.course_id})
     },
     cancel() {
       this.dialogFormVisible = false

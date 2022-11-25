@@ -32,6 +32,7 @@ import main_page from "@/pages/mainPage"
 
 import test from "@/pages/export";
 import anoTest from "@/pages/addProblemComponent";
+import Cookies from "js-cookie";
 
 
 Vue.use(VueRouter)
@@ -278,8 +279,8 @@ const Router = new VueRouter({
 
 
     {
-      path: "/anoTest",
-      component: anoTest
+      path:"/anoTest",
+      component:anoTest
     },
 
 
@@ -299,103 +300,106 @@ const Router = new VueRouter({
       path: '/main_page',
       component: main_page,
     },
+
   ]
 })
 export default Router
 
 
-// Router.beforeEach((to, from, next) => {
-// if (to.path.startsWith('/login')) {
-//   window.sessionStorage.removeItem('token')
-//   next()
-// } else if (to.path.startsWith('/enroll')) {
-//
-//   next()
-//
-// } else if (from.path.startsWith('/login')) {
-//   let user = window.sessionStorage.getItem('token')
-//
-//   if (!user) {
-//     console.log(this)
-//     window.alert("请先登录");
-//     next({
-//       path: '/login'
-//     })
-//   } else {
-//     next()
-//   }
-// }
-//
-// if (to.path.startsWith('/admin_center')) {
-//   let user = window.sessionStorage.getItem('token')
-//
-//   if (user !== "1") {
-//     console.log(this)
-//     window.alert("你没有管理员权限");
-//
-//   } else {
-//     next()
-//   }
-// }
-// if (to.path.startsWith('/teacher_center')) {
-//   let user = window.sessionStorage.getItem('token')
-//   if (user === "1") {
-//     next()
-//
-//   } else {
-//     console.log(this)
-//     window.alert("你没有老师权限");
-//
-//   }
-// }
-// if (to.path.startsWith('/stu_center')) {
-//   let user = window.sessionStorage.getItem('token')
-//
-//   if (user === "1") {
-//     next()
-//
-//   } else {
-//     console.log(this)
-//     window.alert("你不是学生");
-//   }
-// }
-//
-// if (to.path.startsWith('/main_page')) {
-//   let user = window.sessionStorage.getItem('token')
-//   if (user === "1") {
-//     next()
-//   } else {
-//     window.alert("你没有老师权限");
-//   }
-// }
-//
-// if (to.path.startsWith('/test')) {
-//   let user = window.sessionStorage.getItem('token')
-//   if (user === "1") {
-//     next()
-//   } else {
-//     window.alert("你没有老师权限");
-//   }
-// }
-//
-// if (to.path.startsWith('/player')) {
-//   let user = window.sessionStorage.getItem('token')
-//   if (user === "1") {
-//     next()
-//   } else {
-//     window.alert("你没有老师权限");
-//   }
-// }
-// if (to.path.startsWith('/anoTest')) {
-//   let user = window.sessionStorage.getItem('token')
-//   if (user === "1") {
-//     next()
-//   } else {
-//     window.alert("你没有老师权限");
-//   }
-// }
+Router.beforeEach((to, from, next) => {
+  if (to.path.startsWith('/login')) {
+    Cookies.remove('username')
+
+    window.sessionStorage.removeItem('token')
+    next()
+  } else if (to.path.startsWith('/enroll')) {
+
+    next()
+
+  } else if (from.path.startsWith('/login')) {
+    let user = window.sessionStorage.getItem('token')
+
+    if (!user) {
+      console.log(this)
+      window.alert("请先登录");
+      next({
+        path: '/login'
+      })
+    } else {
+      next()
+    }
+  }
+
+  if (to.path.startsWith('/admin_center')) {
+    let user = window.sessionStorage.getItem('token')
+
+    if (user !== "1") {
+      console.log(this)
+      window.alert("你没有管理员权限");
+
+    } else {
+      next()
+    }
+  }
+  if (to.path.startsWith('/teacher_center')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+
+    } else {
+      console.log(this)
+      window.alert("你没有老师权限");
+
+    }
+  }
+  if (to.path.startsWith('/stu_center')) {
+    let user = window.sessionStorage.getItem('token')
+
+    if (user === "1") {
+      next()
+
+    } else {
+      console.log(this)
+      window.alert("你不是学生");
+    }
+  }
+
+  if (to.path.startsWith('/main_page')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+    } else {
+      window.alert("你没有老师权限");
+    }
+  }
+
+  if (to.path.startsWith('/test')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+    } else {
+      window.alert("你没有老师权限");
+    }
+  }
+
+  if (to.path.startsWith('/player')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+    } else {
+      window.alert("你没有老师权限");
+    }
+  }
+  if (to.path.startsWith('/anoTest')) {
+    let user = window.sessionStorage.getItem('token')
+    if (user === "1") {
+      next()
+    } else {
+      window.alert("你没有老师权限");
+    }
+  }
 
 
-// });
+});
 
 

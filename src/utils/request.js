@@ -16,6 +16,7 @@ axios.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
   // config.headers.Authorization = window.sessionStorage.getItem("token")
   console.log("store.getters.get_token=" + store.getters.getToken)
+
   config.headers.token = store.getters.getToken
   return config;
 }, function (error) {

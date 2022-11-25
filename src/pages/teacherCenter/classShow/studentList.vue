@@ -63,6 +63,8 @@
 // 1. 在created()中要利用courseID获取上这门课的所有人
 // 2. 在export_grade()中要导出这一个学生的成绩，怎么导出来呢？不知道
 // 3. 在delete_student()中要删除这个学生，给后端发送 course_id，以及这个学生的id，后端负责改变数据库内容
+import requestUtil from "@/utils/request";
+
 export default {
   name: "studentList",
   data() {
@@ -76,10 +78,17 @@ export default {
         grades: "目前成绩",
       }]
     }
+  },created() {
+    this.getCourseID()
+    this.getUserList()
   },
   methods: {
-    created() {
-      this.getCourseID()
+    async getUserList() {
+      const {data: res} = await requestUtil.get('/course/enroll/id?id='+this.course_id )
+      console.log(res);
+      this.course_data = res.data
+      if (res.code !== '0')
+        return this.$message.error("Wrong! Renderer failed")
     },
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {

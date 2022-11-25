@@ -10,26 +10,26 @@
           class="list_content">
         <el-table-column
             label="课程ID"
-            prop="course_ID"
+            prop="courseId"
             width="120"
         >
         </el-table-column>
 
         <el-table-column
-            prop="course_name"
+            prop=courseName
             label="课程名字"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="course_teacher"
+            prop="teacherUsername"
             label="老师名字"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="course_teacher_id"
-            label="老师ID"
+            prop="gmtCreate"
+            label="创建时间"
             width="140">
         </el-table-column>
 
@@ -62,10 +62,14 @@
 // 1 2方法调用的api是一样的（后端只会写一个接口） 我们只需要把courseID，data()中的notice，以及一个int类型的数据给后端（用来标记是发送email还是发送notice）
 // 发送成功后可以显示一个发送成功的消息this.$message
 
+// import { RTeaCourseListAPI} from "@/api";
+import requestUtil from "@/utils/request";
+
 export default {
   name: "courseList",
   data() {
     return {
+      teacherUsername:"",
       course_id: "1",
       notice: "",
       dialogFormVisible: false,
@@ -79,13 +83,27 @@ export default {
       },],
     }
   },
+  created() {
+    this.getUserList()
+  },
   watch: {
     notice(newV) {
       console.log(newV)
     }
   },
 
-  methods: {
+  methods: {async getUserList() {
+      const Teacher = this.$store.getters.getUserInfo.username;
+      console.log(Teacher);
+      this.teacher_username=Teacher
+      // const Teacherr = {...this.teacher_username};
+      // const {data: res} = await RTeaCourseListAPI("Zhang")
+      const {data: res} = await requestUtil.get('/course/teacher?teacherUsername=' +"Zhang" )
+      console.log(res);
+      this.course_data = res.data
+      if (res.code !== '0')
+        return this.$message.error("Wrong! Renderer failed")
+    },
     cancel() {
       this.dialogFormVisible = false
       this.notice = ""
@@ -110,7 +128,7 @@ export default {
       column.index = columnIndex + 1;
     },
     getDetail(row) {
-      this.$router.push({path: '/teacher_center/my_classes/course_detail/' + this.course_id})
+      this.$router.push({path: '/teacher_center/my_classes/course_detail/' + row.courseId})
       console.log(row.row)
     }
   }
