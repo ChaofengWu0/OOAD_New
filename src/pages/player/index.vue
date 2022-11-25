@@ -13,10 +13,7 @@
               ref="VueAliplayerV2"
               :encryptType="1"
               :source="source"
-              :useFlashPrism="false"
-              :isLive="true"
-              :showBuffer="true"
-              :disableSeek="true"
+              :options="options"
               controlBarVisibility="always"
               @ended="end"
           />
@@ -69,6 +66,17 @@
           <!-- 考试 -->
           <el-button @click="submit_ans">提交答案</el-button>
         </el-dialog>
+
+        <el-dialog
+            title="提示"
+            :visible.sync="windowVisible"
+            width="30%">
+          <span>点击确定以继续视频</span>
+          <span slot="footer" class="dialog-footer">
+             <el-button type="primary"
+                        @click="continue_video">确 定</el-button>
+          </span>
+        </el-dialog>
       </el-main>
 
 
@@ -86,9 +94,75 @@ export default {
   },
   data() {
     return {
-      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669276146&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=w2MTujkdgoxb6ajucHk8d1lYQLs%3D",
-
+      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669363641&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=oioz9Fp%2FNnUZkBbGMCXxqioTVLo%3D",
+      video_time: null,
+      check_time: null,
       dialogFormVisible: false,
+      current_time: null,
+      windowVisible: false,
+      check_time_flag: null,
+      options: {
+        // source:'//player.alicdn.com/video/aliyunmedia.mp4',
+        autoplay: false,
+        "skinLayout": [
+          {
+            "name": "H5Loading",
+            "align": "cc"
+          },
+          {
+            "name": "errorDisplay",
+            "align": "tlabs",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "name": "infoDisplay"
+          },
+          {
+            "name": "tooltip",
+            "align": "blabs",
+            "x": 0,
+            "y": 56
+          },
+          {
+            "name": "thumbnail"
+          },
+          {
+            "name": "controlBar",
+            "align": "blabs",
+            "x": 0,
+            "y": 0,
+            "children": [
+              {
+                "name": "progress",
+                "align": "blabs",
+                "x": 0,
+                "y": 44
+              },
+              {
+                "name": "timeDisplay",
+                "align": "tl",
+                "x": 10,
+                "y": 7
+              },
+              {
+                "name": "fullScreenButton",
+                "align": "tr",
+                "x": 10,
+                "y": 12
+              },
+              {
+                "name": "volume",
+                "align": "tr",
+                "x": 5,
+                "y": 10
+              }
+            ]
+          }
+        ]
+      },
+
+
       flag: null,
       total_time: 10,
       one: '00', // 时
@@ -139,15 +213,36 @@ export default {
           ]
         }
       ],
+
       allRadio: [],//提交给后台的真题数据
+
       radio: []//单选真题答案
     }
   },
+
   created() {
     this.getVideoData()
+    // this.status = this.$refs.VueAliplayerV2.getStatus()
+  },
+
+  watch: {
+    current_time: {
+      handler(newV) {
+        if (newV > this.check_time) {
+          this.$refs.VueAliplayerV2.pause()
+          this.endCheckHandler()
+          this.windowVisible = true
+        }
+      }
+    },
   },
 
   methods: {
+    continue_video() {
+      this.windowVisible = false;
+      this.$refs.VueAliplayerV2.play()
+    },
+
     submit_ans() {
       this.dialogFormVisible = false
       // 计算分数，返回给后端。
@@ -164,7 +259,9 @@ export default {
     end() {
       // todo
       // 告诉后端视频看完了，要记录完成度
-
+      console.log("tets")
+      this.check_time_flag = null
+      this.current_time = null
     },
 
     do_problem() {
@@ -186,8 +283,14 @@ export default {
       console.log("homework")
     },
 
+
     play() {
       this.$refs.VueAliplayerV2.play();
+      this.video_time = this.$refs.VueAliplayerV2.getDuration();
+      if (this.check_time_flag == null && this.current_time == null) {
+        this.setCheckHandler()
+      }
+      this.check_time = 2 * this.video_time / 3
     },
 
     pause() {
@@ -203,6 +306,15 @@ export default {
       console.log(this.allRadio);
     },
 
+    setCheckHandler() {
+      this.check_time_flag = setInterval(() => {
+        this.current_time = this.$refs.VueAliplayerV2.getCurrentTime()
+      }, 1000)
+    },
+
+    endCheckHandler() {
+      this.check_time_flag = clearInterval(this.check_time_flag)
+    },
 
     startHandler() {
       this.flag = setInterval(() => {
