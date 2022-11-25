@@ -15,8 +15,6 @@
         </el-form-item>
 
         <!-- 记住密码 -->
-        <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
-
         <el-form-item class="select_button">
           <!--登录按钮-->
           <el-button type="primary" @click="loginHandler" class="login_button">

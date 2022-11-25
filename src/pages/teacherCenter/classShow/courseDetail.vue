@@ -42,11 +42,12 @@
       </template>
     </template>
     <div class="class_info">
-      <img :src="defaultImg" style="width:800px"/>
-      <div class="text_info">
-        <el-input v-model="this.course_text_info">
+      <img :src="defaultImg" style="width:800px" class="course_img"/>
 
-        </el-input>
+      <div class="text_info">
+        <input v-model="course_text_info" type="textarea">
+
+<!--        </input>-->
       </div>
     </div>
 
@@ -154,8 +155,16 @@ export default {
 
 <style scoped>
 .class_info {
-
+  position: relative;
+  background-color: #DD4A68;
 }
 
+.course_img {
+  position: relative;
+}
+
+.text_info {
+  position: relative;
+}
 
 </style>
