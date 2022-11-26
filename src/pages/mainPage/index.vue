@@ -45,133 +45,158 @@
           <el-row :gutter="20">
             <el-col :span="6">
               <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
+                <a :href="'http://localhost:8080/#/course/' + course_list[0].id">
+                  <el-image
+                      style="width: 241px; height: 150px; border-radius: 10px "
+                      :src="course_list[0].cover"
+                      fit="cover"></el-image>
                 </a>
               </div>
             </el-col>
             <el-col :span="6">
               <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
+                <a :href="'http://localhost:8080/#/course/' + course_list[1].id">
+                  <el-image
+                      style="width: 241px; height: 150px; border-radius: 10px "
+                      :src="course_list[1].cover"
+                      fit="cover"></el-image>
                 </a>
               </div>
             </el-col>
             <el-col :span="6">
               <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
+                <a :href="'http://localhost:8080/#/course/' + course_list[2].id">
+                  <el-image
+                      style="width: 241px; height: 150px; border-radius: 10px "
+                      :src="course_list[2].cover"
+                      fit="cover"></el-image>
                 </a>
               </div>
             </el-col>
             <el-col :span="6">
               <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
-                </a>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="20">
-            <el-col :span="6">
-              <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
-                </a>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
-                </a>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
-                </a>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
+                <a :href="'http://localhost:8080/#/course/' + course_list[3].id">
+                  <el-image
+                      style="width: 241px; height: 150px; border-radius: 10px "
+                      :src="course_list[3].cover"
+                      fit="cover"></el-image>
                 </a>
               </div>
             </el-col>
           </el-row>
 
-        </div>
-
-        <div class="paid-videos_container">
-          <el-row :gutter="20">
+          <el-row :gutter="20" style="margin-top: 100px">
             <el-col :span="6">
               <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
+                <a :href="'http://localhost:8080/#/course/' + course_list[4].id">
+                  <el-image
+                      style="width: 241px; height: 150px; border-radius: 10px "
+                      :src="course_list[4].cover"
+                      fit="cover"></el-image>
                 </a>
               </div>
             </el-col>
             <el-col :span="6">
               <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
+                <a :href="'http://localhost:8080/#/course/' + course_list[5].id">
+                  <el-image
+                      style="width: 241px; height: 150px; border-radius: 10px "
+                      :src="course_list[5].cover"
+                      fit="cover"></el-image>
                 </a>
               </div>
             </el-col>
             <el-col :span="6">
               <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
+                <a :href="'http://localhost:8080/#/course/' + course_list[6].id">
+                  <el-image
+                      style="width: 241px; height: 150px; border-radius: 10px "
+                      :src="course_list[6].cover"
+                      fit="cover"></el-image>
                 </a>
               </div>
             </el-col>
             <el-col :span="6">
               <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
-                </a>
-              </div>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="20">
-            <el-col :span="6">
-              <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
-                </a>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
-                </a>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
-                </a>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple">
-                <a href="#">
-                  <img src="#">
+                <a :href="'http://localhost:8080/#/course/' + course_list[7].id">
+                  <el-image
+                      style="width: 241px; height: 150px; border-radius: 10px "
+                      :src="course_list[7].cover"
+                      fit="cover"></el-image>
                 </a>
               </div>
             </el-col>
           </el-row>
 
         </div>
+
+        <!--        <div class="paid-videos_container">-->
+        <!--          <el-row :gutter="20">-->
+        <!--            <el-col :span="6">-->
+        <!--              <div class="grid-content bg-purple">-->
+        <!--                <a href="#">-->
+        <!--                  <img src="#">-->
+        <!--                </a>-->
+        <!--              </div>-->
+        <!--            </el-col>-->
+        <!--            <el-col :span="6">-->
+        <!--              <div class="grid-content bg-purple">-->
+        <!--                <a href="#">-->
+        <!--                  <img src="#">-->
+        <!--                </a>-->
+        <!--              </div>-->
+        <!--            </el-col>-->
+        <!--            <el-col :span="6">-->
+        <!--              <div class="grid-content bg-purple">-->
+        <!--                <a href="#">-->
+        <!--                  <img src="#">-->
+        <!--                </a>-->
+        <!--              </div>-->
+        <!--            </el-col>-->
+        <!--            <el-col :span="6">-->
+        <!--              <div class="grid-content bg-purple">-->
+        <!--                <a href="#">-->
+        <!--                  <img src="#">-->
+        <!--                </a>-->
+        <!--              </div>-->
+        <!--            </el-col>-->
+        <!--          </el-row>-->
+
+        <!--          <el-row :gutter="20">-->
+        <!--            <el-col :span="6">-->
+        <!--              <div class="grid-content bg-purple">-->
+        <!--                <a href="#">-->
+        <!--                  <img src="#">-->
+        <!--                </a>-->
+        <!--              </div>-->
+        <!--            </el-col>-->
+        <!--            <el-col :span="6">-->
+        <!--              <div class="grid-content bg-purple">-->
+        <!--                <a href="#">-->
+        <!--                  <img src="#">-->
+        <!--                </a>-->
+        <!--              </div>-->
+        <!--            </el-col>-->
+        <!--            <el-col :span="6">-->
+        <!--              <div class="grid-content bg-purple">-->
+        <!--                <a href="#">-->
+        <!--                  <img src="#">-->
+        <!--                </a>-->
+        <!--              </div>-->
+        <!--            </el-col>-->
+        <!--            <el-col :span="6">-->
+        <!--              <div class="grid-content bg-purple">-->
+        <!--                <a href="#">-->
+        <!--                  <img src="#">-->
+        <!--                </a>-->
+        <!--              </div>-->
+        <!--            </el-col>-->
+        <!--          </el-row>-->
+
+        <!--        </div>-->
 
       </el-main>
+
 
       <el-footer style="height: 100px">
         <div class="foot_left_ele">
@@ -199,16 +224,33 @@
 </template>
 
 <script>
+import requestUtil from "@/utils/request";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "index",
   data() {
     return {
-      //
+      // free_video_list: [],/
+      // paid_video_list: [],
+      course_list: [],
       activeIndex: "1"
     }
   },
+  created() {
+    this.getCourses()
+  },
+
   methods: {
+    async getCourses() {
+      const {data: res} = await requestUtil.get('/eduservice/edu-course')
+      console.log(res);
+      this.course_list = res.data.list
+      console.log(this.course_list)
+      if (res.code !== 20000)
+        return this.$message.error("Wrong! Renderer failed")
+    },
+
     // 下拉框的方法
     handleCommand(command) {
       // 要具体处理对应的事件
@@ -245,7 +287,7 @@ export default {
 }
 
 .el-main {
-  height: 1000px;
+  height: 700px;
   background-image: url('../../assets/img/main_page.jpg');
   background-position: center;
   background-repeat: no-repeat;
@@ -308,12 +350,12 @@ export default {
 }
 
 .free-videos_container {
-  margin-top: 20px;
+  margin-top: 100px;
   background-color: white;
-  opacity: 70%;
+  opacity: 85%;
   left: 15%;
   position: absolute;
-  height: 400px;
+  height: 500px;
   width: 70%;
 }
 
@@ -352,9 +394,6 @@ export default {
   background: #99a9bf;
 }
 
-.bg-purple {
-  background: #d3dce6;
-}
 
 .grid-content {
   border-radius: 4px;
@@ -382,7 +421,6 @@ body > .el-container {
   height: 100%;
 }
 
-
 .foot_company {
   margin: 0;
   position: absolute;
@@ -395,11 +433,10 @@ body > .el-container {
   position: absolute;
   color: white;
   left: 20px;
-
   bottom: 0;
 }
 
-.foot_right_ele{
+.foot_right_ele {
   position: absolute;
   width: 30%;
   height: 100%;
@@ -408,5 +445,6 @@ body > .el-container {
   top: 20px;
 }
 
-
 </style>
+
+
