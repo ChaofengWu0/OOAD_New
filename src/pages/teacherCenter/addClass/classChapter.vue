@@ -72,7 +72,7 @@
                 ref="upload"
                 action="''"
                 :on-success="handleCoverSuccess"
-                :auto-upload="false"
+                :auto-upload="true"
                 :limit="1"
             >
               <el-button slot="trigger" size="small" type="primary">选取封面</el-button>
@@ -93,31 +93,31 @@
             </el-upload>
           </el-form-item>
 
-          <el-form-item label="作业" :label-width="formLabelWidth">
-            <el-upload
-                class="upload-demo"
-                ref="upload"
-                action="' '"
-                :on-success="handleHWSuccess"
-                :auto-upload="false"
-                :limit="1"
-            >
-              <el-button slot="trigger" size="small" type="primary">选取作业</el-button>
-            </el-upload>
-          </el-form-item>
+<!--          <el-form-item label="作业" :label-width="formLabelWidth">-->
+<!--            <el-upload-->
+<!--                class="upload-demo"-->
+<!--                ref="upload"-->
+<!--                action="' '"-->
+<!--                :on-success="handleHWSuccess"-->
+<!--                :auto-upload="false"-->
+<!--                :limit="1"-->
+<!--            >-->
+<!--              <el-button slot="trigger" size="small" type="primary">选取作业</el-button>-->
+<!--            </el-upload>-->
+<!--          </el-form-item>-->
 
-          <el-form-item label="习题" :label-width="formLabelWidth">
-            <el-upload
-                class="upload-demo"
-                ref="upload"
-                action="' '"
-                :on-success="handleProblemSuccess"
-                :auto-upload="false"
-                :limit="1"
-            >
-              <el-button slot="trigger" size="small" type="primary">选取习题</el-button>
-            </el-upload>
-          </el-form-item>
+<!--          <el-form-item label="习题" :label-width="formLabelWidth">-->
+<!--            <el-upload-->
+<!--                class="upload-demo"-->
+<!--                ref="upload"-->
+<!--                action="' '"-->
+<!--                :on-success="handleProblemSuccess"-->
+<!--                :auto-upload="false"-->
+<!--                :limit="1"-->
+<!--            >-->
+<!--              <el-button slot="trigger" size="small" type="primary">选取习题</el-button>-->
+<!--            </el-upload>-->
+<!--          </el-form-item>-->
 
 
         </el-form>
