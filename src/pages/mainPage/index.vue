@@ -215,10 +215,11 @@ export default {
       console.log('click on item ' + command);
       if (command === "logout") {
         // 做一些处理，然后回到login界面
-        this.$router.push("/login")
+        this.$store.dispatch("logout")
       } else if (command === "enter_center") {
-        console.log(this.$store.state.role)
-        switch (this.$store.state.role) {
+        let userInfo = this.$store.getters.getUserInfo
+        console.log(userInfo)
+        switch (userInfo.data.role) {
           case 1:
             this.$router.push("/admin_center/personal_center")
             break

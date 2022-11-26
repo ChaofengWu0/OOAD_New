@@ -13,32 +13,32 @@
 
 
         <el-table-column
+            prop="gmtCreate"
             label="申请日期"
-            prop="date"
             width="160"
         >
         </el-table-column>
 
         <el-table-column
-            prop="course.id"
+            prop="id"
             label="课程ID"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="course.name"
+            prop="title"
             label="课程名字"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="teacher.name"
+            prop="teacherName"
             label="教师姓名"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="teacher.id"
+            prop="teacherId"
             label="教师ID"
             width="140">
         </el-table-column>
@@ -66,7 +66,6 @@
 <script>
 
 import requestUtil from "@/utils/request";
-import qs from "qs";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -74,11 +73,9 @@ export default {
 
   data() {
     return {
-      application_return:{
+      application_return: {},
 
-      },
-
-      now_course_id:null,
+      now_course_id: null,
       tableData: [{
         date: "",
         course: {
@@ -95,22 +92,25 @@ export default {
       multipleSelection: []
     }
   },
-  created(){ this.getUserList()},
+  created() {
+    this.getUserList()
+  },
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/course/enroll/id?'+qs.stringify(this.application_return) )
+      // 获取全部未审核过的课程
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getDraftCourse')
       console.log(res);
-      this.tableData1 = res.data
-      if (res.code !== '0')
+      this.tableData = res.data.courseList
+      if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
 
-     detailClick(row) {
+    detailClick(row) {
       row.status = 0
       console.log(row)
-      this.$router.push({path: "/admin_center/course_detail/"+ row.course.id})
-
+      this.$router.push({path: "/admin_center/course_detail/" + row.id})
     },
+
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -129,13 +129,12 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-    refuseAll(){
-
-      console.log("refuseAll")
-    },
-    acceptAll(){
-      console.log("acceptAll")
-    },
+    // refuseAll() {
+    //   console.log("refuseAll")
+    // },
+    // acceptAll() {
+    //   console.log("acceptAll")
+    // },
 
   },
 

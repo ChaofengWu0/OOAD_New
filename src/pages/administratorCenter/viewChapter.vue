@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
 
     <template>
 
@@ -11,7 +11,6 @@
           style="width: 100%"
           @selection-change="handleSelectionChange"
           class="list_content">
-
 
 
         <el-table-column
@@ -40,7 +39,7 @@
         <el-table-column>
 
           <template slot-scope="scope">
-              <el-button type="success" @click.native.prevent="refuseClick (scope.row)">
+            <el-button type="success" @click.native.prevent="refuseClick (scope.row)">
               观看视频
             </el-button>
             <el-button type="primary" @click.native.prevent="previous">
@@ -55,10 +54,9 @@
 </template>
 
 <script>
-import { RendererAPI} from "@/api";
+import {RendererAPI} from "@/api";
 import requestUtil from "@/utils/request";
 import qs from "qs";
-
 
 
 export default {
@@ -67,12 +65,12 @@ export default {
 
   data() {
     return {
-      chapter_return:{
-        chapter_id:"",
-        course_id:""
+      chapter_return: {
+        chapter_id: "",
+        course_id: ""
 
       },
-      course_id:"",
+      course_id: "",
       tableData: [{
         date: "",
         course: {
@@ -89,11 +87,13 @@ export default {
       multipleSelection: []
     }
   },
-  created(){ this.getUserList()
-    this.getCourseID()},
+  created() {
+    this.getUserList()
+    this.getCourseID()
+  },
   methods: {
-    previous(){
-      this.$router.push({path:"/admin_center/course_detail/" + this.course_id})
+    previous() {
+      this.$router.push({path: "/admin_center/course_detail/" + this.course_id})
     },
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
@@ -104,13 +104,13 @@ export default {
       }
     },
     async refuseClick(row) {
-      this.chapter_return.course_id=this.course_id
-      this.chapter_return.chapter_id=row.chapter_id
-      const {data: res} = await requestUtil.get('/send-email/simple?'+qs.stringify(this.chapter_return))
+      this.chapter_return.course_id = this.course_id
+      this.chapter_return.chapter_id = row.chapter_id
+      const {data: res} = await requestUtil.get('/send-email/simple?' + qs.stringify(this.chapter_return))
       console.log(res);
     },
 
-    async getUserList(){
+    async getUserList() {
       const {data: res} = await RendererAPI({})
       console.log(res);
       this.tableData1 = res.data
@@ -137,7 +137,6 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-
 
 
   },
