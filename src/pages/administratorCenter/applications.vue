@@ -108,7 +108,7 @@ export default {
      detailClick(row) {
       row.status = 0
       console.log(row)
-      this.$router.push({path: "/admin_center/course_detail/"+ row.course_id})
+      this.$router.push({path: "/admin_center/course_detail/"+ row.course.id})
 
     },
     toggleSelection(rows) {
