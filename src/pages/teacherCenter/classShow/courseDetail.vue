@@ -25,7 +25,12 @@
       <template>
         <el-dialog title="发送内容" :visible.sync="dialogFormVisible">
 
+          <el-input v-model="notice_title" style="margin-bottom: 20px" placeholder="请输入标题">
+
+          </el-input>
+
           <el-input
+              placeholder="请输入内容"
               type="textarea"
               :row="10"
               v-model="notice"
@@ -67,16 +72,19 @@ export default {
   name: "courseDetail",
   data() {
     return {
-
       course_text_info: "课程介绍",
       course_id: "",
-      notice_return:{
-        sendTo:this.course_id,
-        content:this.notice
+      notice_title:"",
+      notice_return: {
+
+        title: this.notice_title,
+        sendTo: this.course_id,
+        content: this.notice
       },
-      email_return:{
-        sendTo:this.course_id,
-        text:this.notice
+      email_return: {
+        title: this.notice_title,
+        sendTo: this.course_id,
+        text: this.notice
       },
       notice: "",
       dialogFormVisible: false,
@@ -100,7 +108,7 @@ export default {
   },
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/course/enroll/id?id='+this.course_id )
+      const {data: res} = await requestUtil.get('/course/enroll/id?id=' + this.course_id)
       console.log(res);
       this.course_text_info = res.data.text
       if (res.code !== '0')
@@ -139,12 +147,12 @@ export default {
       console.log(row)
     },
     async send_email(row) {
-      const {data: res} = await requestUtil.post('/send-email/simple?'+qs.stringify(this.email_return))
+      const {data: res} = await requestUtil.post('/send-email/simple?' + qs.stringify(this.email_return))
       console.log(res);
       console.log(row)
     },
     async send_notice(row) {
-      const {data: res} = await requestUtil.post('/notice?' +qs.stringify(this.notice_return) )
+      const {data: res} = await requestUtil.post('/notice?' + qs.stringify(this.notice_return))
       console.log(res);
       console.log(row.row)
     },

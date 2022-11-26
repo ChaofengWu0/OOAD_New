@@ -149,30 +149,29 @@ const Router = new VueRouter({
                 title: 'ClassList'
               }
             },
+
             {
               name: 'teacher_course_list_student',
               component: teacher_class_list_student,
               path: 'student_list/:id',
               meta: {
-                title: '课程列表'
+                title: '课程学生列表'
               }
             },
-
             {
               name: 'teacher_course_list_course',
               component: teacher_class_list_course_detail,
               path: 'course_detail/:id',
               meta: {
-                title: '课程列表'
+                title: '课程详情'
               }
             },
-
             {
               name: 'teacher_course_list_student_grade',
               component: teacher_class_list_student_grade,
               path: 'student_grade/:id',
               meta: {
-                title: '课程列表'
+                title: '学生成绩详情'
               }
             }
 

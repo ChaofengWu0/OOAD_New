@@ -65,18 +65,13 @@
 
         </el-table-column>
       </el-table>
-
-<!--      <div style="margin-top: 20px" class="button_container">-->
-<!--        <el-button @click="toggleSelection()">Deselect</el-button>-->
-<!--        <el-button @click="acceptAll">AcceptAll</el-button>-->
-<!--        <el-button @click="refuseAll">RefuseAll</el-button>-->
-<!--      </div>-->
     </template>
 
   </div>
 </template>
 
 <script>
+
 import {ButtonAPI, RendererAPI} from "@/api";
 
 export default {
@@ -103,8 +98,9 @@ export default {
   },
   created(){ this.getUserList()},
   methods: {
-    async getUserList(){
+    async getApplications(){
       const {data: res} = await RendererAPI({})
+      // const  {data:res} = await requestUtil.
       console.log(res.data.length);
       this.tableData = res.data
       if (res.code !== '0')
