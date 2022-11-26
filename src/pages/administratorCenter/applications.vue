@@ -65,7 +65,8 @@
 
 <script>
 
-import { RendererAPI} from "@/api";
+import requestUtil from "@/utils/request";
+import qs from "qs";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -73,6 +74,10 @@ export default {
 
   data() {
     return {
+      application_return:{
+
+      },
+
       now_course_id:null,
       tableData: [{
         date: "",
@@ -92,20 +97,18 @@ export default {
   },
   created(){ this.getUserList()},
   methods: {
-    async getApplications(){
-      const {data: res} = await RendererAPI({})
-      // const  {data:res} = await requestUtil.
-      console.log(res.data.length);
-      this.tableData = res.data
+    async getUserList() {
+      const {data: res} = await requestUtil.get('/course/enroll/id?'+qs.stringify(this.application_return) )
+      console.log(res);
+      this.tableData1 = res.data
       if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
-      this.$forceUpdate()
     },
 
      detailClick(row) {
       row.status = 0
       console.log(row)
-      this.$router.push({path: "/admin_center/course_detail/"+ row.course_id})
+      this.$router.push({path: "/admin_center/course_detail/"+ row.course.id})
 
     },
     toggleSelection(rows) {

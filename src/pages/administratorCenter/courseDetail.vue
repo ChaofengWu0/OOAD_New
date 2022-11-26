@@ -42,7 +42,7 @@
 <script>
 import requestUtil from "@/utils/request";
 import qs from "qs";
-import {ButtonAPI} from "@/api";
+
 
 export default {
   name: "courseDetail",
@@ -89,9 +89,8 @@ export default {
     }, async acceptClick(row) {
       row.status = 1
       console.log(row)
-      const acceptData = {...row};
       //发起请求
-      const {data: res} = await ButtonAPI(acceptData)
+      const {data: res} = await requestUtil.get('/course/enroll/id?'+qs.stringify(row) )
       console.log(res);
       if (res.code !== '0')
         return this.$message.error("Wrong!acceptClick failed")
@@ -102,9 +101,8 @@ export default {
     async refuseClick(row) {
       row.status = 0
       console.log(row)
-      const refuseData = {...row};
       //发起请求
-      const {data: res} = await ButtonAPI(refuseData)
+      const {data: res} = await requestUtil.get('/course/enroll/id?'+qs.stringify(row) )
       console.log(res);
       if (res.code !== '0')
         return this.$message.error("Wrong!refuseClick failed")
