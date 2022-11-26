@@ -44,14 +44,20 @@
         </el-dialog>
       </template>
     </template>
+
     <div class="class_info">
-      <img :src="defaultImg" style="width:800px" class="course_img"/>
+
+      <img :src="course_cover" class="course_img"/>
 
       <div class="text_info">
-        <el-input v-model="course_text_info" type="textarea" :rows="24">
-
-        </el-input>
+        课程详情介绍:
+        <br>
+        {{ course_text_info }}
+        <!--        <el-input v-model="course_text_info" type="textarea" :rows="24">-->
+        <!--        </el-input>-->
       </div>
+
+
     </div>
 
 
@@ -71,7 +77,8 @@ export default {
   name: "courseDetail",
   data() {
     return {
-      course_text_info: "课程介绍",
+      course_cover: null,
+      course_text_info: null,
       course_id: null,
       notice_title: null,
       notice_return: {
@@ -95,36 +102,34 @@ export default {
         progress: "完成度",
         grades: "目前成绩",
       }],
-
-      defaultImg: require('@/assets/img/enroll.jpg')
-
-
     }
   },
+
   created() {
     this.getCourseID()
     this.getUserList()
   },
 
   methods: {
-    get_chapter(row) {
-      console.log(row)
+    get_chapter() {
       this.$router.push({path: '/teacher_center/my_classes/view_chapter/' + this.course_id})
     },
 
     async getUserList() {
       //todo
-      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByStudentId', this.course_id)
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseDetailById/' + this.course_id)
       console.log(res);
-      this.course_text_info = res.data
-
-      if (res.code !== '0')
+      this.course_text_info = res.data.description
+      this.course_cover = res.data.cover
+      if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
+
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-        console.log(this.course_ID)
+        this.course_id = "1594569318162333698"
+        console.log(this.course_id)
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
@@ -139,50 +144,39 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
+
     tableCellClassName({row, column, rowIndex, columnIndex}) {
       //注意这里是解构
       //利用单元格的 className 的回调方法，给行列索引赋值
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-    getStudent(row) {
+
+    getStudent() {
       this.$router.push({path: '/teacher_center/my_classes/student_list/' + this.course_id})
-      console.log(row)
     },
-    getDetail(row) {
+
+    getDetail() {
       this.$router.push({path: '/teacher_center/my_classes/course_detail/' + this.index})
-      console.log(row)
     },
+
     async send_email(row) {
       const {data: res} = await requestUtil.post('/send-email/simple?' + qs.stringify(this.email_return))
       console.log(res);
       console.log(row)
     },
-    async send_notice(row) {
+
+    async send_notice() {
       this.notice_return.teacherId = this.$store.getters.getUserInfo.id
       const {data: res} = await requestUtil.post('/eduservice/t-notice?' + qs.stringify(this.notice_return))
       console.log(res);
-      console.log(row.row)
     },
-    export_grade(row) {
-      console.log(row)
-      console.log("asdhkl")
-    },
-    delete_student(row) {
-      console.log(row)
-      console.log("del_stu")
 
-    },
-    view_chapter(row) {
-      console.log(row)
-      console.log('chapter')
-      // 获取点击行的student的id（通过row这个参数，和student_list这个数组获取）
-      this.$router.push({path: '/teacher_center/my_classes/student_grade/' + this.course_id})
-    },
     cancel() {
       this.dialogFormVisible = false
       this.notice = ""
     },
+
     submit() {
       this.dialogFormVisible = false
       this.notice = ""
@@ -197,16 +191,25 @@ export default {
 <style scoped>
 .class_info {
   position: relative;
+  background-color: #42b983;
 }
 
 .course_img {
   position: absolute;
+  width: 780px;
+  height: 500px;
+  margin: 10px;
+  padding-top: 10px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
 }
 
 .text_info {
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   position: absolute;
   left: 60%;
-  width: 530px;
+  width: 520px;
   top: 10px;
 }
 
