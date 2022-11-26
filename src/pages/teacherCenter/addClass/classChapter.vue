@@ -55,10 +55,10 @@
       <el-dialog title="添加章节" :visible.sync="dialogFormVisible">
         <el-form :model="chapterForm">
           <el-form-item label="章节名称" :label-width="formLabelWidth">
-            <el-input v-model="chapterForm.name" autocomplete="off"></el-input>
+            <el-input v-model="chapterForm.chapterName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="第几章" :label-width="formLabelWidth">
-            <el-input-number v-model="chapterForm.num" :min="1" :step="1"></el-input-number>
+            <el-input-number v-model="chapterForm.sort" :min="1" :step="1"></el-input-number>
           </el-form-item>
           <el-form-item label="内容简介" :label-width="formLabelWidth">
             <el-input v-model="chapterForm.content" type="textarea" autocomplete="off"></el-input>
@@ -66,59 +66,18 @@
           <el-form-item label="章节分数" :label-width="formLabelWidth">
             <el-input-number v-model="chapterForm.grade" :min="1" :step="10"></el-input-number>
           </el-form-item>
-          <el-form-item label="封面" :label-width="formLabelWidth">
-            <el-upload
-                class="upload-demo"
-                ref="upload"
-                action="''"
-                :on-success="handleCoverSuccess"
-                :auto-upload="true"
-                :limit="1"
-            >
-              <el-button slot="trigger" size="small" type="primary">选取封面</el-button>
-              <!--              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
-            </el-upload>
-          </el-form-item>
-
           <el-form-item label="视频" :label-width="formLabelWidth">
             <el-upload
                 class="upload-demo"
                 ref="upload"
-                action="' '"
+                action="http://localhost:9001/edu-vod/video/uploadAliyunVideo"
                 :on-success="handleVodUploadSuccess"
-                :auto-upload="false"
+                :auto-upload="true"
                 :limit="1"
             >
               <el-button slot="trigger" size="small" type="primary">选取视频</el-button>
             </el-upload>
           </el-form-item>
-
-<!--          <el-form-item label="作业" :label-width="formLabelWidth">-->
-<!--            <el-upload-->
-<!--                class="upload-demo"-->
-<!--                ref="upload"-->
-<!--                action="' '"-->
-<!--                :on-success="handleHWSuccess"-->
-<!--                :auto-upload="false"-->
-<!--                :limit="1"-->
-<!--            >-->
-<!--              <el-button slot="trigger" size="small" type="primary">选取作业</el-button>-->
-<!--            </el-upload>-->
-<!--          </el-form-item>-->
-
-<!--          <el-form-item label="习题" :label-width="formLabelWidth">-->
-<!--            <el-upload-->
-<!--                class="upload-demo"-->
-<!--                ref="upload"-->
-<!--                action="' '"-->
-<!--                :on-success="handleProblemSuccess"-->
-<!--                :auto-upload="false"-->
-<!--                :limit="1"-->
-<!--            >-->
-<!--              <el-button slot="trigger" size="small" type="primary">选取习题</el-button>-->
-<!--            </el-upload>-->
-<!--          </el-form-item>-->
-
 
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -148,6 +107,8 @@
 
 // 3.next()中要添加的，传给数据库courseID,调用一个方法，让后端更新相关的信息
 
+import requestUtil from "@/utils/request";
+
 export default {
   name: "courseChapter",
   data() {
@@ -159,17 +120,13 @@ export default {
       dialogFormVisible: false,
       // 正在添加的
       chapterForm: {
-        name: "",
-        num: "",
+        chapterName: "",
+        sort: 0,
         content: "",
-        course_id: this.course_ID,
-        grade: "",
-        video: {
-          videoId: "",
-          cover: "",
-          HW: "",
-          problem: "",
-        },
+        courseId: this.course_ID,
+        grade: 0,
+        videoUrl: null,
+        videoName: null,
       },
 
       // 返回拿到的chapterList
@@ -199,44 +156,50 @@ export default {
     //   column.index = columnIndex + 1;
     // },
     handleVodUploadSuccess(rep, file) {
-      this.chapterForm.video.videoId = rep.data.videoId
-      console.log(file)
-      // this.chapterForm.video. =
+      this.chapterForm.videoUrl = rep.data.videoId
+      this.chapterForm.videoName = file.name
     },
-    handleCoverSuccess(rep) {
-      this.chapterForm.video.cover = rep.data.url
-    },
-    handleHWSuccess(rep) {
-      this.chapterForm.video.HW = rep.data.HW
-    },
-    handleProblemSuccess(rep) {
-      this.chapterForm.video.problem = rep.data.problem
-    },
-
     cancel() {
       this.dialogFormVisible = false
       this.getChapterVideos()
     },
-    submit() {
+    async submit() {
       // 关闭弹窗
       this.dialogFormVisible = false
+      const {data: res} = await requestUtil.post('/eduservice/t-chapter/addChapter', this.chapterForm)
+      if (res.code === 20000) {
+        this.$message.success("添加章节成功")
+      }
       // todo
       // 调用方法，数据交给后端
       // 拿到后端res之后，如果成功，显示成功message，失败则显示对应消息
-
+      this.chapterForm = {
+        chapterName: null,
+        sort: 0,
+        content: null,
+        courseId: null,
+        grade: 0,
+        videoUrl: null,
+        videoName: null,
+      }
       this.getChapterVideos()
     },
+
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_ID = this.$route.params.id
+        this.chapterForm.courseId = this.course_ID
         console.log(this.course_ID)
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
     },
-    getChapterVideos() {
+    async getChapterVideos() {
       // todo
       // 拿到后端数据，传递给对应的值，如最开始todo中写的那样
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_ID)
+      console.log(res)
+
     },
 
     next() {
