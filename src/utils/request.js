@@ -2,6 +2,7 @@ import axios from "axios"
 import store from "@/store"
 
 let baseURL = 'http://localhost:9001'
+
 // 创建axios实例
 const httpService = axios.create({
   // url前缀-'http:xxx.xxx'
