@@ -1,6 +1,8 @@
 <template>
-  <div>
+  <div >
+
     <template>
+
       <el-table
           ref="multipleTable"
           :data="tableData"
@@ -10,43 +12,39 @@
           @selection-change="handleSelectionChange"
           class="list_content">
 
+
+
         <el-table-column
             prop="course.id"
-            label="课程ID"
-            width="150">
+            label="ChapterID"
+            width="200">
         </el-table-column>
 
         <el-table-column
             prop="name"
-            label="章节序号"
-            width="150">
+            label="ChapterName"
+            width="200">
         </el-table-column>
 
         <el-table-column
             prop="teacher_name"
-            label="老师名字"
-            width="150">
+            label="score"
+            width="200">
         </el-table-column>
 
         <el-table-column
-            prop="name"
-            label="观看情况"
-            width="150">
+            prop="course_detail"
+            label="done">
         </el-table-column>
 
-        <el-table-column
-            prop=""
-            label="所得分数"
-            width="150">
-        </el-table-column>
+      <el-table-column>
 
-        <el-table-column align="center">
-          <template slot-scope="scope">
-            <el-button type="success" @click.native.prevent="watch_video (scope.row)">
-              观看视频
-            </el-button>
-          </template>
-        </el-table-column>
+      <template slot-scope="scope">
+        <el-button type="success" @click.native.prevent="refuseClick (scope.row)">
+          观看视频
+        </el-button>
+      </template>
+      </el-table-column>
       </el-table>
     </template>
 
@@ -54,9 +52,9 @@
 </template>
 
 <script>
-import {RendererAPI} from "@/api";
-// import requestUtil from "@/utils/request";
-// import qs from "qs";
+import requestUtil from "@/utils/request";
+import qs from "qs";
+
 
 
 export default {
@@ -65,12 +63,16 @@ export default {
 
   data() {
     return {
-      chapter_return: {
-        chapter_id: "",
-        course_id: ""
+      course_return:{
+        courseId:"",
+        studentId:""
+      },
+      chapter_return:{
+        chapter_id:"",
+        course_id:""
 
       },
-      course_id: "",
+      course_id:"",
       tableData: [{
         date: "",
         course: {
@@ -87,12 +89,10 @@ export default {
       multipleSelection: []
     }
   },
-  created() {
-    this.getUserList()
-    this.getCourseID()
-  },
+  created(){this.getCourseID() ,
+    this.getUserList()},
   methods: {
-    previous() {
+    previous(){
       this.$router.push("/stu_center/my_classes/class_detail/1")
     },
     getCourseID() {
@@ -103,16 +103,19 @@ export default {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
     },
-
-    watch_video(row) {
-      //  根据row获取id，根据id获取视频source，根据source，进入player/source
-      console.log(row)
-      this.$router.push({path: '/player/' + "1"})
+    async refuseClick(row) {
+      this.chapter_return.course_id=this.course_id
+      this.chapter_return.chapter_id=row.chapter_id
+      const {data: res} = await requestUtil.get('/send-email/simple?'+qs.stringify(this.chapter_return))
+      console.log(res);
     },
 
-    async getUserList() {
-      const {data: res} = await RendererAPI({})
+    async getUserList(){
+      this.course_return.courseId=this.course_id
+      this.course_return.studentId=this.$store.getters.getUserInfo.id
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?'+qs.stringify(this.course_return) )
       console.log(res);
+      this.tableData1 = res.data
       if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
     },
@@ -138,6 +141,7 @@ export default {
     },
 
 
+
   },
 
 }
@@ -145,5 +149,11 @@ export default {
 
 
 <style scoped>
+.application_container {
+  position: relative;
+  background-color: white;
+  height: 100%;
+  width: 100%;
+}
 </style>
 

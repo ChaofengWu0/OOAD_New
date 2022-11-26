@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/course/enroll/id?id=' + this.course_id)
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getStudentByCourseId/'+this.course_id )
       console.log(res);
       this.course_data = res.data
       if (res.code !== '0')

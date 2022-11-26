@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/notice/{id}?student_id='+this.studentid)
+      const {data: res} = await requestUtil.get('/eduservice/t-notice?studentId'+this.$store.getters.getUserInfo.id)
       console.log(res);
       this.notifications1 = res.data
       if (res.code !== '0')

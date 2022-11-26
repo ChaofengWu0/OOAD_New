@@ -10,6 +10,12 @@
           @selection-change="handleSelectionChange"
           class="list_content">
         <el-table-column
+            type="index"
+            label="序号"
+            width="100">
+        </el-table-column>
+
+        <el-table-column
             prop="teacher_name"
             label="章节序号"
             width="150">
@@ -133,9 +139,9 @@ export default {
       if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
     },
-    async getDoucument() {
-      const {data: res} = await requestUtil.post('/notice?' +qs.stringify(this.score_return) )
-      console.log(res);
+    async getDoucument(row) {
+      let url=row.homework_url
+      console.log(url)
       window.open('http://www.xdocin.com/xdoc?_key=g54srfoj7fgmrh6dfufin6rtn4&_func=down&_dir=Project2.pdf')
     },
      score(row) {
