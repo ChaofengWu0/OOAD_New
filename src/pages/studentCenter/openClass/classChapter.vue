@@ -12,29 +12,29 @@
           @selection-change="handleSelectionChange"
           class="list_content">
 
-
-
         <el-table-column
-            prop="course.id"
-            label="ChapterID"
+            prop="studentId"
+            label="学生ID"
             width="200">
         </el-table-column>
 
         <el-table-column
-            prop="name"
-            label="ChapterName"
+            prop="chapterId"
+            label="章节ID"
             width="200">
         </el-table-column>
 
-        <el-table-column
-            prop="teacher_name"
-            label="score"
-            width="200">
-        </el-table-column>
+
 
         <el-table-column
-            prop="course_detail"
-            label="done">
+            prop="hwGrade"
+            label="作业成绩"
+            width="200">
+        </el-table-column>
+        <el-table-column
+            prop="time"
+            label="视频进度"
+            width="200">
         </el-table-column>
 
       <el-table-column>
@@ -106,17 +106,20 @@ export default {
     async refuseClick(row) {
       this.chapter_return.course_id=this.course_id
       this.chapter_return.chapter_id=row.chapter_id
+      console.log(res);
       const {data: res} = await requestUtil.get('/send-email/simple?'+qs.stringify(this.chapter_return))
       console.log(res);
     },
 
     async getUserList(){
       this.course_return.courseId=this.course_id
-      this.course_return.studentId=this.$store.getters.getUserInfo.id
+      this.course_return.studentId=this.$store.getters.getUserInfo.data.id
+      // this.course_return.courseId=14
+      // this.course_return.studentId=1
       const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?'+qs.stringify(this.course_return) )
       console.log(res);
-      this.tableData1 = res.data
-      if (res.code !== '0')
+      this.tableData = res.data.ChapterList
+      if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
 

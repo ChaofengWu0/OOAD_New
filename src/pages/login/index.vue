@@ -76,12 +76,13 @@ export default {
           alert(this.loginForm.username)
           console.log(res);
           // 失败
-          if (res.code !== 200)
+          if (res.code !== 20000)
             return this.$message.error("Wrong!login failed")
           // 成功，将返回的token 保存到 sessionStorage
           this.$message.success("Successfully login")
           this.$store.commit('setUserInfo', res.data)
           this.$store.commit('setToken', res.authorization)
+          window.sessionStorage.setItem('id', res.data.data.id)
           window.sessionStorage.setItem('token', res.data.role)
           this.getCookie()
           await this.$router.push('/main_page')

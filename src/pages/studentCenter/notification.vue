@@ -11,26 +11,34 @@
               width="100">
           </el-table-column>
           <el-table-column
-              prop="date"
-              label="日期"
+              prop="title"
+              label="主题"
+              width="100"
+          >
+          </el-table-column>
+
+          <el-table-column
+              prop="courseId"
+              label="课程ID"
               width="100"
           >
           </el-table-column>
           <el-table-column
-              prop="course_id"
-              label="课程名字"
-              width="200"
-          >
-          </el-table-column>
-          <el-table-column
-              prop="teacher_name"
-              label="教师姓名"
+              prop="teacherId"
+              label="教师ID"
               width="100"
           >
           </el-table-column>
           <el-table-column
               prop="content"
               label="内容"
+              width="400"
+          >
+          </el-table-column>
+          <el-table-column
+              prop="gmtModified"
+              label="日期"
+              width="100"
           >
           </el-table-column>
         </el-table>
@@ -51,10 +59,10 @@ export default {
   },
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/eduservice/t-notice?studentId'+this.$store.getters.getUserInfo.id)
+      const {data: res} = await requestUtil.get('/eduservice/t-notice?studentId='+ this.$store.getters.getUserInfo.data.id)
       console.log(res);
-      this.notifications1 = res.data
-      if (res.code !== '0')
+      this.notifications = res.data.noticeList
+      if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     }
   },
@@ -63,7 +71,7 @@ export default {
     return {
       studentid:"",
       // 这个用来装notification
-      notifications: this.$store.state.notifications
+      notifications: []
     }
   }
 }

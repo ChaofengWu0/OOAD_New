@@ -17,7 +17,7 @@
               <h3> 账号: {{ this.original_data.id }} </h3>
             </li>
             <li style="list-style:none">
-              <h3> 昵称: {{ this.original_data.name }}</h3>
+              <h3> 昵称: {{ this.original_data.nickName }}</h3>
             </li>
             <li style="list-style:none">
               <h3> 邮件: {{ this.original_data.email }}</h3>
@@ -39,7 +39,7 @@
     <el-dialog title="个人信息" :visible.sync="dialogFormVisible">
       <el-form :model="change_form">
         <el-form-item label="昵称" :label-width="formLabelWidth">
-          <el-input v-model="change_form.name" autocomplete="off"></el-input>
+          <el-input v-model="change_form.nickName" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email" :rules="[
@@ -56,7 +56,9 @@
         <el-form-item label="头像" :label-width="formLabelWidth">
           <el-upload
               class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action="http://localhost:9001/eduoss/fileoss"
+              :auto-upload="true"
+              :on-success="success"
           >
             <el-button size="text" type="primary">点击上传</el-button>
           </el-upload>
@@ -77,23 +79,25 @@
 </template>
 
 <script>
+import requestUtil from "@/utils/request";
+
 export default {
   name: "personalCenter",
   data() {
     return {
       original_data: {
-        id: this.$store.state.id,
-        name: this.$store.state.name,
-        avatar_path: this.$store.state.avatar_path,
-        phone: this.$store.state.phone,
+        id: this.$store.getters.getUserInfo.data.id,
+        nickName: this.$store.getters.getUserInfo.data.nickName,
+        avatar_path: this.$store.getters.getUserInfo.data.username,
+        phone: this.$store.getters.getUserInfo.data.phone,
         address: this.$store.state.address,
-        subject: this.$store.state.subject,
+        email:this.$store.getters.getUserInfo.data.email
       },
 
       formLabelWidth: "120px",
       dialogFormVisible: false,
       change_form: {
-        name: "",
+        nickName: "",
         avatar_path: "",
         phone: "",
         email: ""
@@ -106,8 +110,13 @@ export default {
   },
 
   methods: {
+    success(res,file){
+      this.original_data.avatar_path =res.data.url
+      console.log(file)
+    },
+
     initial_change_form() {
-      this.change_form.name = this.original_data.name
+      this.change_form.nickName = this.original_data.nickName
       this.change_form.avatar_path = this.original_data.avatar_path
       this.change_form.phone = this.original_data.phone
       this.change_form.email = this.original_data.email
@@ -121,13 +130,16 @@ export default {
       this.initial_change_form()
       this.dialogFormVisible = false
     },
-    submit() {
+    async submit() {
       // 要交给后端数据，并且从后端拿到数据，再赋给头像
       this.original_data.name = this.change_form.name
       // this.original_data.avatar_path =
       this.original_data.phone = this.change_form.phone
       this.original_data.email = this.change_form.email
       this.dialogFormVisible = false
+      const {data: res} = await requestUtil.put('/eduservice/t-user',this.original_data)
+      console(res)
+
     },
 
   },

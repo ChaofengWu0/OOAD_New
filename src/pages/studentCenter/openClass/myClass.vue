@@ -18,27 +18,27 @@
         </el-table-column>
 
         <el-table-column
-            prop="course_name"
+            prop="title"
             label="课程名字"
-            width="200">
+            width="300">
         </el-table-column>
 
         <el-table-column
-            prop="teacher_name"
-            label="教师姓名"
-            width="200">
+            prop="lessonNum"
+            label="课程节数"
+            width="100">
         </el-table-column>
 
         <el-table-column
-            prop="course_detail"
-            label="课程详情"
+            prop="gmtCreate"
+            label="创建时间"
 
             show-overflow-tooltip>
         </el-table-column>
 
         <el-table-column
-            prop="progress"
-            label="完成度"
+            prop="price"
+            label="价格"
 
             show-overflow-tooltip>
         </el-table-column>
@@ -98,11 +98,10 @@ export default {
   },
   methods: {
     async getUserList() {
-      console.log(this.$store.getters.getUserInfo)
-      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByStudentId/'+"zhang" )
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByStudentId/'+this.$store.getters.getUserInfo.data.id )
       console.log(res);
-      this.tableData1 = res.data
-      if (res.code !== '0')
+      this.tableData = res.data.CourseList
+      if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
     async refuseClick(row) {
