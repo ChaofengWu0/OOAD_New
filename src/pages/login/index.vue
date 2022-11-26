@@ -32,10 +32,9 @@
   </div>
 </template>
 <script>
-// import Cookies from 'js-cookie'
 import qs from 'qs'
 import requestUtil from "@/utils/request"
-// import { decrypt} from "@/utils/jsencrypt"
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'index',

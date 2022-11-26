@@ -91,6 +91,7 @@ export default {
         avatar: userInfo.data.avatar,
         phone: userInfo.data.phone,
         address: userInfo.data.address,
+        email: userInfo.data.email
       },
 
       formLabelWidth: "120px",
