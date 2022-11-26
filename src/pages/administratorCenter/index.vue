@@ -108,7 +108,7 @@ export default {
 }
 
 .el-main {
-  background-color: gainsboro;
+  background-color: white;
   /*color: #333;*/
   /*text-align: center;*/
   /*line-height: 160px;*/

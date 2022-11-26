@@ -43,27 +43,20 @@
             width="140">
         </el-table-column>
 
-        <el-table-column
-            prop="course.detail"
-            label="课程简介"
-
-            show-overflow-tooltip>
-        </el-table-column>
-
         <el-table-column class="export_button">
 
           <template slot-scope="scope">
-            <el-button type="danger" @click.native.prevent="refuseClick (scope.row)">
-              拒绝
+            <br>
+            <el-button type="success" @click.native.prevent="detailClick (scope.row)">
+              Detail
             </el-button>
             <br>
             <br>
-            <el-button type="success" @click.native.prevent="acceptClick (scope.row)">
-              接受
-            </el-button>
           </template>
 
         </el-table-column>
+
+
       </el-table>
     </template>
 
@@ -72,7 +65,7 @@
 
 <script>
 
-import {ButtonAPI, RendererAPI} from "@/api";
+import { RendererAPI} from "@/api";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -80,6 +73,7 @@ export default {
 
   data() {
     return {
+      now_course_id:null,
       tableData: [{
         date: "",
         course: {
@@ -108,7 +102,12 @@ export default {
       this.$forceUpdate()
     },
 
+     detailClick(row) {
+      row.status = 0
+      console.log(row)
+      this.$router.push({path: "/admin_center/course_detail/"+ row.course_id})
 
+    },
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -134,31 +133,7 @@ export default {
     acceptAll(){
       console.log("acceptAll")
     },
-    async acceptClick(row) {
-      row.status = 1
-      console.log(row)
-      const acceptData = {...row};
-      //发起请求
-      const {data: res} = await ButtonAPI(acceptData)
-      console.log(res);
-      if (res.code !== '0')
-        return this.$message.error("Wrong!acceptClick failed")
-      console.log("acceptClick")
-      await this.getUserList()
-    },
 
-    async refuseClick(row) {
-      row.status = 0
-      console.log(row)
-      const refuseData = {...row};
-      //发起请求
-      const {data: res} = await ButtonAPI(refuseData)
-      console.log(res);
-      if (res.code !== '0')
-        return this.$message.error("Wrong!refuseClick failed")
-      console.log("refuseClick")
-      await this.getUserList()
-    }
   },
 
 }
