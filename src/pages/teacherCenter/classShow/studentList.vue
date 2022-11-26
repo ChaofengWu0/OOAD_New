@@ -11,31 +11,32 @@
 
         <el-table-column
             prop="course_name"
+            :formatter="formatterType"
             label="课程名字"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="student_name"
+            prop="username"
             label="学生名字"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="student_ID"
+            prop="id"
             label="学生ID"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="progress"
-            label="完成度"
+            prop="grade"
+            label="总成绩"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="grades"
-            label="目前成绩"
+            prop="phone"
+            label="电话"
             width="140">
         </el-table-column>
 
@@ -85,11 +86,14 @@ export default {
     this.getUserList()
   },
   methods: {
+    formatterType(){
+      return this.course_id
+    },
     async getUserList() {
       const {data: res} = await requestUtil.get('/eduservice/edu-course/getStudentByCourseId/'+this.course_id )
       console.log(res);
-      this.course_data = res.data
-      if (res.code !== '0')
+      this.student_list = res.data.StudentList
+      if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
     getCourseID() {
@@ -120,7 +124,7 @@ export default {
 
     },
 
-    export_grade(row) {
+    async export_grade(row) {
       console.log(row)
       let arr_index = row.index - 1
       const dataList = this.student_list[arr_index];
@@ -129,19 +133,31 @@ export default {
       // 现在这里要获取后端给我的数据，要获取上这门课的这名学生的所有chapter的分数, 方法可行吗？不知道
       // 如果能行，那我会获得所有需要的值，那么我用循环，依次获取值并且装入data,然后装入option，最后输出即可
       // this.get_chapter_grades()
-
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_id)
+      console.log(res);
       let option = {};  //   option代表的就是excel文件
-      let dataTable = [];   //   dataTable代表excel文件中的数据内容
-      let obj = {
-        studentID: dataList.student_ID,
-        studentName: dataList.student_name
-      }
+      let dataTable = [{}];   //   dataTable代表excel文件中的数据内容
+      // let obj = {
+      //   studentID: dataList.student_ID,
+      //   studentName: dataList.student_name
+      // }
 
+      let sheetfilter = ["name","a"]
+      dataTable[0]["name"]=row.id.toString()
+      dataTable[0]["a"]=this.course_id.toString()
 
-      dataTable.push(obj)
+      console.log(dataTable)
       option.filename = "成绩";  //excel文件名
       //excel文件数据
-      let header = ["学生ID", "学生名字", ""]
+      let header = ["学生ID", "课程ID"]
+      for (let i in res.data.allChapterVideo) {
+        sheetfilter.push("i")
+        header.push("第"+i+"章")
+        console.log(i);
+        dataTable[0]["i"]=res.data.allChapterVideo[i].grade
+        // dataTable.push(res.data.allChapterVideo[i].grade)
+      }
+      console.log(header);
 
 
       option.datas = [
@@ -149,11 +165,12 @@ export default {
           //   excel文件的数据源
           sheetData: dataTable,
           //   excel文件sheet的表名
-          sheetName: "成绩",
+          sheetFilter: sheetfilter,
           //   excel文件表头名
           sheetHeader: header,
         },
       ];
+
 
       //   创建ExportJsonExcel实例对象
       let toExcel = new ExportJsonExcel(option);
@@ -162,15 +179,16 @@ export default {
     },
 
     async delete_student(row) {
-      const {data: res} = await requestUtil.post('/notice?teacherUsername=' + row.student_ID)
+      const {data: res} = await requestUtil.delete1('/eduservice/edu-course/' + this.course_id+"/"+row.id)
       console.log(res);
       console.log(row)
+      await this.getUserList()
     },
 
     view_chapter(row) {
       console.log(row)
       // 获取点击行的student的id（通过row这个参数，和student_list这个数组获取）
-      this.$router.push({path: '/teacher_center/my_classes/student_grade/' + this.course_id + "+" + row.student_ID})
+      this.$router.push({path: '/teacher_center/my_classes/student_grade/' + this.course_id + "+" + row.id})
 
     }
 

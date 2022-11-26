@@ -4,7 +4,7 @@
     <div class="info_box">
       <div class="left_ele">
         <div class="avatar">
-          <el-avatar :size="250" :src="this.original_data.avatar_path"></el-avatar>
+          <el-avatar :size="250" :src="this.change_form.avatar"></el-avatar>
         </div>
 
       </div>
@@ -14,7 +14,7 @@
         <div class="right_container">
           <ul class="info_items">
             <li style="list-style:none">
-              <h3> 账号: {{ this.original_data.id }} </h3>
+              <h3> 账号: {{ this.original_data.userId }} </h3>
             </li>
             <li style="list-style:none">
               <h3> 昵称: {{ this.original_data.nickName }}</h3>
@@ -34,12 +34,10 @@
         </div>
       </div>
     </div>
-
-
     <el-dialog title="个人信息" :visible.sync="dialogFormVisible">
       <el-form :model="change_form">
         <el-form-item label="昵称" :label-width="formLabelWidth">
-          <el-input v-model="change_form.nickName" autocomplete="off"></el-input>
+          <el-input v-model="change_form.name" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email" :rules="[
@@ -79,45 +77,41 @@
 </template>
 
 <script>
-import requestUtil from "@/utils/request";
+import requestUtil from "@/utils/request"
+import qs from "qs";
 
 export default {
   name: "personalCenter",
   data() {
+    let userInfo = this.$store.getters.getUserInfo
     return {
       original_data: {
-        id: this.$store.getters.getUserInfo.data.id,
-        nickName: this.$store.getters.getUserInfo.data.nickName,
-        avatar_path: this.$store.getters.getUserInfo.data.username,
-        phone: this.$store.getters.getUserInfo.data.phone,
-        address: this.$store.state.address,
-        email:this.$store.getters.getUserInfo.data.email
+        userId: userInfo.data.id,
+        nickName: userInfo.data.nickName,
+        avatar: userInfo.data.avatar,
+        phone: userInfo.data.phone,
+        address: userInfo.data.address,
+        email: userInfo.data.email
       },
 
       formLabelWidth: "120px",
       dialogFormVisible: false,
       change_form: {
-        nickName: "",
+        name: "",
         avatar_path: "",
         phone: "",
         email: ""
       }
     }
   },
-
   created() {
     this.initial_change_form()
   },
 
   methods: {
-    success(res,file){
-      this.original_data.avatar_path =res.data.url
-      console.log(file)
-    },
-
     initial_change_form() {
-      this.change_form.nickName = this.original_data.nickName
-      this.change_form.avatar_path = this.original_data.avatar_path
+      this.change_form.name = this.original_data.nickName
+      this.change_form.avatar_path = this.original_data.avatar
       this.change_form.phone = this.original_data.phone
       this.change_form.email = this.original_data.email
     },
@@ -132,17 +126,24 @@ export default {
     },
     async submit() {
       // 要交给后端数据，并且从后端拿到数据，再赋给头像
-      this.original_data.name = this.change_form.name
-      // this.original_data.avatar_path =
+      this.original_data.nickName = this.change_form.name
       this.original_data.phone = this.change_form.phone
       this.original_data.email = this.change_form.email
       this.dialogFormVisible = false
-      const {data: res} = await requestUtil.put('/eduservice/t-user',this.original_data)
-      console(res)
-
+      console.log(qs.stringify(this.original_data))
+      const {data: res} = await requestUtil.post('/eduservice/t-user/update?' + qs.stringify(this.original_data))
+      console.log(res)
+      // 失败
+      if (res.code !== 20000)
+        return this.$message.error("Wrong!login failed")
+      // 成功
+      this.$store.commit("setUserInfo", res.data)
     },
-
-  },
+    success(res, file) {
+      this.original_data.avatar = res.data.url
+      console.log(file)
+    }
+  }
 
 }
 </script>
@@ -214,6 +215,5 @@ li {
   font-family: 隶书;
   font-size: 20px;
 }
-
 
 </style>

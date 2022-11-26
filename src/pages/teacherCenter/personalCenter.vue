@@ -4,7 +4,7 @@
     <div class="info_box">
       <div class="left_ele">
         <div class="avatar">
-          <el-avatar :size="250" :src="this.original_data.avatar_path"></el-avatar>
+          <el-avatar :size="250" :src="this.change_form.avatar"></el-avatar>
         </div>
 
       </div>
@@ -34,12 +34,10 @@
         </div>
       </div>
     </div>
-
-
     <el-dialog title="个人信息" :visible.sync="dialogFormVisible">
       <el-form :model="change_form">
         <el-form-item label="昵称" :label-width="formLabelWidth">
-          <el-input v-model="change_form.nickName" autocomplete="off"></el-input>
+          <el-input v-model="change_form.name" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email" :rules="[
@@ -79,7 +77,7 @@
 </template>
 
 <script>
-import requestUtil from "@/utils/request";
+import requestUtil from "@/utils/request"
 import qs from "qs";
 
 export default {
@@ -99,14 +97,13 @@ export default {
       formLabelWidth: "120px",
       dialogFormVisible: false,
       change_form: {
-        nickName: "",
+        name: "",
         avatar_path: "",
         phone: "",
         email: ""
       }
     }
   },
-
   created() {
     this.initial_change_form()
   },
@@ -133,6 +130,7 @@ export default {
       this.original_data.phone = this.change_form.phone
       this.original_data.email = this.change_form.email
       this.dialogFormVisible = false
+      console.log(qs.stringify(this.original_data))
       const {data: res} = await requestUtil.post('/eduservice/t-user/update?' + qs.stringify(this.original_data))
       console.log(res)
       // 失败
@@ -145,7 +143,7 @@ export default {
       this.original_data.avatar = res.data.url
       console.log(file)
     }
-  },
+  }
 
 }
 </script>
@@ -217,6 +215,5 @@ li {
   font-family: 隶书;
   font-size: 20px;
 }
-
 
 </style>
