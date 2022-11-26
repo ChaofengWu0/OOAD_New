@@ -10,23 +10,21 @@
           class="list_content">
         <el-table-column
             label="课程ID"
-            prop="courseId"
-            width="120"
+            prop="id"
+            width="200"
         >
         </el-table-column>
 
         <el-table-column
-            prop=courseName
-            label="课程名字"
+            prop="teacherId"
+            label="老师ID"
             width="140">
         </el-table-column>
-
         <el-table-column
-            prop="teacherUsername"
-            label="老师名字"
+            prop=buyCount
+            label="课程购买人数"
             width="140">
         </el-table-column>
-
         <el-table-column
             prop="gmtCreate"
             label="创建时间"
@@ -34,11 +32,15 @@
         </el-table-column>
 
         <el-table-column
-            prop="course_detail"
-            label="课程简介"
+            prop="status"
+            label="通过情况"
             width="140">
         </el-table-column>
-
+        <el-table-column
+            prop="price"
+            label="价格"
+            width="140">
+        </el-table-column>
         <el-table-column>
           <template slot-scope="scope">
             <el-button @click.native.prevent="getDetail(scope.row)" @click="dialogFormVisible=true" type="primary">
@@ -93,17 +95,12 @@ export default {
 
   methods: {
     async getUserList() {
-      const Teacher = this.$store.getters.getUserInfo.username;
-      console.log(Teacher);
-      this.teacher_username = Teacher
-      // const Teacherr = {...this.teacher_username};
-      // const {data: res} = await RTeaCourseListAPI("Zhang")
-      const {data: res} = await requestUtil.get('/course/teacher?teacherUsername=' + "Zhang")
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByTeacherId/' + this.$store.getters.getUserInfo.data.id)
       // todo
       // this.$store.getters.getUserInfo.username
-      console.log(res);
-      this.course_data = res.data
-      if (res.code !== '0')
+      console.log(res.data);
+      this.course_data = res.data.courseList
+      if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
     cancel() {
