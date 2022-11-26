@@ -124,7 +124,7 @@ export default {
 
     },
 
-    export_grade(row) {
+    async export_grade(row) {
       console.log(row)
       let arr_index = row.index - 1
       const dataList = this.student_list[arr_index];
@@ -133,19 +133,31 @@ export default {
       // 现在这里要获取后端给我的数据，要获取上这门课的这名学生的所有chapter的分数, 方法可行吗？不知道
       // 如果能行，那我会获得所有需要的值，那么我用循环，依次获取值并且装入data,然后装入option，最后输出即可
       // this.get_chapter_grades()
-
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_id)
+      console.log(res);
       let option = {};  //   option代表的就是excel文件
-      let dataTable = [];   //   dataTable代表excel文件中的数据内容
-      let obj = {
-        studentID: dataList.student_ID,
-        studentName: dataList.student_name
-      }
+      let dataTable = [{}];   //   dataTable代表excel文件中的数据内容
+      // let obj = {
+      //   studentID: dataList.student_ID,
+      //   studentName: dataList.student_name
+      // }
 
+      let sheetfilter = ["name","a"]
+      dataTable[0]["name"]=row.id.toString()
+      dataTable[0]["a"]=this.course_id.toString()
 
-      dataTable.push(obj)
+      console.log(dataTable)
       option.filename = "成绩";  //excel文件名
       //excel文件数据
-      let header = ["学生ID", "学生名字", ""]
+      let header = ["学生ID", "课程ID"]
+      for (let i in res.data.allChapterVideo) {
+        sheetfilter.push("i")
+        header.push("第"+i+"章")
+        console.log(i);
+        dataTable[0]["i"]=res.data.allChapterVideo[i].grade
+        // dataTable.push(res.data.allChapterVideo[i].grade)
+      }
+      console.log(header);
 
 
       option.datas = [
@@ -153,11 +165,12 @@ export default {
           //   excel文件的数据源
           sheetData: dataTable,
           //   excel文件sheet的表名
-          sheetName: "成绩",
+          sheetFilter: sheetfilter,
           //   excel文件表头名
           sheetHeader: header,
         },
       ];
+
 
       //   创建ExportJsonExcel实例对象
       let toExcel = new ExportJsonExcel(option);
