@@ -14,21 +14,30 @@
             label="序号"
             width="100">
         </el-table-column>
+        <el-table-column
+            prop="studentId"
+            label="学生ID"
+            width="100">
+        </el-table-column>
 
         <el-table-column
-            prop="teacher_name"
+            prop="chapterId"
             label="章节序号"
             width="150">
         </el-table-column>
-
         <el-table-column
-            prop="teacher_name"
-            label="章节名字"
+            prop="time"
+            label="观看时间"
             width="150">
         </el-table-column>
         <el-table-column
-            prop="course_detail"
-            label="分数"
+            prop="hwGrade"
+            label="作业成绩"
+            width="150">
+        </el-table-column>
+        <el-table-column
+            prop="proGrade"
+            label="答题成绩"
             width="150"
             show-overflow-tooltip
         >
@@ -51,7 +60,7 @@
     <el-dialog title="给这份作业打个分吧" :visible.sync="score_dialog">
       <el-form>
         <el-form-item label="分数" :label-width="formLabelWidth">
-          <el-input-number v-model="score_return.score" label="打分"></el-input-number>
+          <el-input-number v-model="score_return.hwGrade" label="打分"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -75,16 +84,23 @@ export default {
 
   data() {
     return {
+
+      course_return:{
+        courseId:"",
+        studentId:""
+      },
       course_id:null,
-      chapter_id:null,
+      chapter_id:"",
       student_id:null,
       score_dialog:false,
       formLabelWidth:'120px',
       score_return:{
-        student_id:'',
-        score:'',
-        course_id:'',
-        chapter_id:''
+        studentId:'',
+
+        hwGrade:'',
+
+        chapterId:''
+
       }
       ,
       tableData: [{
@@ -133,20 +149,22 @@ export default {
       window.open(url, '', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left)
     },
     async getUserList() {
-      const {data: res} = await requestUtil.get('/course/enroll/id?id='+this.course_id )
+      this.course_return.courseId=this.course_id,
+      this.course_return.studentId=this.student_id
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?'+qs.stringify(this.course_return) )
       console.log(res);
-      this.tableData1 = res.data
-      if (res.code !== '0')
+      this.tableData = res.data.ChapterList
+      if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
     async getDoucument(row) {
       let url=row.homework_url
       console.log(url)
-      window.open('http://www.xdocin.com/xdoc?_key=g54srfoj7fgmrh6dfufin6rtn4&_func=down&_dir=Project2.pdf')
+      window.open(url)
     },
      score(row) {
       this.score_dialog= true
-      this.chapter_id=row.chapter_id
+      this.chapter_id=row.id
 
 
     },
@@ -171,17 +189,17 @@ export default {
     },
     async submit_score(){
       this.score_dialog = false
-      this.score_return.chapter_id=this.chapter_id
-      this.score_return.course_id=this.course_id
-      this.score_return.student_id=this.student_id
-      // console.log(this.score_return.score);
-      const {data: res} = await requestUtil.post('/notice?' +qs.stringify(this.score_return) )
+      this.score_return.chapterId=this.chapter_id
+      this.score_return.studentId=this.student_id
+      console.log(this.score_return);
+      const {data: res} = await requestUtil.put('/eduservice/t-chapter-student/hw',this.score_return)
       console.log(res);
-      this.score_return.score = 0
+      await this.getUserList()
+
     },
     cancel_score(){
       this.score_dialog = false
-      this.score_return.score = 0
+      this.score_return.hwGrade = 0
     }
 
   },

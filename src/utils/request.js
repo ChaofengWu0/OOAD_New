@@ -17,7 +17,7 @@ axios.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
   // config.headers.Authorization = window.sessionStorage.getItem("token")
   console.log("store.getters.get_token=" + store.getters.getToken)
-
+  console.log(config)
   config.headers.token = store.getters.getToken
   return config;
 }, function (error) {
@@ -88,7 +88,22 @@ export function put(url, params = {}) {
   return new Promise((resolve, reject) => {
     httpService({
       url: url,
-      method: 'post',
+      method: 'put',
+      data: params
+    }).then(response => {
+      console.log(response)
+      resolve(response);
+    }).catch(error => {
+      console.log(error)
+      reject(error);
+    });
+  });
+}
+export function delete1(url, params = {}) {
+  return new Promise((resolve, reject) => {
+    httpService({
+      url: url,
+      method: 'delete',
       data: params,
       headers: {'Content-Type': 'multipart/form-data'}
     }).then(response => {
@@ -98,7 +113,6 @@ export function put(url, params = {}) {
     });
   });
 }
-
 export function getServerURL() {
   return baseURL;
 }
@@ -107,5 +121,6 @@ export default {
   get,
   post,
   put,
+  delete1,
   getServerURL
 }

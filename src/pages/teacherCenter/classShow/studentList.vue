@@ -11,31 +11,32 @@
 
         <el-table-column
             prop="course_name"
+            :formatter="formatterType"
             label="课程名字"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="student_name"
+            prop="username"
             label="学生名字"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="student_ID"
+            prop="id"
             label="学生ID"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="progress"
-            label="完成度"
+            prop="grade"
+            label="总成绩"
             width="140">
         </el-table-column>
 
         <el-table-column
-            prop="grades"
-            label="目前成绩"
+            prop="phone"
+            label="电话"
             width="140">
         </el-table-column>
 
@@ -85,11 +86,14 @@ export default {
     this.getUserList()
   },
   methods: {
+    formatterType(){
+      return this.course_id
+    },
     async getUserList() {
       const {data: res} = await requestUtil.get('/eduservice/edu-course/getStudentByCourseId/'+this.course_id )
       console.log(res);
-      this.course_data = res.data
-      if (res.code !== '0')
+      this.student_list = res.data.StudentList
+      if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
     getCourseID() {
@@ -162,15 +166,16 @@ export default {
     },
 
     async delete_student(row) {
-      const {data: res} = await requestUtil.post('/notice?teacherUsername=' + row.student_ID)
+      const {data: res} = await requestUtil.delete1('/eduservice/edu-course/' + this.course_id+"/"+row.id)
       console.log(res);
       console.log(row)
+      await this.getUserList()
     },
 
     view_chapter(row) {
       console.log(row)
       // 获取点击行的student的id（通过row这个参数，和student_list这个数组获取）
-      this.$router.push({path: '/teacher_center/my_classes/student_grade/' + this.course_id + "+" + row.student_ID})
+      this.$router.push({path: '/teacher_center/my_classes/student_grade/' + this.course_id + "+" + row.id})
 
     }
 
