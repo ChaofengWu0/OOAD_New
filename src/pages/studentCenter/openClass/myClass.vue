@@ -98,7 +98,8 @@ export default {
   },
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/course/student?studentUsername='+this.$store.getters.getUserInfo.username )
+      console.log(this.$store.getters.getUserInfo)
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByStudentId/'+"zhang" )
       console.log(res);
       this.tableData1 = res.data
       if (res.code !== '0')

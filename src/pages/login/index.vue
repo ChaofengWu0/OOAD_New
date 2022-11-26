@@ -69,11 +69,11 @@ export default {
           console.log('验证失败')
           return
         }
-
         if (Cookies.get('username')!==this.loginForm.username){
           Cookies.remove('username')
           Cookies.set('username', this.loginForm.username, {expires: 7})
-          const {data: res} = await requestUtil.post('/login?' + qs.stringify(this.loginForm))
+          const {data: res} = await requestUtil.post('/eduservice/login?'+qs.stringify(this.loginForm))
+          alert(this.loginForm.username)
           console.log(res);
           // 失败
           if (res.code !== 200)

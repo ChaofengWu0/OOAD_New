@@ -77,13 +77,14 @@ export default {
       course_id: null,
       notice_title: null,
       notice_return: {
-
         title: this.notice_title,
-        sendTo: this.course_id,
-        content: this.notice
+        courseId: this.course_id,
+        content: this.notice,
+        teacherId:"this.$store.getters.getUserInfo.id"
       },
       email_return: {
-        title: this.notice_title,
+        filePath:"/",
+        subject: this.notice_title,
         sendTo: this.course_id,
         text: this.notice
       },
@@ -114,9 +115,10 @@ export default {
     },
 
     async getUserList() {
-      const {data: res} = await requestUtil.get('/course/enroll/id?id=' + this.course_id)
+      //todo
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByStudentId',this.course_id)
       console.log(res);
-      this.course_text_info = res.data.text
+      this.course_text_info = res.data
       if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
     },
@@ -158,7 +160,8 @@ export default {
       console.log(row)
     },
     async send_notice(row) {
-      const {data: res} = await requestUtil.post('/notice?' + qs.stringify(this.notice_return))
+      this.notice_return.teacherId= this.$store.getters.getUserInfo.id
+      const {data: res} = await requestUtil.post('/eduservice/t-notice?' + qs.stringify(this.notice_return))
       console.log(res);
       console.log(row.row)
     },

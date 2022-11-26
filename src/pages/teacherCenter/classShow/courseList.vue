@@ -131,6 +131,7 @@ export default {
     },
     getDetail(row) {
       this.$router.push({path: '/teacher_center/my_classes/course_detail/' + row.courseId})
+
       console.log(row.row)
     }
   }
