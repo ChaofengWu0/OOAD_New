@@ -127,7 +127,7 @@ export default {
       column.index = columnIndex + 1;
     },
     getDetail(row) {
-      this.$router.push({path: '/teacher_center/my_classes/course_detail/' + row.courseId})
+      this.$router.push({path: '/teacher_center/my_classes/course_detail/' + row.id})
 
       console.log(row.row)
     }
