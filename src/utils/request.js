@@ -80,7 +80,7 @@ export function post(url, params = {}) {
 }
 
 /*
- *  文件上传
+ *  put请求
  *  url:请求地址
  *  params:参数
  * */
@@ -88,9 +88,9 @@ export function put(url, params = {}) {
   return new Promise((resolve, reject) => {
     httpService({
       url: url,
-      method: 'post',
+      method: 'put',
       data: params,
-      headers: {'Content-Type': 'multipart/form-data'}
+      // headers: {'Content-Type': 'multipart/form-data'}
     }).then(response => {
       resolve(response);
     }).catch(error => {

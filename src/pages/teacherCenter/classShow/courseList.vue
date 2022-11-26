@@ -85,7 +85,7 @@ export default {
     }
   },
   created() {
-    this.getUserList()
+    // this.getUserList()
   },
   watch: {
     notice(newV) {

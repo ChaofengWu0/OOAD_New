@@ -57,19 +57,19 @@
             <el-radio-group>
               <el-radio label="A" v-model="domain.answer" style="padding-top: 20px ;padding-bottom: 20px">
                 A
-                <el-input v-model="domain.option_A"></el-input>
+                <el-input v-model="domain.optionA"></el-input>
               </el-radio>
               <el-radio label="B" v-model="domain.answer" style="padding-left: 50px;padding-bottom: 20px">
                 B
-                <el-input v-model="domain.option_B"></el-input>
+                <el-input v-model="domain.optionB"></el-input>
               </el-radio>
               <el-radio label="C" v-model="domain.answer" style="padding-top: 20px; padding-bottom: 10px">
                 C
-                <el-input v-model="domain.option_C"></el-input>
+                <el-input v-model="domain.optionC"></el-input>
               </el-radio>
               <el-radio label="D" v-model="domain.answer" style="padding-left: 50px;padding-bottom: 10px">
                 D
-                <el-input v-model="domain.option_D"></el-input>
+                <el-input v-model="domain.optionD"></el-input>
               </el-radio>
             </el-radio-group>
           </el-form-item>
@@ -104,15 +104,14 @@ export default {
       tableData: [{
         name: "test",
       }],
-
       dialogFormVisibleForProblem: false,
       dynamicValidateForm: {
         domains: [{
           value: '',
-          option_A: '',
-          option_B: '',
-          option_C: '',
-          option_D: '',
+          optionA: '',
+          optionB: '',
+          optionC: '',
+          optionD: '',
           answer: ''
         }],
       }
@@ -152,10 +151,10 @@ export default {
       this.dynamicValidateForm = {
         domains: [{
           value: '',
-          option_A: '',
-          option_B: '',
-          option_C: '',
-          option_D: '',
+          optionA: '',
+          optionB: '',
+          optionC: '',
+          optionD: '',
           answer: ''
         }],
       }

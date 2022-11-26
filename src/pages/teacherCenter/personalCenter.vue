@@ -14,7 +14,7 @@
         <div class="right_container">
           <ul class="info_items">
             <li style="list-style:none">
-              <h3> 账号: {{ this.original_data.id }} </h3>
+              <h3> 账号: {{ this.original_data.userId }} </h3>
             </li>
             <li style="list-style:none">
               <h3> 昵称: {{ this.original_data.nickName }}</h3>

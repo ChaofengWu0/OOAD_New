@@ -57,6 +57,7 @@
                 <el-radio
                     v-model="radio[i]"
                     :label="son.value"
+                    v-if="son.value!==null"
                     @change="getInputValue(i)"
                 ></el-radio>
               </li>
@@ -85,6 +86,7 @@
 </template>
 <script>
 import HeaderForPlayer from "@/components/HeaderForPlayer";
+import requestUtil from "@/utils/request";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -172,47 +174,49 @@ export default {
       cde: 0, // 分的计数
       efg: 0, // 时的计数
 
-      examinationData: [
-        {
-          question:
-              "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
-          answer: [
-            {value: "A.Python"},
-            {value: "B.Vue"},
-            {value: "C.Php"},
-            {value: "D.Java"}
-          ]
-        },
-        {
-          question:
-              "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
-          answer: [
-            {value: "A.问题一"},
-            {value: "B.Vue2"},
-            {value: "C.Php2"},
-            {value: "D.Java2"}
-          ]
-        },
-        {
-          question:
-              "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
-          answer: [
-            {value: "A.问题二"},
-            {value: "B.Vue3"},
-            {value: "C.Php3"},
-            {value: "D.Java3"}
-          ]
-        },
-        {
-          question: "How about your in skills?",
-          answer: [
-            {value: "A.问题四"},
-            {value: "B.Vue5"},
-            {value: "C.Php5"},
-            {value: "D.Java5"}
-          ]
-        }
-      ],
+      // examinationData: [
+      // {
+      //   question:
+      //       "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
+      //   answer: [
+      //     {value: "A.Python"},
+      //     {value: "B.Vue"},
+      //     {value: "C.Php"},
+      //     {value: "D.Java"}
+      //   ]
+      // },
+      // {
+      //   question:
+      //       "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
+      //   answer: [
+      //     {value: "A.问题一"},
+      //     {value: "B.Vue2"},
+      //     {value: "C.Php2"},
+      //     {value: "D.Java2"}
+      //   ]
+      // },
+      // {
+      //   question:
+      //       "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
+      //   answer: [
+      //     {value: "A.问题二"},
+      //     {value: "B.Vue3"},
+      //     {value: "C.Php3"},
+      //     {value: "D.Java3"}
+      //   ]
+      // },
+      // {
+      //   question: "How about your in skills?",
+      //   answer: [
+      //     {value: "A.问题四"},
+      //     {value: "B.Vue5"},
+      //     {value: "C.Php5"},
+      //     {value: "D.Java5"}
+      //   ]
+      // }
+      // ],
+
+      examinationData: [],
 
       allRadio: [],//提交给后台的真题数据
 
@@ -221,6 +225,7 @@ export default {
   },
 
   created() {
+    this.getChapterID()
     this.getVideoData()
     // this.status = this.$refs.VueAliplayerV2.getStatus()
   },
@@ -243,11 +248,27 @@ export default {
       this.$refs.VueAliplayerV2.play()
     },
 
-    submit_ans() {
+    async submit_ans() {
       this.dialogFormVisible = false
+      let userInfo = this.$store.getters.getUserInfo
       // 计算分数，返回给后端。
-      this.allRadio = []
-      this.radio = []
+      let problemGrade = 0
+      for (let i in this.allRadio) {
+        let solution = this.examinationData[i].answer[this.examinationData[i].sol]
+        // console.log(solution)
+        // console.log(this.allRadio[i])
+        if (this.allRadio[i] === solution.value) {
+          problemGrade += 5
+        }
+      }
+      const returnForm = {
+        chapterId: this.chapter_ID,
+        studentId: userInfo.data.id,
+        proGrade: problemGrade
+      }
+      console.log(returnForm)
+      const {data: res} = await requestUtil.put('/eduservice/t-chapter-student/pro/', returnForm)
+      console.log(res)
       this.endHandler()
     },
 
@@ -263,10 +284,39 @@ export default {
       this.current_time = null
     },
 
-    do_problem() {
+    async do_problem() {
       this.dialogFormVisible = true;
+      const {data: res} = await requestUtil.get('/eduservice/t-problem/getProblemsByChapterId/' + this.chapter_ID)
+      console.log(res)
+      const problemList = res.data.problemList
+      console.log(problemList)
+      this.examinationData = []
+      for (let i in problemList) {
+        let problem = problemList[i]
+        this.examinationData.push({
+          idx: i,
+          sol: problem.answer,
+          question: problem.content,
+          answer: [
+            {value: problem.optionA},
+            {value: problem.optionB},
+            {value: problem.optionC},
+            {value: problem.optionD}
+          ]
+        })
+      }
+      console.log(this.examinationData)
       this.initial_time()
       this.startHandler()
+    },
+
+    getChapterID() {
+      if (this.$route.params && this.$route.params.id) {
+        this.chapter_ID = this.$route.params.id
+        console.log(this.chapter_ID)
+      } else {
+        this.$message("Wrong in function getChapterID which is in classChapter.Vue ")
+      }
     },
 
     initial_time() {

@@ -39,6 +39,9 @@ export default new Vuex.Store({
         },
         getUserInfo: () => {
             return JSON.parse(sessionStorage.getItem("userInfo"))
+        },
+        getInfo: (infoName) => {
+            return JSON.parse(sessionStorage.getItem(infoName))
         }
     },
     // 准备mutation，用于操作（加工，修改）数据，state
@@ -51,11 +54,14 @@ export default new Vuex.Store({
             state.phone = res.phone;
             state.address = res.address;
         },
-        setToken:(state,token)=>{
-            sessionStorage.setItem("token",token);
+        setToken: (state, token) => {
+            sessionStorage.setItem("token", token);
         },
-        setUserInfo:(state,userInfo)=>{
-            sessionStorage.setItem("userInfo",JSON.stringify(userInfo));
+        setUserInfo: (state, userInfo) => {
+            sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
         },
+        setInfo: (state, infoName, info) => {
+            sessionStorage.setItem(infoName, JSON.stringify(info));
+        }
     }
 })
