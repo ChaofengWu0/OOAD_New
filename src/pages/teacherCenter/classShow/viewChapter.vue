@@ -171,12 +171,14 @@ export default {
       this.initial_form()
       this.$refs.problem_button.disabled= true
     },
+
     removeDomain(item) {
       let index = this.dynamicValidateForm.domains.indexOf(item)
       if (index !== -1) {
         this.dynamicValidateForm.domains.splice(index, 1)
       }
     },
+
     addDomain() {
       this.dynamicValidateForm.domains.push({
         value: '',
@@ -190,7 +192,6 @@ export default {
       console.log(row)
     },
 
-
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -200,9 +201,11 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
+
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+
     tableCellClassName({row, column, rowIndex, columnIndex}) {
       //注意这里是解构
       //利用单元格的 className 的回调方法，给行列索引赋值

@@ -10,16 +10,14 @@
           style="width: 100%"
           class="list_content">
         <el-table-column>
-          <template slot-scope="scope">
-            <el-button @click.native.prevent="getStudent(scope.row)" type="primary">课程学生名单</el-button>
-            <el-button @click.native.prevent="get_chapter(scope.row)" type="primary">查看课程章节</el-button>
-            <el-button @click.native.prevent="send_notice(scope.row)" @click="dialogFormVisible=true" type="primary">
-              发送通知
-            </el-button>
-            <el-button @click.native.prevent="send_email(scope.row)" @click="dialogFormVisible=true" type="primary">
-              发送邮件与通知
-            </el-button>
-          </template>
+          <el-button @click.native.prevent="getStudent" type="primary">课程学生名单</el-button>
+          <el-button @click.native.prevent="get_chapter" type="primary">查看课程章节</el-button>
+          <el-button @click.native.prevent="send_notice" @click="dialogFormVisible=true" type="primary">
+            发送通知
+          </el-button>
+          <el-button @click.native.prevent="send_email" @click="dialogFormVisible=true" type="primary">
+            发送邮件与通知
+          </el-button>
         </el-table-column>
       </el-table>
 
@@ -80,10 +78,10 @@ export default {
         title: this.notice_title,
         courseId: this.course_id,
         content: this.notice,
-        teacherId:"this.$store.getters.getUserInfo.id"
+        teacherId: "this.$store.getters.getUserInfo.id"
       },
       email_return: {
-        filePath:"/",
+        filePath: "/",
         subject: this.notice_title,
         sendTo: this.course_id,
         text: this.notice
@@ -106,8 +104,8 @@ export default {
   created() {
     this.getCourseID()
     this.getUserList()
-    console.log(this.course_id)
   },
+
   methods: {
     get_chapter(row) {
       console.log(row)
@@ -116,9 +114,10 @@ export default {
 
     async getUserList() {
       //todo
-      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByStudentId',this.course_id)
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByStudentId', this.course_id)
       console.log(res);
       this.course_text_info = res.data
+
       if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
     },
@@ -160,7 +159,7 @@ export default {
       console.log(row)
     },
     async send_notice(row) {
-      this.notice_return.teacherId= this.$store.getters.getUserInfo.id
+      this.notice_return.teacherId = this.$store.getters.getUserInfo.id
       const {data: res} = await requestUtil.post('/eduservice/t-notice?' + qs.stringify(this.notice_return))
       console.log(res);
       console.log(row.row)

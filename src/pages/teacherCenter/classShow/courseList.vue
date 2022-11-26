@@ -50,7 +50,6 @@
     </template>
 
 
-
   </div>
 </template>
 
@@ -69,7 +68,7 @@ export default {
   name: "courseList",
   data() {
     return {
-      teacherUsername:"",
+      teacherUsername: "",
       course_id: "1",
       notice: "",
       dialogFormVisible: false,
@@ -92,13 +91,14 @@ export default {
     }
   },
 
-  methods: {async getUserList() {
+  methods: {
+    async getUserList() {
       const Teacher = this.$store.getters.getUserInfo.username;
       console.log(Teacher);
-      this.teacher_username=Teacher
+      this.teacher_username = Teacher
       // const Teacherr = {...this.teacher_username};
       // const {data: res} = await RTeaCourseListAPI("Zhang")
-      const {data: res} = await requestUtil.get('/course/teacher?teacherUsername=' +"Zhang" )
+      const {data: res} = await requestUtil.get('/course/teacher?teacherUsername=' + "Zhang")
       // todo
       // this.$store.getters.getUserInfo.username
       console.log(res);
