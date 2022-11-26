@@ -43,8 +43,8 @@ export default {
     return {
       // 表单数据对象
       loginForm: {
-        username: "admin",
-        password: "admin",
+        username: "username",
+        password: "password",
         rememberMe: false
       },
       // 表单数据验证规则
@@ -78,7 +78,7 @@ export default {
             // 成功，将返回的token 保存到 sessionStorage
             this.$message.success("Successfully login")
             this.$store.commit('setUserInfo', res.data)
-            this.$store.commit('setToken', res.authorization)
+            this.$store.commit('setToken', res.data.authorization)
             window.sessionStorage.setItem('id', res.data.data.id)
             window.sessionStorage.setItem('token', res.data.role)
             await this.$router.push('/main_page')
