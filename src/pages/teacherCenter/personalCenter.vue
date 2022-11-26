@@ -80,18 +80,20 @@
 
 <script>
 import requestUtil from "@/utils/request";
+import qs from "qs";
 
 export default {
   name: "personalCenter",
   data() {
+    let userInfo = this.$store.getters.getUserInfo
     return {
       original_data: {
-        id: this.$store.getters.getUserInfo.data.id,
-        nickName: this.$store.getters.getUserInfo.data.nickName,
-        avatar_path: this.$store.getters.getUserInfo.data.username,
-        phone: this.$store.getters.getUserInfo.data.phone,
-        address: this.$store.state.address,
-        email:this.$store.getters.getUserInfo.data.email
+        userId: userInfo.data.id,
+        nickName: userInfo.data.nickName,
+        avatar: userInfo.data.avatar,
+        phone: userInfo.data.phone,
+        address: userInfo.data.address,
+        email: userInfo.data.email
       },
 
       formLabelWidth: "120px",
@@ -110,14 +112,9 @@ export default {
   },
 
   methods: {
-    success(res,file){
-      this.original_data.avatar_path =res.data.url
-      console.log(file)
-    },
-
     initial_change_form() {
-      this.change_form.nickName = this.original_data.nickName
-      this.change_form.avatar_path = this.original_data.avatar_path
+      this.change_form.name = this.original_data.nickName
+      this.change_form.avatar_path = this.original_data.avatar
       this.change_form.phone = this.original_data.phone
       this.change_form.email = this.original_data.email
     },
@@ -132,16 +129,22 @@ export default {
     },
     async submit() {
       // 要交给后端数据，并且从后端拿到数据，再赋给头像
-      this.original_data.name = this.change_form.name
-      // this.original_data.avatar_path =
+      this.original_data.nickName = this.change_form.name
       this.original_data.phone = this.change_form.phone
       this.original_data.email = this.change_form.email
       this.dialogFormVisible = false
-      const {data: res} = await requestUtil.put('/eduservice/t-user',this.original_data)
-      console(res)
-
+      const {data: res} = await requestUtil.post('/eduservice/t-user/update?' + qs.stringify(this.original_data))
+      console.log(res)
+      // 失败
+      if (res.code !== 20000)
+        return this.$message.error("Wrong!login failed")
+      // 成功
+      this.$store.commit("setUserInfo", res.data)
     },
-
+    success(res, file) {
+      this.original_data.avatar = res.data.url
+      console.log(file)
+    }
   },
 
 }

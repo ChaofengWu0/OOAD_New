@@ -27,7 +27,7 @@
           </el-table-column>
           <el-table-column
               prop="chapterName"
-              label="名字"
+              label="章节名字"
               width="250">
           </el-table-column>
           <el-table-column

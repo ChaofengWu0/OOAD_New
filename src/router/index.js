@@ -15,6 +15,7 @@ import teacher_class_list_student_grade from "@/pages/teacherCenter/classShow/st
 import teacher_class_list_course_detail from "@/pages/teacherCenter/classShow/courseDetail"
 import teacher_class_list_view_chapter from "@/pages/teacherCenter/classShow/viewChapter"
 import teacher_notification from "@/pages/teacherCenter/notification"
+import courseSubscribe from "@/pages/mainPage/courseSubscribe";
 // student
 import student_course_chapter from "@/pages/studentCenter/openClass/classChapter"
 import student_class_detail from "@/pages/studentCenter/openClass/myClass"
@@ -177,7 +178,6 @@ const Router = new VueRouter({
               }
             },
 
-
           ]
         },
         {
@@ -325,6 +325,12 @@ const Router = new VueRouter({
       path: '/main_page',
       component: main_page,
     },
+    {
+      name: 'courseSubscribe',
+      path: '/course/:id',
+      component: courseSubscribe,
+    },
+
   ]
 })
 export default Router

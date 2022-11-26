@@ -29,7 +29,8 @@ export default new Vuex.Store({
         },
         logout() {
             window.sessionStorage.clear()
-            router.replace("/login").then().catch(err => console.log(err))
+            sessionStorage.clear()
+            router.push("/login").then().catch(err => console.log(err))
         }
     },
     getters: {

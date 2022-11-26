@@ -4,7 +4,7 @@
     <div class="info_box">
       <div class="left_ele">
         <div class="avatar">
-          <el-avatar :size="250" :src="this.change_form.avatar_path"></el-avatar>
+          <el-avatar :size="250" :src="this.change_form.avatar"></el-avatar>
         </div>
 
       </div>
@@ -14,10 +14,10 @@
         <div class="right_container">
           <ul class="info_items">
             <li style="list-style:none">
-              <h3> 账号: {{ this.original_data.id }} </h3>
+              <h3> 账号: {{ this.original_data.userId }} </h3>
             </li>
             <li style="list-style:none">
-              <h3> 昵称: {{ this.original_data.name }}</h3>
+              <h3> 昵称: {{ this.original_data.nickName }}</h3>
             </li>
             <li style="list-style:none">
               <h3> 邮件: {{ this.original_data.email }}</h3>
@@ -54,7 +54,9 @@
         <el-form-item label="头像" :label-width="formLabelWidth">
           <el-upload
               class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action="http://localhost:9001/eduoss/fileoss"
+              :auto-upload="true"
+              :on-success="success"
           >
             <el-button size="text" type="primary">点击上传</el-button>
           </el-upload>
@@ -75,17 +77,21 @@
 </template>
 
 <script>
+import requestUtil from "@/utils/request"
+import qs from "qs";
+
 export default {
   name: "personalCenter",
   data() {
+    let userInfo = this.$store.getters.getUserInfo
     return {
       original_data: {
-        id: this.$store.state.id,
-        name: this.$store.state.name,
-        avatar_path: this.$store.state.avatar_path,
-        phone: this.$store.state.phone,
-        address: this.$store.state.address,
-        subject: this.$store.state.subject,
+        userId: userInfo.data.id,
+        nickName: userInfo.data.nickName,
+        avatar: userInfo.data.avatar,
+        phone: userInfo.data.phone,
+        address: userInfo.data.address,
+        email: userInfo.data.email
       },
 
       formLabelWidth: "120px",
@@ -104,8 +110,8 @@ export default {
 
   methods: {
     initial_change_form() {
-      this.change_form.name = this.original_data.name
-      this.change_form.avatar_path = this.original_data.avatar_path
+      this.change_form.name = this.original_data.nickName
+      this.change_form.avatar_path = this.original_data.avatar
       this.change_form.phone = this.original_data.phone
       this.change_form.email = this.original_data.email
     },
@@ -118,14 +124,25 @@ export default {
       this.initial_change_form()
       this.dialogFormVisible = false
     },
-    submit() {
+    async submit() {
       // 要交给后端数据，并且从后端拿到数据，再赋给头像
-      this.original_data.name = this.change_form.name
-      // this.original_data.avatar_path =
+      this.original_data.nickName = this.change_form.name
       this.original_data.phone = this.change_form.phone
       this.original_data.email = this.change_form.email
       this.dialogFormVisible = false
+      console.log(qs.stringify(this.original_data))
+      const {data: res} = await requestUtil.post('/eduservice/t-user/update?' + qs.stringify(this.original_data))
+      console.log(res)
+      // 失败
+      if (res.code !== 20000)
+        return this.$message.error("Wrong!login failed")
+      // 成功
+      this.$store.commit("setUserInfo", res.data)
     },
+    success(res, file) {
+      this.original_data.avatar = res.data.url
+      console.log(file)
+    }
   }
 
 }

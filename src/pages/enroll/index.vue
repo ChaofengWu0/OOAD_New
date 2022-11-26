@@ -4,8 +4,9 @@
       <!--      注册表单-->
       <el-form class="enroll_form" :model="enroll_form" ref="enroll_form_ref" :rules="enroll_rules">
         <!--   用户名-->
-        <el-form-item label="账户" class="enroll_username" prop="userID"
-                      :rules="[{ required: true, message: '请输入账户', trigger: 'blur' },]">
+        <!--        <el-form-item label="账户" class="enroll_username" prop="userID"-->
+        <!--                      :rules="[{ required: true, message: '请输入账户', trigger: 'blur' },]">-->
+        <el-form-item label="账户" class="enroll_username" prop="userID">
           <el-input v-model="enroll_form.userID" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
 
@@ -24,9 +25,9 @@
         </el-form-item>
 
         <el-form-item label="邮箱" class="enroll_password_again" prop="email" :rules="[
-      { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-      ]">
+              { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+              { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+              ]">
           <el-input v-model="enroll_form.email" prefix-icon="el-icon_pwd"></el-input>
         </el-form-item>
 
@@ -48,7 +49,9 @@
 </template>
 
 <script>
-import {EnrollAPI} from "@/api";
+// import {EnrollAPI} from "@/api";
+// import qs from 'qs'
+import requestUtil from "@/utils/request"
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -96,22 +99,26 @@ export default {
       this.$refs.enroll_form_ref.validate(
           async valid => {
             if (!valid) return
-            const EnrollData = {...this.enroll_form};
+            console.log('validated')
+            const enrollData = {
+              userID: this.enroll_form.userID,
+              username: this.enroll_form.username,
+              password: this.enroll_form.password,
+              email: this.enroll_form.email,
+              phone: this.enroll_form.phone
+            };
             //发起请求
-
-            const {data: res} = await EnrollAPI(EnrollData)
+            // const {data: res} = await EnrollAPI(EnrollData)
+            const {data: res} = await requestUtil.post('/eduservice/t-user/register', enrollData)
             console.log(res);
-            if (res.code != 0)
-              return this.$message.error("Wrong!Enroll failed")
+            if (res.code !== 20000)
+              return this.$message.error("错误！注册失败！")
             // 如果成功
             // 将返回的token 保存到 sessionStorage
-            this.$message.success("Successfully Enroll")
-            window.sessionStorage.setItem('token', res.data.token)
-            this.$router.push('/login')
+            this.$message.success("注册成功！")
+            await this.$router.push('/login')
           }
       )
-
-
     }
   }
 

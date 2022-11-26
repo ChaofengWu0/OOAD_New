@@ -32,10 +32,9 @@
   </div>
 </template>
 <script>
-import Cookies from 'js-cookie'
 import qs from 'qs'
 import requestUtil from "@/utils/request"
-import { decrypt} from "@/utils/jsencrypt"
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'index',
@@ -43,8 +42,8 @@ export default {
     return {
       // 表单数据对象
       loginForm: {
-        username: "admin",
-        password: "admin",
+        username: "username",
+        password: "password",
         rememberMe: false
       },
       // 表单数据验证规则
@@ -65,44 +64,25 @@ export default {
     loginHandler() {
       // p22
       this.$refs.login_form_ref.validate(async valid => {
-        if (!valid) {
-          console.log('验证失败')
-          return
-        }
-        if (Cookies.get('username')!==this.loginForm.username){
-          Cookies.remove('username')
-          Cookies.set('username', this.loginForm.username, {expires: 7})
-          const {data: res} = await requestUtil.post('/eduservice/login?'+qs.stringify(this.loginForm))
-          alert(this.loginForm.username)
-          console.log(res);
-          // 失败
-          if (res.code !== 20000)
-            return this.$message.error("Wrong!login failed")
-          // 成功，将返回的token 保存到 sessionStorage
-          this.$message.success("Successfully login")
-          this.$store.commit('setUserInfo', res.data)
-          this.$store.commit('setToken', res.authorization)
-          window.sessionStorage.setItem('id', res.data.data.id)
-          window.sessionStorage.setItem('token', res.data.role)
-          this.getCookie()
-          await this.$router.push('/main_page')
-        }
-        else {
-          return this.$message.error("已登陆")
-        }
-        // 向后端发送请求，获得数据
-
-      })
-    },
-    getCookie() {
-      const username = Cookies.get("username");
-      const password = Cookies.get("password");
-      const rememberMe = Cookies.get("rememberMe");
-      this.loginForm = {
-        username: username === undefined ? this.loginForm.username : username,
-        password: password === undefined ? this.loginForm.password : decrypt(password),
-        rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
-      };
+            if (!valid) {
+              console.log('验证失败')
+              return
+            }
+            const {data: res} = await requestUtil.post('/eduservice/login?' + qs.stringify(this.loginForm))
+            alert(this.loginForm.username)
+            console.log(res);
+            // 失败
+            if (res.code !== 20000)
+              return this.$message.error("Wrong!login failed")
+            // 成功，将返回的token 保存到 sessionStorage
+            this.$message.success("Successfully login")
+            this.$store.commit('setUserInfo', res.data)
+            this.$store.commit('setToken', res.data.authorization)
+            window.sessionStorage.setItem('id', res.data.data.id)
+            window.sessionStorage.setItem('token', res.data.role)
+            await this.$router.push('/main_page')
+          }
+      )
     },
     resetForm() {
       this.$refs.login_form_ref.resetFields();
@@ -117,6 +97,7 @@ export default {
   background-image: url("../../assets/img/login.jpg");
   background-size: cover;
 }
+
 .login_box {
   width: 450px;
   height: 300px;
@@ -128,15 +109,18 @@ export default {
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
 .login_form {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
 .login_button {
   position: absolute;
 }
+
 .enroll_button {
   position: absolute;
   left: 65%;
