@@ -1,7 +1,3 @@
-
-
-
-
 <template>
   <div>
 
@@ -16,10 +12,10 @@
         <el-table-column>
           <template slot-scope="scope">
 
-            <el-button @click.native.prevent="send_notice(scope.row)" @click="dialogFormVisible=true" type="primary">
+            <el-button @click.native.prevent="send_notice(scope.row)" @click="view_chapter" type="primary">
               查看章节
             </el-button>
-            <el-button type="danger" @click.native.prevent="acceptClick(scope.row)" >
+            <el-button type="danger" @click.native.prevent="acceptClick(scope.row)">
               同意
             </el-button>
             <el-button type="success" @click.native.prevent="refuseClick(scope.row)">
@@ -28,24 +24,6 @@
           </template>
         </el-table-column>
       </el-table>
-
-      <template>
-        <el-dialog title="发送内容" :visible.sync="dialogFormVisible">
-
-          <el-input
-              type="textarea"
-              :row="10"
-              v-model="notice"
-              size="large"
-          >
-          </el-input>
-
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="cancel">取 消</el-button>
-            <el-button type="primary" @click="submit">确 定</el-button>
-          </div>
-        </el-dialog>
-      </template>
     </template>
     <div class="class_info">
       <img :src="defaultImg" style="width:800px" class="course_img"/>
@@ -62,14 +40,9 @@
 </template>
 
 <script>
-// todo
-// 1. 在created()中要利用courseID获取上这门课的所有人
-// 2. 在export_grade()中要导出这一个学生的成绩，怎么导出来呢？不知道
-// 3. 在delete_student()中要删除这个学生，给后端发送 course_id，以及这个学生的id，后端负责改变数据库内容
 import requestUtil from "@/utils/request";
 import qs from "qs";
 import {ButtonAPI} from "@/api";
-
 
 export default {
   name: "courseDetail",
@@ -78,13 +51,13 @@ export default {
 
       course_text_info: "课程介绍",
       course_id: "",
-      notice_return:{
-        sendTo:this.course_id,
-        content:this.notice
+      notice_return: {
+        sendTo: this.course_id,
+        content: this.notice
       },
-      email_return:{
-        sendTo:this.course_id,
-        text:this.notice
+      email_return: {
+        sendTo: this.course_id,
+        text: this.notice
       },
       notice: "",
       dialogFormVisible: false,
@@ -108,12 +81,12 @@ export default {
   },
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/course/enroll/id?id='+this.course_id )
+      const {data: res} = await requestUtil.get('/course/enroll/id?id=' + this.course_id)
       console.log(res);
       this.course_text_info = res.data.text
       if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
-    },async acceptClick(row) {
+    }, async acceptClick(row) {
       row.status = 1
       console.log(row)
       const acceptData = {...row};
@@ -168,12 +141,12 @@ export default {
       console.log(row)
     },
     async send_email(row) {
-      const {data: res} = await requestUtil.post('/send-email/simple?'+qs.stringify(this.email_return))
+      const {data: res} = await requestUtil.post('/send-email/simple?' + qs.stringify(this.email_return))
       console.log(res);
       console.log(row)
     },
     async send_notice(row) {
-      const {data: res} = await requestUtil.post('/notice?' +qs.stringify(this.notice_return) )
+      const {data: res} = await requestUtil.post('/notice?' + qs.stringify(this.notice_return))
       console.log(res);
       console.log(row.row)
     },
@@ -189,7 +162,7 @@ export default {
       console.log(row)
       console.log('chapter')
       // 获取点击行的student的id（通过row这个参数，和student_list这个数组获取）
-      this.$router.push({path: '/teacher_center/my_classes/student_grade/' + this.course_id})
+      this.$router.push({path: '/admin_center/view_chapter/' + this.course_id})
     },
     cancel() {
       this.dialogFormVisible = false

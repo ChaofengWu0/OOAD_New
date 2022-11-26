@@ -28,7 +28,7 @@ import admin_center from "@/pages/administratorCenter"
 import admin_personal_center from "@/pages/administratorCenter/personalCenter"
 import admin_application_center from "@/pages/administratorCenter/applications"
 import admin_application_course_detail from "@/pages/administratorCenter/courseDetail"
-
+import admin_application_course_chapter from "@/pages/administratorCenter/viewChapter"
 
 import main_page from "@/pages/mainPage"
 
@@ -210,10 +210,18 @@ const Router = new VueRouter({
           name:'admin_application_course_detail',
           path: 'course_detail/:id',
           component: admin_application_course_detail,
-          mea:{
-            title:'申请中心'
+          meta:{
+            title:'课程概况审核'
           }
-        }
+        },
+        {
+          name:'admin_application_course_detail',
+          path: 'view_chapter/:id',
+          component: admin_application_course_chapter,
+          meta:{
+            title:'课程章节审核'
+          }
+        },
       ]
     },
 
@@ -286,12 +294,10 @@ const Router = new VueRouter({
       ]
     },
 
-
     {
       path:"/anoTest",
       component:anoTest
     },
-
 
     {
       name: 'test',

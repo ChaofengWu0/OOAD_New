@@ -48,7 +48,7 @@
           <template slot-scope="scope">
             <br>
             <el-button type="success" @click.native.prevent="detailClick (scope.row)">
-              Detail
+              课程详情
             </el-button>
             <br>
             <br>
