@@ -14,6 +14,7 @@ import teacher_class_list_student from "@/pages/teacherCenter/classShow/studentL
 import teacher_class_list_student_grade from "@/pages/teacherCenter/classShow/studentHomework"
 import teacher_class_list_course_detail from "@/pages/teacherCenter/classShow/courseDetail"
 import teacher_class_list_view_chapter from "@/pages/teacherCenter/classShow/viewChapter"
+import teacher_notification from "@/pages/teacherCenter/notification"
 // student
 import student_course_chapter from "@/pages/studentCenter/openClass/classChapter"
 import student_class_detail from "@/pages/studentCenter/openClass/myClass"
@@ -179,6 +180,15 @@ const Router = new VueRouter({
 
           ]
         },
+        {
+          name: 'teacher_notifications',
+          component: teacher_notification,
+          path: 'notification',
+          meta: {
+            title: '通知'
+          }
+        },
+
 
       ]
     },

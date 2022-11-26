@@ -33,7 +33,7 @@
           <el-table-column
               prop="grade"
               label="分数"
-              >
+          >
           </el-table-column>
 
 
@@ -118,8 +118,7 @@ export default {
 
       // 返回拿到的chapterList
       chapterList: [
-        {
-        },
+        {},
 
       ]
     }
@@ -181,14 +180,18 @@ export default {
       // 拿到后端数据，传递给对应的值，如最开始todo中写的那样
       const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_ID)
       console.log(res)
-      this.chapterList=res.data.allChapterVideo
+      this.chapterList = res.data.allChapterVideo
       console.log(this.chapterList)
     },
 
-    next() {
+    async next() {
       // 提交审核
-      this.$router.push("/teacher_center/my_classes/class_list")
-
+      const {data: res} = await requestUtil.post('/eduservice/edu-course/publishCourse/' + this.course_ID)
+      console.log(res)
+      if (res.code === 20000) {
+        this.$message.success("提交审核成功")
+      }
+      await this.$router.push("/teacher_center/my_classes/class_list")
     },
 
     previous() {

@@ -31,6 +31,12 @@
 
               </el-submenu>
 
+              <el-menu-item index="3" @click="clickMenu(3)">
+                <i class="el-icon-user"></i>
+                <span slot="title">通知中心</span>
+              </el-menu-item>
+
+
 <!--              <el-menu-item index="3" @click="clickMenu(3)">-->
 <!--                <i class="el-icon-document"></i>-->
 <!--                <span slot="title">Application Center</span>-->
@@ -90,6 +96,8 @@ export default {
         this.$router.push("/teacher_center/my_classes/class_list")
       } else if (item === 22) {
         this.$router.push("/teacher_center/my_classes/add_class")
+      } else if (item === 3){
+        this.$router.push("/teacher_center/notification")
       }
     },
   },
