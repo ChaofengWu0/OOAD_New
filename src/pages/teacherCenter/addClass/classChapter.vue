@@ -21,37 +21,24 @@
             stripe
             style="width: 100%">
           <el-table-column
-              prop="num"
+              prop="sort"
               label="章节"
-              width="180">
+              width="250">
           </el-table-column>
           <el-table-column
-              prop="name"
+              prop="chapterName"
               label="名字"
-              width="180">
+              width="250">
           </el-table-column>
           <el-table-column
               prop="grade"
               label="分数"
-              width="180">
-          </el-table-column>
-          <el-table-column
-              prop="content"
-              label="简介"
-          >
+              >
           </el-table-column>
 
-          <!--          先不写-->
-          <!--          <el-table-column>-->
-          <!--            <template slot-scope="scope">-->
-          <!--              <el-button @click.native.prevent="Edit (scope.row)">编 辑</el-button>-->
-          <!--              <el-button @click.native.prevent="Delete(scope.row)">删 除</el-button>-->
-          <!--            </template>-->
-          <!--          </el-table-column>-->
+
         </el-table>
       </template>
-
-
       <el-dialog title="添加章节" :visible.sync="dialogFormVisible">
         <el-form :model="chapterForm">
           <el-form-item label="章节名称" :label-width="formLabelWidth">
@@ -132,11 +119,6 @@ export default {
       // 返回拿到的chapterList
       chapterList: [
         {
-          num: "第一章",
-          name: 'test',
-          content: 'asdasda',
-          grade: 1,
-          id: "asdas"
         },
 
       ]
@@ -177,7 +159,7 @@ export default {
         chapterName: null,
         sort: 0,
         content: null,
-        courseId: null,
+        courseId: this.course_ID,
         grade: 0,
         videoUrl: null,
         videoName: null,
@@ -199,7 +181,8 @@ export default {
       // 拿到后端数据，传递给对应的值，如最开始todo中写的那样
       const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_ID)
       console.log(res)
-
+      this.chapterList=res.data.allChapterVideo
+      console.log(this.chapterList)
     },
 
     next() {

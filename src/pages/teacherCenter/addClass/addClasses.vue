@@ -119,7 +119,6 @@ export default {
       this.course_id = res.data.courseId
       // 跳转到第二部分
       await this.$router.push({path: '/teacher_center/my_classes/add_chapter/' + this.course_id})
-
     },
   }
 }

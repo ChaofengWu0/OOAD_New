@@ -395,6 +395,7 @@ body > .el-container {
   position: absolute;
   color: white;
   left: 20px;
+
   bottom: 0;
 }
 
