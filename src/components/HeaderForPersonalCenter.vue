@@ -50,7 +50,7 @@ export default {
       console.log('click on item ' + command);
       if (command === "logout") {
         // 做一些处理，然后回到login界面
-        this.$router.push("/login")
+        this.$store.dispatch("logout")
       }
     }
 

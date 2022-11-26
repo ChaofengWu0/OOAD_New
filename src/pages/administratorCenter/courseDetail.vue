@@ -12,7 +12,7 @@
         <el-table-column>
           <template slot-scope="scope">
 
-            <el-button @click.native.prevent="send_notice(scope.row)" @click="view_chapter" type="primary">
+            <el-button  @click="view_chapter" type="primary">
               查看章节
             </el-button>
             <el-button type="danger" @click.native.prevent="acceptClick(scope.row)">
@@ -55,6 +55,10 @@ export default {
         sendTo: this.course_id,
         content: this.notice
       },
+      button_return: {
+        courseId: "",
+        status: ""
+      },
       email_return: {
         sendTo: this.course_id,
         text: this.notice
@@ -81,34 +85,41 @@ export default {
   },
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/course/enroll/id?id=' + this.course_id)
+      // 根据课程id获取课程详情
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/' + this.course_id)
       console.log(res);
-      this.course_text_info = res.data.text
-      if (res.code !== '0')
+      this.course_text_info = res.data.courseDetail.description
+      if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
-    }, async acceptClick(row) {
-      row.status = 1
+    },
+
+    async acceptClick(row) {
+      this.button_return.status = 'Normal'
+      this.button_return.courseId = this.course_id
       console.log(row)
-      //发起请求
-      const {data: res} = await requestUtil.get('/course/enroll/id?'+qs.stringify(row) )
+      // 通过申请
+      console.log(qs.stringify(this.button_return))
+      const {data: res} = await requestUtil.post('/eduservice/edu-course/updateCourseStatus?' + qs.stringify(this.button_return))
       console.log(res);
-      if (res.code !== '0')
+      if (res.code !== 20000)
         return this.$message.error("Wrong!acceptClick failed")
       console.log("acceptClick")
       await this.getUserList()
     },
 
     async refuseClick(row) {
-      row.status = 0
+      this.button_return.status = "Refuse"
+      this.button_return.courseId = this.course_id
       console.log(row)
-      //发起请求
-      const {data: res} = await requestUtil.get('/course/enroll/id?'+qs.stringify(row) )
+      // 拒绝申请
+      const {data: res} = await requestUtil.post('/eduservice/edu-course/updateCourseStatus?' + qs.stringify(this.button_return))
       console.log(res);
-      if (res.code !== '0')
+      if (res.code !== 20000)
         return this.$message.error("Wrong!refuseClick failed")
       console.log("refuseClick")
       await this.getUserList()
     },
+
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
@@ -137,16 +148,6 @@ export default {
     getDetail(row) {
       this.$router.push({path: '/teacher_center/my_classes/course_detail/' + this.index})
       console.log(row)
-    },
-    async send_email(row) {
-      const {data: res} = await requestUtil.post('/send-email/simple?' + qs.stringify(this.email_return))
-      console.log(res);
-      console.log(row)
-    },
-    async send_notice(row) {
-      const {data: res} = await requestUtil.post('/notice?' + qs.stringify(this.notice_return))
-      console.log(res);
-      console.log(row.row)
     },
     export_grade(row) {
       console.log(row)
