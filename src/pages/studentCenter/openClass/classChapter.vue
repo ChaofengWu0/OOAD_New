@@ -1,8 +1,6 @@
 <template>
   <div>
-
     <template>
-
       <el-table
           ref="multipleTable"
           :data="tableData"
@@ -11,7 +9,6 @@
           style="width: 100%"
           @selection-change="handleSelectionChange"
           class="list_content">
-
 
         <el-table-column
             prop="course.id"
@@ -116,7 +113,6 @@ export default {
     async getUserList() {
       const {data: res} = await RendererAPI({})
       console.log(res);
-      this.tableData1 = res.data
       if (res.code !== '0')
         return this.$message.error("Wrong! Renderer failed")
     },
@@ -149,11 +145,5 @@ export default {
 
 
 <style scoped>
-.application_container {
-  position: relative;
-  background-color: white;
-  height: 100%;
-  width: 100%;
-}
 </style>
 

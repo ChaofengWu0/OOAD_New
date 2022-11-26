@@ -104,7 +104,7 @@ export default {
       // // 不知道返回给我的是什么，只是这样猜测
       // this.course_id = res.data.course_id
       // 跳转到第二部分
-      this.$router.push({path: '/teacher_center/my_classes/chapter/' + this.course.course_ID})
+      this.$router.push({path: '/teacher_center/my_classes/add_chapter/' + this.course.course_ID})
       // })
     },
   }

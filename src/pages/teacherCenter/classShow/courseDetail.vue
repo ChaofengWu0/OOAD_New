@@ -12,6 +12,7 @@
         <el-table-column>
           <template slot-scope="scope">
             <el-button @click.native.prevent="getStudent(scope.row)" type="primary">课程学生名单</el-button>
+            <el-button @click.native.prevent="get_chapter(scope.row)" type="primary">查看课程章节</el-button>
             <el-button @click.native.prevent="send_notice(scope.row)" @click="dialogFormVisible=true" type="primary">
               发送通知
             </el-button>
@@ -73,8 +74,8 @@ export default {
   data() {
     return {
       course_text_info: "课程介绍",
-      course_id: "",
-      notice_title:"",
+      course_id: null,
+      notice_title: null,
       notice_return: {
 
         title: this.notice_title,
@@ -107,6 +108,11 @@ export default {
     console.log(this.course_id)
   },
   methods: {
+    get_chapter(row) {
+      console.log(row)
+      this.$router.push({path: '/teacher_center/my_classes/view_chapter/' + this.course_id})
+    },
+
     async getUserList() {
       const {data: res} = await requestUtil.get('/course/enroll/id?id=' + this.course_id)
       console.log(res);

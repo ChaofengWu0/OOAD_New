@@ -103,14 +103,14 @@ export default {
       if (index !== -1) {
         this.dynamicValidateForm.domains.splice(index, 1)
       }
-    }
-    ,
+    },
+
     addDomain() {
       this.dynamicValidateForm.domains.push({
         value: '',
         key: Date.now()
       });
-    }
+    },
   }
 
 }

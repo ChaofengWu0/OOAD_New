@@ -13,6 +13,7 @@ import teacher_class_list_course from "@/pages/teacherCenter/classShow/courseLis
 import teacher_class_list_student from "@/pages/teacherCenter/classShow/studentList"
 import teacher_class_list_student_grade from "@/pages/teacherCenter/classShow/studentHomework"
 import teacher_class_list_course_detail from "@/pages/teacherCenter/classShow/courseDetail"
+import teacher_class_list_view_chapter from "@/pages/teacherCenter/classShow/viewChapter"
 // student
 import student_course_chapter from "@/pages/studentCenter/openClass/classChapter"
 import student_class_detail from "@/pages/studentCenter/openClass/myClass"
@@ -90,7 +91,6 @@ const Router = new VueRouter({
             title: '个人中心'
           }
         },
-
         {
           name: 'teacher_my_classes',
           component: teacher_my_classes,
@@ -119,7 +119,7 @@ const Router = new VueRouter({
             {
               name: 'teacher_add_course_chapter',
               component: teacher_add_course_chapter,
-              path: 'chapter/:id',
+              path: 'add_chapter/:id',
               hidden: true,
               meta: {
                 title: '添加课程'
@@ -165,7 +165,17 @@ const Router = new VueRouter({
               meta: {
                 title: '学生成绩详情'
               }
-            }
+            },
+
+            {
+              name: 'teacher_course_list_view_chapter',
+              component: teacher_class_list_view_chapter,
+              path: 'view_chapter/:id',
+              meta: {
+                title: '课程章节详情'
+              }
+            },
+
 
           ]
         },
