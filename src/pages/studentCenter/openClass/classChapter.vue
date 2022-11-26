@@ -16,13 +16,13 @@
         <el-table-column
             prop="course.id"
             label="课程ID"
-            width="100">
+            width="150">
         </el-table-column>
 
         <el-table-column
             prop="name"
             label="章节序号"
-            width="100">
+            width="150">
         </el-table-column>
 
         <el-table-column
@@ -58,8 +58,8 @@
 
 <script>
 import {RendererAPI} from "@/api";
-import requestUtil from "@/utils/request";
-import qs from "qs";
+// import requestUtil from "@/utils/request";
+// import qs from "qs";
 
 
 export default {
@@ -108,7 +108,9 @@ export default {
     },
 
     watch_video(row) {
-
+      //  根据row获取id，根据id获取视频source，根据source，进入player/source
+      console.log(row)
+      this.$router.push({path: '/player/' + "1"})
     },
 
     async getUserList() {
