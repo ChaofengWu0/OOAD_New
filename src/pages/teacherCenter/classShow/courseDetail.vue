@@ -163,6 +163,7 @@ export default {
     delete_student(row) {
       console.log(row)
       console.log("del_stu")
+
     },
     view_chapter(row) {
       console.log(row)

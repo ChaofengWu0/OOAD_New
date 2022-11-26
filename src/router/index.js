@@ -10,7 +10,6 @@ import teacher_personal_center from "@/pages/teacherCenter/personalCenter";
 import teacher_add_class from "@/pages/teacherCenter/addClass/addClasses"
 import teacher_add_course_chapter from "@/pages/teacherCenter/addClass/classChapter"
 import teacher_class_list_course from "@/pages/teacherCenter/classShow/courseList"
-import teacher_class_list_chapter from "@/pages/teacherCenter/classShow/chapterList"
 import teacher_class_list_student from "@/pages/teacherCenter/classShow/studentList"
 import teacher_class_list_student_grade from "@/pages/teacherCenter/classShow/studentHomework"
 import teacher_class_list_course_detail from "@/pages/teacherCenter/classShow/courseDetail"
@@ -144,15 +143,6 @@ const Router = new VueRouter({
               }
             },
             {
-              name: 'teacher_course_list_chapter',
-              component: teacher_class_list_chapter,
-              path: 'list_chapter/:id',
-              meta: {
-                title: 'ClassList'
-              }
-            },
-
-            {
               name: 'teacher_course_list_student',
               component: teacher_class_list_student,
               path: 'student_list/:id',
@@ -207,19 +197,19 @@ const Router = new VueRouter({
           }
         },
         {
-          name:'admin_application_course_detail',
+          name: 'admin_application_course_detail',
           path: 'course_detail/:id',
           component: admin_application_course_detail,
-          meta:{
-            title:'课程概况审核'
+          meta: {
+            title: '课程概况审核'
           }
         },
         {
-          name:'admin_application_course_detail',
+          name: 'admin_application_course_detail',
           path: 'view_chapter/:id',
           component: admin_application_course_chapter,
-          meta:{
-            title:'课程章节审核'
+          meta: {
+            title: '课程章节审核'
           }
         },
       ]
@@ -295,8 +285,8 @@ const Router = new VueRouter({
     },
 
     {
-      path:"/anoTest",
-      component:anoTest
+      path: "/anoTest",
+      component: anoTest
     },
 
     {
