@@ -1,13 +1,18 @@
 <template>
   <div class="main_container">
-    <div class="banner">
+    <div class="image_container">
+      <el-image :src="course_cover" class="course_img">
+      </el-image>
+
+      <h4 class="text_info">
+        测试
+      </h4>
+
     </div>
   </div>
 </template>
 
 <script>
-// import requestUtil from "@/utils/request";
-// import qs from "qs";
 
 import requestUtil from "@/utils/request";
 
@@ -59,12 +64,19 @@ export default {
   width: 100%;
 }
 
-.banner {
-  position: relative;
-  height: 500px;
-  width: 100%;
-  /*background-image: url("");*/
+.image_container {
+  height: 460px;
+  background-color: #DD4A68;
 }
+
+.image_container .course_img {
+  height: 400px;
+  width: 80%;
+  left: 10%;
+  /*height: 1000px;*/
+}
+
+
 </style>
 
 

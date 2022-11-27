@@ -24,7 +24,9 @@
 
     <div class="class_info">
 
-      <img :src="course_cover" class="course_img"/>
+      <el-image :src="course_cover" class="course_img">
+
+      </el-image>
 
       <div class="text_info">
         课程详情介绍:
@@ -132,6 +134,8 @@ export default {
 
 .course_img {
   position: absolute;
+  padding: 10px;
+  ;
 }
 
 .text_info {
