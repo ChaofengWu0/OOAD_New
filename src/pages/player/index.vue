@@ -14,13 +14,10 @@
               :encryptType="1"
               :source="source"
               :options="options"
-              :isVBR="true"
               controlBarVisibility="always"
               @ended="end"
           />
-
         </div>
-
         <div class="under_player">
           <div class="player-btns">
             <span @click="play">播放</span>
@@ -99,8 +96,7 @@ export default {
   },
   data() {
     return {
-      video_id: null,
-      source: null,
+      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669363641&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=oioz9Fp%2FNnUZkBbGMCXxqioTVLo%3D",
       video_time: null,
       check_time: null,
       dialogFormVisible: false,
@@ -188,8 +184,7 @@ export default {
 
   created() {
     this.getVideoID()
-    this.getVideoData()
-    // this.status = this.$refs.VueAliplayerV2.getStatus()
+    sessionStorage.removeItem('problems' + this.chapter_ID)
   },
 
   watch: {
@@ -234,9 +229,36 @@ export default {
       this.endHandler()
     },
 
-    getVideoData() {
-      // 1、调用后台接口获取视频vid,playAuth(鉴权地址),cover(视频封面)的逻辑
-      // 2、将对应的值分别赋值
+    async getProblemData() {
+      const problems = this.$store.getters.getInfo('problems' + this.chapter_ID)
+      if (problems === null) {
+        const {data: res} = await requestUtil.get('/eduservice/t-problem/getProblemsByChapterId/' + this.chapter_ID)
+        const problemList = res.data.problemList
+        console.log(problemList)
+        this.examinationData = []
+        for (let i in problemList) {
+          let problem = problemList[i]
+          this.examinationData.push({
+            idx: i,
+            sol: problem.answer,
+            question: problem.content,
+            answer: [
+              {value: problem.optionA},
+              {value: problem.optionB},
+              {value: problem.optionC},
+              {value: problem.optionD}
+            ]
+          })
+        }
+        console.log(this.examinationData)
+        const info = {
+          'infoName': 'problems' + this.chapter_ID,
+          'infoBody': this.examinationData
+        }
+        this.$store.commit("setInfo", info)
+      } else {
+        this.examinationData = this.$store.getters.getInfo('problems' + this.chapter_ID)
+      }
     },
 
     end() {
@@ -248,26 +270,7 @@ export default {
 
     async do_problem() {
       this.dialogFormVisible = true;
-      const {data: res} = await requestUtil.get('/eduservice/t-problem/getProblemsByChapterId/' + this.chapter_ID)
-      console.log(res)
-      const problemList = res.data.problemList
-      console.log(problemList)
-      this.examinationData = []
-      for (let i in problemList) {
-        let problem = problemList[i]
-        this.examinationData.push({
-          idx: i,
-          sol: problem.answer,
-          question: problem.content,
-          answer: [
-            {value: problem.optionA},
-            {value: problem.optionB},
-            {value: problem.optionC},
-            {value: problem.optionD}
-          ]
-        })
-      }
-      console.log(this.examinationData)
+      await this.getProblemData()
       this.initial_time()
       this.startHandler()
     },

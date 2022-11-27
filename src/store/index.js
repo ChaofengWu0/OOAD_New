@@ -40,8 +40,10 @@ export default new Vuex.Store({
         getUserInfo: () => {
             return JSON.parse(sessionStorage.getItem("userInfo"))
         },
-        getInfo: (infoName) => {
-            return JSON.parse(sessionStorage.getItem(infoName))
+        getInfo: function () {
+            return (infoName) => {
+                return JSON.parse(sessionStorage.getItem(infoName))
+            }
         }
     },
     // 准备mutation，用于操作（加工，修改）数据，state
@@ -60,8 +62,8 @@ export default new Vuex.Store({
         setUserInfo: (state, userInfo) => {
             sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
         },
-        setInfo: (state, infoName, info) => {
-            sessionStorage.setItem(infoName, JSON.stringify(info));
+        setInfo: (state, info) => {
+            sessionStorage.setItem(info['infoName'], JSON.stringify(info['infoBody']));
         }
     }
 })
