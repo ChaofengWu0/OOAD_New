@@ -3,7 +3,7 @@
 
     <div class="info_box">
       <div class="left_ele">
-<!--        左边的-->
+        <!--        左边的-->
         <div class="avatar">
           <el-avatar :size="250" :src="this.$store.getters.getUserInfo.data.avatar"></el-avatar>
         </div>
@@ -13,6 +13,7 @@
 
       <div class="right_ele">
         <div class="right_container">
+          <h2 style="font-family: 隶书;font-size: 30px;">个人信息</h2>
           <ul class="info_items">
             <li style="list-style:none">
               <h3> 账号: {{ this.original_data.userId }} </h3>
@@ -28,8 +29,9 @@
             </li>
           </ul>
 
-          <el-button type="text" class="down_ele" @click="edit_info" style="color: black">
-            <h3 style="color: #DD4A68">编 辑</h3>
+          <el-button type="primary" icon="el-icon-edit" @click="edit_info" style="font-size: 30px;margin-right: 5%"
+                     plain>
+            <div style="margin-left: 2%">编 辑</div>
           </el-button>
 
         </div>
@@ -99,31 +101,27 @@ export default {
       formLabelWidth: "120px",
       dialogFormVisible: false,
       change_form: {
-        name: "",
-        avatar_path: "",
-        phone: "",
-        email: ""
+        name: userInfo.data.nickName,
+        avatar_path: userInfo.data.avatar,
+        phone: userInfo.data.phone,
+        email: userInfo.data.email
       }
     }
   },
   created() {
-    this.initial_change_form()
+
   },
 
   methods: {
-    initial_change_form() {
-      this.change_form.name = this.original_data.nickName
-      this.change_form.avatar_path = this.original_data.avatar
-      this.change_form.phone = this.original_data.phone
-      this.change_form.email = this.original_data.email
-    },
-
     edit_info() {
       this.dialogFormVisible = true
     },
 
     cancel() {
-      this.initial_change_form()
+      this.change_form.name = this.original_data.nickName
+      this.change_form.avatar_path = this.original_data.avatar
+      this.change_form.phone = this.original_data.phone
+      this.change_form.email = this.original_data.email
       this.dialogFormVisible = false
     },
     async submit() {
@@ -180,10 +178,11 @@ export default {
   height: 100%;
   width: 70%;
   right: 0;
-  background-image: url("../../assets/img/personalCenter.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
+  /*background-image: url("../../assets/img/personalCenter.jpg");*/
+  /*background-repeat: no-repeat;*/
+  /*background-position: center;*/
+  /*background-size: 100% 100%;*/
+  background-image: linear-gradient(to bottom right, lightskyblue, greenyellow)
   /*background-color: #42b983;*/
 }
 
@@ -205,10 +204,12 @@ export default {
 
 .right_container {
   position: absolute;
-  top: 30%;
-  width: 100%;
-
-
+  top: 20%;
+  width: 60%;
+  left: 10%;
+  /*background-image: linear-gradient(to bottom right, red, yellow)*/
+  padding-top: 2%;
+  padding-bottom: 10%;
 }
 
 .info_items {
@@ -216,6 +217,9 @@ export default {
   height: 100%;
   width: 100%;
   /*position: absolute;*/
+  /*background-image: linear-gradient(to bottom right, red, yellow)*/
+  margin-left: 5%;
+  padding-left: 5%;
 }
 
 li {

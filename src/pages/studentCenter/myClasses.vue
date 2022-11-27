@@ -17,7 +17,7 @@ export default {
   border: 0;
 }
 
-.my_classes_container {
+.my_class_container {
   position: relative;
   height: 100%;
   width: 100%;

@@ -15,14 +15,19 @@
               <el-menu-item index="1" @click="clickMenu(1)">
                 <i class="el-icon-user"></i>
                 <span slot="title">个人中心</span>
+
+              </el-menu-item>
+              <el-menu-item index="2" @click="clickMenu(2)">
+                <i class="el-icon-money"></i>
+                <span slot="title">我的订单</span>
               </el-menu-item>
 
-              <el-menu-item index="2" @click="clickMenu(2)">
+              <el-menu-item index="3" @click="clickMenu(3)">
                 <i class="el-icon-reading"></i>
                 <span slot="title">我的课程</span>
               </el-menu-item>
 
-              <el-menu-item index="3" @click="clickMenu(3)">
+              <el-menu-item index="4" @click="clickMenu(4)">
                 <i class="el-icon-message-solid"></i>
                 <span slot="title">消息中心</span>
               </el-menu-item>
@@ -59,16 +64,19 @@ export default {
   components: {header_for_personal_center},
   methods: {
     clickMenu(item) {
-      if (item === 1) {
-        // 路由设置
-        this.$router.push("/stu_center/personal_center")
-        // 子组件头的面包屑要修改
-        // this.path_header_for_personal_center = "/teacherCenter/personal_center"
-      } else if (item === 2) {
-        this.$router.push("/stu_center/my_classes/classes")
-        // this.path_header_for_personal_center = "/teacherCenter/application_center"
-      } else if (item === 3) {
-        this.$router.push("/stu_center/notification")
+      switch (item) {
+        case 1:
+          this.$router.push("/stu_center/personal_center")
+          break
+        case 2:
+          this.$router.push("/stu_center/my_orders")
+          break
+        case 3:
+          this.$router.push("/stu_center/my_classes/classes")
+          break
+        case 4:
+          this.$router.push("/stu_center/notification")
+          break
       }
     },
   }

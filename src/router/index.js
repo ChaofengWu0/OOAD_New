@@ -21,6 +21,7 @@ import student_course_chapter from "@/pages/studentCenter/openClass/classChapter
 import student_class_detail from "@/pages/studentCenter/openClass/myClass"
 import stu_center from "@/pages/studentCenter"
 import stu_personal_center from "@/pages/studentCenter/personalCenter"
+import stu_my_orders from "@/pages/studentCenter/myOrders"
 import stu_notification from "@/pages/studentCenter/notification"
 import stu_my_classes from "@/pages/studentCenter/myClasses"
 // player
@@ -250,6 +251,13 @@ const Router = new VueRouter({
           component: stu_personal_center,
           meta: {
             title: '个人中心'
+          }
+        },{
+          name: 'stu_my_orders',
+          path: 'personal_center',
+          component: stu_my_orders,
+          meta: {
+            title: '我的订单'
           }
         },
         {

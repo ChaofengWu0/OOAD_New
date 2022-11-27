@@ -12,6 +12,7 @@
 
       <div class="right_ele">
         <div class="right_container">
+          <h2 style="font-family: 隶书;font-size: 30px;">个人信息</h2>
           <ul class="info_items">
             <li style="list-style:none">
               <h3> 账号: {{ this.original_data.userId }} </h3>
@@ -30,19 +31,23 @@
             </li>
           </ul>
 
+          <el-row>
+            <el-button type="primary" icon="el-icon-money" @click="recharge" style="font-size: 30px;margin-left: 5%"
+                       plain>
+              <div style="margin-left: 2%">充 值</div>
+            </el-button>
 
-          <el-button type="text" style="margin-right: 20px" @click="money">
-            <h3 style="color: #3967FF">充 值</h3>
-          </el-button>
-
-          <el-button type="text" class="down_ele" @click="edit_info" style="color: black">
-            <h3 style="color: #DD4A68">编 辑</h3>
-          </el-button>
+            <el-button type="primary" icon="el-icon-edit" @click="edit_info" style="font-size: 30px;margin-right: 5%"
+                       plain>
+              <div style="margin-left: 2%">编 辑</div>
+            </el-button>
+          </el-row>
 
 
         </div>
       </div>
     </div>
+
     <el-dialog title="个人信息" :visible.sync="dialogFormVisible">
       <el-form :model="change_form">
         <el-form-item label="昵称" :label-width="formLabelWidth">
@@ -81,12 +86,12 @@
         </el-button>
       </div>
     </el-dialog>
-    
+
     <el-dialog title="充值" :visible.sync="dialogFormMoney" width="300px">
       充值金额
-      <el-input-number v-model="to_add_money" :min="0" ></el-input-number>
+      <el-input-number v-model="to_add_money" :min="0"></el-input-number>
       <div slot="footer" class="dialog-footer">
-        <el-button style="padding: 15px" @click="dialogFormMoney = false;this.to_add_money= 0">取 消</el-button>
+        <el-button style="padding: 15px" @click="dialogFormMoney = false;to_add_money=0">取 消</el-button>
         <el-button style="padding: 15px" type="primary" @click="ready_to_give_money">确 定</el-button>
       </div>
     </el-dialog>
@@ -111,38 +116,34 @@ export default {
         address: userInfo.data.address,
         email: userInfo.data.email,
         // 余额加在这里了
-        remain: userInfo.data.remain
+        remain: userInfo.data.money
       },
       to_add_money: 0,
       dialogFormMoney: false,
       formLabelWidth: "120px",
       dialogFormVisible: false,
       change_form: {
-        name: "",
-        avatar_path: "",
-        phone: "",
-        email: ""
+        name: userInfo.data.nickName,
+        avatar_path: userInfo.data.avatar,
+        phone: userInfo.data.phone,
+        email: userInfo.data.email
       }
     }
   },
   created() {
-    this.initial_change_form()
+
   },
 
   methods: {
-    initial_change_form() {
-      this.change_form.name = this.original_data.nickName
-      this.change_form.avatar_path = this.original_data.avatar
-      this.change_form.phone = this.original_data.phone
-      this.change_form.email = this.original_data.email
-    },
-
     edit_info() {
       this.dialogFormVisible = true
     },
 
     cancel() {
-      this.initial_change_form()
+      this.change_form.name = this.original_data.nickName
+      this.change_form.avatar_path = this.original_data.avatar
+      this.change_form.phone = this.original_data.phone
+      this.change_form.email = this.original_data.email
       this.dialogFormVisible = false
     },
 
@@ -167,7 +168,7 @@ export default {
       console.log(file)
     },
 
-    money() {
+    recharge() {
       this.dialogFormMoney = true;
     },
 
@@ -209,10 +210,11 @@ export default {
   height: 100%;
   width: 70%;
   right: 0;
-  background-image: url("../../assets/img/personalCenter.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
+  /*background-image: url("../../assets/img/personalCenter.jpg");*/
+  /*background-repeat: no-repeat;*/
+  /*background-position: center;*/
+  /*background-size: 100% 100%;*/
+  background-image: linear-gradient(to bottom right, lightskyblue, greenyellow)
   /*background-color: #42b983;*/
 }
 
@@ -234,17 +236,21 @@ export default {
 
 .right_container {
   position: absolute;
-  top: 30%;
-  width: 100%;
-
-
+  top: 20%;
+  width: 60%;
+  left: 10%;
+  /*background-image: linear-gradient(to bottom right, red, yellow)*/
+  padding-top: 2%;
+  padding-bottom: 10%;
 }
 
 .info_items {
-  background-color: white;
   height: 100%;
   width: 100%;
   /*position: absolute;*/
+  /*background-image: linear-gradient(to bottom right, red, yellow)*/
+  margin-left: 5%;
+  padding-left: 5%;
 }
 
 li {
