@@ -44,7 +44,6 @@ import requestUtil from "@/utils/request";
 
 
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
   name: "viewChapter",
 
   data() {
