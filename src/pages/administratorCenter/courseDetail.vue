@@ -10,18 +10,15 @@
           style="width: 100%"
           class="list_content">
         <el-table-column>
-          <template slot-scope="scope">
-
-            <el-button  @click="view_chapter" type="primary">
-              查看章节
-            </el-button>
-            <el-button type="danger" @click.native.prevent="acceptClick(scope.row)">
-              同意
-            </el-button>
-            <el-button type="success" @click.native.prevent="refuseClick(scope.row)">
-              拒绝
-            </el-button>
-          </template>
+          <el-button @click="view_chapter" type="primary">
+            查看章节
+          </el-button>
+          <el-button type="danger" @click.native.prevent="acceptClick">
+            同意
+          </el-button>
+          <el-button type="success" @click.native.prevent="refuseClick">
+            拒绝
+          </el-button>
         </el-table-column>
       </el-table>
     </template>
@@ -59,23 +56,11 @@ export default {
         courseId: "",
         status: ""
       },
-      email_return: {
-        sendTo: this.course_id,
-        text: this.notice
-      },
+
       notice: "",
       dialogFormVisible: false,
-      student_list: [{
-        course_name: "名字",
-        student_name: "学生名字",
-        student_ID: "学生ID",
-        progress: "完成度",
-        grades: "目前成绩",
-      }],
-
+      student_list: [{}],
       defaultImg: require('@/assets/img/enroll.jpg')
-
-
     }
   },
   created() {
@@ -93,10 +78,9 @@ export default {
         return this.$message.error("Wrong! Renderer failed")
     },
 
-    async acceptClick(row) {
+    async acceptClick() {
       this.button_return.status = 'Normal'
       this.button_return.courseId = this.course_id
-      console.log(row)
       // 通过申请
       console.log(qs.stringify(this.button_return))
       const {data: res} = await requestUtil.post('/eduservice/edu-course/updateCourseStatus?' + qs.stringify(this.button_return))
@@ -107,10 +91,9 @@ export default {
       await this.getUserList()
     },
 
-    async refuseClick(row) {
+    async refuseClick() {
       this.button_return.status = "Refuse"
       this.button_return.courseId = this.course_id
-      console.log(row)
       // 拒绝申请
       const {data: res} = await requestUtil.post('/eduservice/edu-course/updateCourseStatus?' + qs.stringify(this.button_return))
       console.log(res);
@@ -123,56 +106,18 @@ export default {
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-        console.log(this.course_ID)
+        this.course_id = "1596759546842451970"
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
     },
 
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
-    },
-    tableCellClassName({row, column, rowIndex, columnIndex}) {
-      //注意这里是解构
-      //利用单元格的 className 的回调方法，给行列索引赋值
-      row.index = rowIndex + 1;
-      column.index = columnIndex + 1;
-    },
-
-    getDetail(row) {
-      this.$router.push({path: '/teacher_center/my_classes/course_detail/' + this.index})
-      console.log(row)
-    },
-    export_grade(row) {
-      console.log(row)
-      console.log("asdhkl")
-    },
-    delete_student(row) {
-      console.log(row)
-      console.log("del_stu")
-    },
     view_chapter(row) {
       console.log(row)
       console.log('chapter')
       // 获取点击行的student的id（通过row这个参数，和student_list这个数组获取）
       this.$router.push({path: '/admin_center/view_chapter/' + this.course_id})
     },
-    cancel() {
-      this.dialogFormVisible = false
-      this.notice = ""
-    },
-    submit() {
-      this.dialogFormVisible = false
-      this.notice = ""
-    },
-
-
   },
 
 }

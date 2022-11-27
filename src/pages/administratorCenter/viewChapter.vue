@@ -14,11 +14,9 @@
           style="width: 100%"
           @selection-change="handleSelectionChange"
           class="list_content">
-
-
         <el-table-column
-            prop="id"
-            label="章节ID"
+            prop="sort"
+            label="第几章"
             width="200">
         </el-table-column>
 
@@ -28,21 +26,11 @@
             width="200">
         </el-table-column>
 
-        <el-table-column
-            prop="grade"
-            label="分数"
-            width="200">
-        </el-table-column>
-
-        <el-table-column>
-
+        <el-table-column align="center">
           <template slot-scope="scope">
-            <el-button type="success" @click.native.prevent="watchVideoClick(scope.row)">
+            <el-button type="primary" @click.native.prevent="watchVideoClick(scope.row)" align="center">
               观看章节视频
             </el-button>
-            <!--            <el-button type="primary" @click.native.prevent="previous">-->
-            <!--              返回课程总概-->
-            <!--            </el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -61,25 +49,8 @@ export default {
 
   data() {
     return {
-      chapter_return: {
-        chapter_id: "",
-        course_id: ""
-      },
       course_id: "",
-      tableData: [{
-        date: "",
-        course: {
-          name: 'OOAD',
-          id: 'CS309',
-          detail: "brief info of this course"
-        },
-        teacher: {
-          id: "",
-          name: ""
-        },
-        status: 0
-      }],
-      multipleSelection: []
+      tableData: [],
     }
   },
   created() {
@@ -90,6 +61,16 @@ export default {
     previous() {
       this.$router.push({path: "/admin_center/course_detail/" + this.course_id})
     },
+
+    async getUserList() {
+      console.log(this.course_id)
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_id)
+      console.log(res)
+      this.tableData = res.data.allChapterVideo
+      if (res.code !== 20000)
+        return this.$message.error("Wrong! Renderer failed")
+    },
+
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
@@ -98,20 +79,11 @@ export default {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
     },
+
     async watchVideoClick(row) {
       console.log(row)
       await this.$router.push({path: '/player/' + row.videoUrl})
     },
-
-    async getUserList() {
-      console.log("this is course id:" + this.course_id)
-      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterListByCourseId/' + this.course_id)
-      console.log(res);
-      this.tableData = res.data.chapterList
-      if (res.code !== 20000)
-        return this.$message.error("Wrong! Renderer failed")
-    },
-
 
     toggleSelection(rows) {
       if (rows) {
