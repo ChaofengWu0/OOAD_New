@@ -24,12 +24,12 @@
               <span class="el-dropdown-link">
                  <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
-              <el-dropdown-menu slot="dropdown">
+              <el-dropdown-menu slot="dropdown" style="width: 100px;">
                 <!--
                 这里点击之后，要退出登录，要清空id和啥啥啥之类的
                 -->
-                <el-dropdown-item command="logout">退出</el-dropdown-item>
-                <el-dropdown-item command="enter_center">个人中心</el-dropdown-item>
+                <el-dropdown-item command="enter_center"><div style="text-align: center;">个人中心</div></el-dropdown-item>
+                <el-dropdown-item command="logout"><div style="text-align: center;">退出</div></el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
 

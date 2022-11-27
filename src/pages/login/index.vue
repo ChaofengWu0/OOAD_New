@@ -42,8 +42,8 @@ export default {
     return {
       // 表单数据对象
       loginForm: {
-        username: "username",
-        password: "password",
+        username: "admin",
+        password: "admin",
         rememberMe: false
       },
       // 表单数据验证规则
@@ -60,29 +60,28 @@ export default {
     }
   },
   methods: {
-    //登录 11/18 少token
+    // 登录 11/18 少token
     loginHandler() {
       // p22
       this.$refs.login_form_ref.validate(async valid => {
-            if (!valid) {
-              console.log('验证失败')
-              return
-            }
-            const {data: res} = await requestUtil.post('/eduservice/login?' + qs.stringify(this.loginForm))
-            alert(this.loginForm.username)
-            console.log(res);
-            // 失败
-            if (res.code !== 20000)
-              return this.$message.error("Wrong!login failed")
-            // 成功，将返回的token 保存到 sessionStorage
-            this.$message.success("Successfully login")
-            this.$store.commit('setUserInfo', res.data)
-            this.$store.commit('setToken', res.data.authorization)
-            window.sessionStorage.setItem('id', res.data.data.id)
-            window.sessionStorage.setItem('token', res.data.role)
-            await this.$router.push('/main_page')
-          }
-      )
+        if (!valid) {
+          console.log('验证失败')
+          return
+        }
+        const {data: res} = await requestUtil.post('/eduservice/login?' + qs.stringify(this.loginForm))
+        console.log(res);
+        // 失败
+        if (res.code !== 20000)
+          return this.$message.error("Wrong!login failed")
+        // 成功
+        this.$message.success("Successfully login")
+        this.$store.commit('setUserInfo', res.data)
+        this.$store.commit('setToken', res.data.authorization)
+        // window.sessionStorage.setItem('id', res.data.data.id)
+        // window.sessionStorage.setItem('token', res.data.role)
+        this.resetForm()
+        await this.$router.push('/main_page')
+      })
     },
     resetForm() {
       this.$refs.login_form_ref.resetFields();
