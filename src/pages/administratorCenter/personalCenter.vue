@@ -3,8 +3,9 @@
 
     <div class="info_box">
       <div class="left_ele">
+<!--        左边的-->
         <div class="avatar">
-          <el-avatar :size="250" :src="this.change_form.avatar"></el-avatar>
+          <el-avatar :size="250" :src="this.$store.getters.getUserInfo.data.avatar"></el-avatar>
         </div>
 
       </div>
@@ -57,6 +58,7 @@
               action="http://localhost:9001/eduoss/fileoss"
               :auto-upload="true"
               :on-success="success"
+              :limit="1"
           >
             <el-button size="text" type="primary">点击上传</el-button>
           </el-upload>
@@ -130,6 +132,7 @@ export default {
       this.original_data.phone = this.change_form.phone
       this.original_data.email = this.change_form.email
       this.dialogFormVisible = false
+      console.log(this.original_data)
       console.log(qs.stringify(this.original_data))
       const {data: res} = await requestUtil.post('/eduservice/t-user/update?' + qs.stringify(this.original_data))
       console.log(res)
@@ -138,9 +141,13 @@ export default {
         return this.$message.error("Wrong!login failed")
       // 成功
       this.$store.commit("setUserInfo", res.data)
+      console.log(res.data)
+      console.log(this.$store.getters.getUserInfo)
     },
     success(res, file) {
       this.original_data.avatar = res.data.url
+      console.log(res)
+      console.log('su')
       console.log(file)
     }
   }

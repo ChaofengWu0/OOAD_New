@@ -4,7 +4,7 @@
     <div class="info_box">
       <div class="left_ele">
         <div class="avatar">
-          <el-avatar :size="250" :src="this.change_form.avatar"></el-avatar>
+          <el-avatar :size="250" :src="this.$store.getters.getUserInfo.data.avatar"></el-avatar>
         </div>
 
       </div>

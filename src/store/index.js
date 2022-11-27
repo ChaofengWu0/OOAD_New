@@ -30,7 +30,7 @@ export default new Vuex.Store({
         logout() {
             window.sessionStorage.clear()
             sessionStorage.clear()
-            router.push("/login").then().catch(err => console.log(err))
+            router.push("/login").then(() => location.reload()).catch(err => console.log(err))
         }
     },
     getters: {

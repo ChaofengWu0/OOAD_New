@@ -63,9 +63,9 @@ export default {
 
     async getUserList() {
       console.log(this.course_id)
-      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_id)
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterListByCourseId/' + this.course_id)
       console.log(res)
-      this.tableData = res.data.allChapterVideo
+      this.tableData = res.data.chapterList
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },

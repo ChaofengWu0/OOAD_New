@@ -74,7 +74,7 @@
 
 <script>
 
-let Base64 = require('js-base64').Base64;
+// let Base64 = require('js-base64').Base64;
 
 import requestUtil from "@/utils/request";
 import qs from "qs";
@@ -164,14 +164,15 @@ export default {
       // let url=row.homework_url
       console.log(row)
       console.log("homework")
-      console.log(Base64.encode('dankogai'));
+      // console.log(Base64.encode('dankogai'));
 
 
       // let url = "C:/User0/cc252430-693c-4088-ad06-c9fa79cfba3f.pdf";
       // let url = "http://localhost:8080/C:/Users/a04af460-7b8d-4c59-b9e3-95111f8a6ad9.pdf";
-      var originUrl = 'http://127.0.0.1:8080/filedownload?fileId=1'; //要预览文件的访问地址
-      var previewUrl = originUrl + '&fullfilename=test.txt'
-      window.open('http://127.0.0.1:8012/onlinePreview?url='+encodeURIComponent(Base64.encode(previewUrl)));
+      let originUrl = 'http://127.0.0.1:8080/filedownload?fileId=1'; //要预览文件的访问地址
+      let previewUrl = originUrl + '&fullfilename=test.txt'
+      console.log(previewUrl)
+      // window.open('http://127.0.0.1:8012/onlinePreview?url='+encodeURIComponent(Base64.encode(previewUrl)));
 
       // window.open('http://127.0.0.1:8012/onlinePreview?url='+encodeURIComponent(Base64.encode(url)));
       // console.log(url)

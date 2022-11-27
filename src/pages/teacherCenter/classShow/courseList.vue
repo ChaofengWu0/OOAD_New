@@ -63,7 +63,6 @@
 // 1 2方法调用的api是一样的（后端只会写一个接口） 我们只需要把courseID，data()中的notice，以及一个int类型的数据给后端（用来标记是发送email还是发送notice）
 // 发送成功后可以显示一个发送成功的消息this.$message
 
-// import { RTeaCourseListAPI} from "@/api";
 import requestUtil from "@/utils/request";
 
 export default {

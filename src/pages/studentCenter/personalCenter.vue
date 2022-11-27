@@ -4,7 +4,7 @@
     <div class="info_box">
       <div class="left_ele">
         <div class="avatar">
-          <el-avatar :size="250" :src="this.change_form.avatar"></el-avatar>
+          <el-avatar :size="250" :src="this.$store.getters.getUserInfo.data.avatar"></el-avatar>
         </div>
 
       </div>
@@ -81,9 +81,7 @@
         </el-button>
       </div>
     </el-dialog>
-
-    <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>
-
+    
     <el-dialog title="充值" :visible.sync="dialogFormMoney" width="300px">
       充值金额
       <el-input-number v-model="to_add_money" :min="0" ></el-input-number>

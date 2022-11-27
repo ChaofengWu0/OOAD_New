@@ -178,9 +178,9 @@ export default {
     async getChapterVideos() {
       // todo
       // 拿到后端数据，传递给对应的值，如最开始todo中写的那样
-      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_ID)
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterListByCourseId/' + this.course_ID)
       console.log(res)
-      this.chapterList = res.data.allChapterVideo
+      this.chapterList = res.data.chapterList
       console.log(this.chapterList)
     },
 
@@ -191,7 +191,7 @@ export default {
       if (res.code === 20000) {
         this.$message.success("提交审核成功")
       }
-      await this.$router.push("/teacher_center/my_classes/class_list")
+      await this.$router.push("/teacher_center/my_classes/add_class")
     },
 
     previous() {

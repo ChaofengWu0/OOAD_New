@@ -8,7 +8,7 @@
       <template>
         <div class="avatar">
           <div class="block">
-            <el-avatar :size="50" :src="this.$store.state.avatar_path"></el-avatar>
+            <el-avatar :size="50" :src="this.$store.getters.getUserInfo.data.avatar"></el-avatar>
           </div>
         </div>
       </template>
@@ -45,7 +45,7 @@ export default {
       console.log('click on item ' + command);
       if (command === "logout") {
         // 做一些处理，然后回到login界面
-        this.$router.push("/login")
+        this.$store.dispatch("logout")
       }
     }
 

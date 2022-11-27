@@ -79,7 +79,6 @@ export default {
         this.$store.commit('setToken', res.data.authorization)
         // window.sessionStorage.setItem('id', res.data.data.id)
         // window.sessionStorage.setItem('token', res.data.role)
-        this.resetForm()
         await this.$router.push('/main_page')
       })
     },

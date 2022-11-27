@@ -77,7 +77,7 @@ export default {
       course_id: null,
       // 新申请的课程的名字
       course: {
-        teacherId: this.$store.state.id,
+        teacherId: this.$store.getters.getUserInfo.data.id,
         // course_ID: "",
         title: "",
         // 确定新申请的课的状态是applying

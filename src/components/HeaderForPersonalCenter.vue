@@ -11,7 +11,7 @@
     <div class="header_right">
       <template>
         <div class="avatar">
-          <div class="block"><el-avatar :size="50" :src="this.$store.state.avatar_path"></el-avatar></div>
+          <div class="block"><el-avatar :size="50" :src="this.$store.getters.getUserInfo.data.avatar"></el-avatar></div>
         </div>
       </template>
 
