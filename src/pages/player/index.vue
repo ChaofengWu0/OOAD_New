@@ -226,6 +226,7 @@ export default {
 
   created() {
     this.getChapterID()
+    sessionStorage.removeItem('problems' + this.chapter_ID)
     this.getVideoData()
     // this.status = this.$refs.VueAliplayerV2.getStatus()
   },
@@ -272,6 +273,38 @@ export default {
       this.endHandler()
     },
 
+    async getProblemData() {
+      const problems = this.$store.getters.getInfo('problems' + this.chapter_ID)
+      if (problems === null) {
+        const {data: res} = await requestUtil.get('/eduservice/t-problem/getProblemsByChapterId/' + this.chapter_ID)
+        const problemList = res.data.problemList
+        console.log(problemList)
+        this.examinationData = []
+        for (let i in problemList) {
+          let problem = problemList[i]
+          this.examinationData.push({
+            idx: i,
+            sol: problem.answer,
+            question: problem.content,
+            answer: [
+              {value: problem.optionA},
+              {value: problem.optionB},
+              {value: problem.optionC},
+              {value: problem.optionD}
+            ]
+          })
+        }
+        console.log(this.examinationData)
+        const info = {
+          'infoName': 'problems' + this.chapter_ID,
+          'infoBody': this.examinationData
+        }
+        this.$store.commit("setInfo", info)
+      } else {
+        this.examinationData = this.$store.getters.getInfo('problems' + this.chapter_ID)
+      }
+    },
+
     getVideoData() {
       //1、调用后台接口获取视频vid,playAuth(鉴权地址),cover(视频封面)的逻辑
       // 2、将对应的值分别赋值
@@ -286,26 +319,7 @@ export default {
 
     async do_problem() {
       this.dialogFormVisible = true;
-      const {data: res} = await requestUtil.get('/eduservice/t-problem/getProblemsByChapterId/' + this.chapter_ID)
-      console.log(res)
-      const problemList = res.data.problemList
-      console.log(problemList)
-      this.examinationData = []
-      for (let i in problemList) {
-        let problem = problemList[i]
-        this.examinationData.push({
-          idx: i,
-          sol: problem.answer,
-          question: problem.content,
-          answer: [
-            {value: problem.optionA},
-            {value: problem.optionB},
-            {value: problem.optionC},
-            {value: problem.optionD}
-          ]
-        })
-      }
-      console.log(this.examinationData)
+      await this.getProblemData()
       this.initial_time()
       this.startHandler()
     },
