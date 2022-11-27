@@ -4,7 +4,6 @@ import './assets/css/global.css'
 // 引入阿里云视频播放器
 import VueAliplayerV2 from "vue-aliplayer-v2";
 
-
 // 引入ElementUI全部样式
 // import ElementUI, {Message} from 'element-ui';
 // 引入ElementUI的全部样式
@@ -110,8 +109,6 @@ Vue.use(Checkbox)
 // Vue.prototype.$http = axios
 Vue.prototype.$message = Message
 Vue.component(Message.name, Message)
-
-
 
 
 new Vue({

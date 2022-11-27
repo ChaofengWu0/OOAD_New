@@ -25,11 +25,20 @@
             <li style="list-style:none">
               <h3> 电话: {{ this.original_data.phone }}</h3>
             </li>
+            <li style="list-style:none">
+              <h3> 余额: {{ this.original_data.remain }}</h3>
+            </li>
           </ul>
+
+
+          <el-button type="text" style="margin-right: 20px" @click="money">
+            <h3 style="color: #3967FF">充 值</h3>
+          </el-button>
 
           <el-button type="text" class="down_ele" @click="edit_info" style="color: black">
             <h3 style="color: #DD4A68">编 辑</h3>
           </el-button>
+
 
         </div>
       </div>
@@ -73,6 +82,17 @@
       </div>
     </el-dialog>
 
+    <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>
+
+    <el-dialog title="充值" :visible.sync="dialogFormMoney" width="300px">
+      充值金额
+      <el-input-number v-model="to_add_money" :min="0" ></el-input-number>
+      <div slot="footer" class="dialog-footer">
+        <el-button style="padding: 15px" @click="dialogFormMoney = false;this.to_add_money= 0">取 消</el-button>
+        <el-button style="padding: 15px" type="primary" @click="ready_to_give_money">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -91,9 +111,12 @@ export default {
         avatar: userInfo.data.avatar,
         phone: userInfo.data.phone,
         address: userInfo.data.address,
-        email: userInfo.data.email
+        email: userInfo.data.email,
+        // 余额加在这里了
+        remain: userInfo.data.remain
       },
-
+      to_add_money: 0,
+      dialogFormMoney: false,
       formLabelWidth: "120px",
       dialogFormVisible: false,
       change_form: {
@@ -124,6 +147,7 @@ export default {
       this.initial_change_form()
       this.dialogFormVisible = false
     },
+
     async submit() {
       // 要交给后端数据，并且从后端拿到数据，再赋给头像
       this.original_data.nickName = this.change_form.name
@@ -139,10 +163,24 @@ export default {
       // 成功
       this.$store.commit("setUserInfo", res.data)
     },
+
     success(res, file) {
       this.original_data.avatar = res.data.url
       console.log(file)
+    },
+
+    money() {
+      this.dialogFormMoney = true;
+    },
+
+    ready_to_give_money() {
+      this.dialogFormMoney = false
+      //todo 发起请求
+
+
+      this.to_add_money = 0
     }
+
   }
 
 }
@@ -215,5 +253,6 @@ li {
   font-family: 隶书;
   font-size: 20px;
 }
+
 
 </style>
