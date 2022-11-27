@@ -53,8 +53,6 @@
         课程详情介绍:
         <br>
         {{ course_text_info }}
-        <!--        <el-input v-model="course_text_info" type="textarea" :rows="24">-->
-        <!--        </el-input>-->
       </div>
 
 

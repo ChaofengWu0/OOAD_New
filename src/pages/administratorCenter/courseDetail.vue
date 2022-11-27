@@ -22,14 +22,18 @@
         </el-table-column>
       </el-table>
     </template>
+
     <div class="class_info">
-      <img :src="defaultImg" style="width:800px" class="course_img"/>
+
+      <img :src="course_cover" class="course_img"/>
 
       <div class="text_info">
-        <el-input v-model="course_text_info" type="textarea" :rows="24">
-
-        </el-input>
+        课程详情介绍:
+        <br>
+        {{ course_text_info }}
       </div>
+
+
     </div>
 
 
@@ -46,8 +50,9 @@ export default {
   data() {
     return {
 
-      course_text_info: "课程介绍",
-      course_id: "",
+      course_text_info: null,
+      course_id: null,
+      course_cover: null,
       notice_return: {
         sendTo: this.course_id,
         content: this.notice
@@ -60,7 +65,6 @@ export default {
       notice: "",
       dialogFormVisible: false,
       student_list: [{}],
-      defaultImg: require('@/assets/img/enroll.jpg')
     }
   },
   created() {
@@ -69,14 +73,17 @@ export default {
     console.log(this.course_id)
   },
   methods: {
+
     async getUserList() {
-      // 根据课程id获取课程详情
-      const {data: res} = await requestUtil.get('/eduservice/edu-course/' + this.course_id)
+      //todo
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseDetailById/' + this.course_id)
       console.log(res);
-      this.course_text_info = res.data.courseDetail.description
+      this.course_text_info = res.data.description
+      this.course_cover = res.data.cover
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
+
 
     async acceptClick() {
       this.button_return.status = 'Normal'
