@@ -125,7 +125,6 @@ export default {
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-        this.course_id = "1596759546842451970"
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }

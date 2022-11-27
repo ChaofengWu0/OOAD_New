@@ -14,26 +14,26 @@
         <el-table-column
             prop="id"
             label="课程编号"
-            width="200">
+            width="150">
         </el-table-column>
 
         <el-table-column
             prop="title"
             label="课程名字"
-            width="300">
+            width="150">
         </el-table-column>
 
         <el-table-column
             prop="lessonNum"
             label="课程节数"
-            width="100">
+            width="150">
         </el-table-column>
 
         <el-table-column
             prop="gmtCreate"
             label="创建时间"
-
-            show-overflow-tooltip>
+            width="150"
+        >
         </el-table-column>
 
         <el-table-column
@@ -47,7 +47,7 @@
 
           <template slot-scope="scope">
             <br>
-            <el-button type="success" @click.native.prevent="refuseClick (scope.row)">
+            <el-button type="primary" @click.native.prevent="refuseClick (scope.row)">
               课程详情
             </el-button>
             <br>
@@ -57,9 +57,9 @@
         </el-table-column>
       </el-table>
 
-<!--      <div style="margin-top: 20px" class="button_container">-->
-<!--        <el-button @click="toggleSelection()">Deselect</el-button>-->
-<!--      </div>-->
+      <!--      <div style="margin-top: 20px" class="button_container">-->
+      <!--        <el-button @click="toggleSelection()">Deselect</el-button>-->
+      <!--      </div>-->
     </template>
 
   </div>
@@ -68,7 +68,6 @@
 <script>
 
 import requestUtil from "@/utils/request";
-
 
 
 export default {
@@ -88,9 +87,7 @@ export default {
           id: "",
           name: ""
         },
-        status: 0
       }],
-      multipleSelection: []
     }
   },
   created() {
@@ -98,7 +95,7 @@ export default {
   },
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByStudentId/'+this.$store.getters.getUserInfo.data.id )
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByStudentId/' + this.$store.getters.getUserInfo.data.id)
       console.log(res);
       this.tableData = res.data.CourseList
       if (res.code !== 20000)
@@ -107,7 +104,7 @@ export default {
     async refuseClick(row) {
       row.status = 0
       console.log(row)
-      this.$router.push({path: "/stu_center/my_classes/chapter/"+ row.id})
+      this.$router.push({path: "/stu_center/my_classes/chapter/" + row.id})
 
     },
 
@@ -129,7 +126,6 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-
 
 
   },

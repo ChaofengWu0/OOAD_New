@@ -19,15 +19,15 @@
         </el-table-column>
 
         <el-table-column
-            prop="chapterId"
-            label="章节ID"
+            prop="sort"
+            label="第几章"
             width="200">
         </el-table-column>
 
 
         <el-table-column
-            prop="hwGrade"
-            label="作业成绩"
+            prop="grade"
+            label="章节成绩"
             width="200">
         </el-table-column>
         <el-table-column
@@ -39,7 +39,7 @@
         <el-table-column>
 
           <template slot-scope="scope">
-            <el-button type="success" @click.native.prevent="refuseClick (scope.row)">
+            <el-button type="success" @click.native.prevent="watchVideo (scope.row)">
               观看视频
             </el-button>
           </template>
@@ -52,7 +52,6 @@
 
 <script>
 import requestUtil from "@/utils/request";
-import qs from "qs";
 
 
 export default {
@@ -68,57 +67,40 @@ export default {
       chapter_return: {
         chapter_id: "",
         course_id: ""
-
       },
       course_id: "",
-      tableData: [{
-        date: "",
-        course: {
-          name: 'OOAD',
-          id: 'CS309',
-          detail: "brief info of this course"
-        },
-        teacher: {
-          id: "",
-          name: ""
-        },
-        status: 0
-      }],
-      multipleSelection: []
+      tableData: [],
     }
   },
   created() {
-    this.getCourseID() ,
-        this.getUserList()
+    this.getCourseID()
+    this.getUserList()
   },
   methods: {
-    previous() {
-      this.$router.push("/stu_center/my_classes/class_detail/1")
-    },
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-        console.log(this.course_ID)
+        this.course_id = "1596759546842451970"
+        // console.log(this.course_id)
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
     },
-    refuseClick(row) {
-      this.$router.push({path: '/player/' + row.video_url})
+
+    watchVideo(row) {
+      console.log(row)
+      this.$router.push({path: '/player/' + row.videoUrl})
     },
 
+
     async getUserList() {
-      this.course_return.courseId = this.course_id
-      this.course_return.studentId = this.$store.getters.getUserInfo.data.id
-      // this.course_return.courseId=14
-      // this.course_return.studentId=1
-      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?' + qs.stringify(this.course_return))
-      console.log(res);
-      this.tableData = res.data.ChapterList
+      console.log(this.course_id)
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_id)
+      console.log(res)
+      this.tableData = res.data.allChapterVideo
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
-
 
     toggleSelection(rows) {
       if (rows) {
