@@ -14,10 +14,13 @@
               :encryptType="1"
               :source="source"
               :options="options"
+              :isVBR="true"
               controlBarVisibility="always"
               @ended="end"
           />
+
         </div>
+
         <div class="under_player">
           <div class="player-btns">
             <span @click="play">播放</span>
@@ -96,7 +99,8 @@ export default {
   },
   data() {
     return {
-      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669363641&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=oioz9Fp%2FNnUZkBbGMCXxqioTVLo%3D",
+      video_id: null,
+      source: null,
       video_time: null,
       check_time: null,
       dialogFormVisible: false,
@@ -174,48 +178,6 @@ export default {
       cde: 0, // 分的计数
       efg: 0, // 时的计数
 
-      // examinationData: [
-      // {
-      //   question:
-      //       "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
-      //   answer: [
-      //     {value: "A.Python"},
-      //     {value: "B.Vue"},
-      //     {value: "C.Php"},
-      //     {value: "D.Java"}
-      //   ]
-      // },
-      // {
-      //   question:
-      //       "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
-      //   answer: [
-      //     {value: "A.问题一"},
-      //     {value: "B.Vue2"},
-      //     {value: "C.Php2"},
-      //     {value: "D.Java2"}
-      //   ]
-      // },
-      // {
-      //   question:
-      //       "课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握课堂管理讲师对课堂气氛的掌握",
-      //   answer: [
-      //     {value: "A.问题二"},
-      //     {value: "B.Vue3"},
-      //     {value: "C.Php3"},
-      //     {value: "D.Java3"}
-      //   ]
-      // },
-      // {
-      //   question: "How about your in skills?",
-      //   answer: [
-      //     {value: "A.问题四"},
-      //     {value: "B.Vue5"},
-      //     {value: "C.Php5"},
-      //     {value: "D.Java5"}
-      //   ]
-      // }
-      // ],
-
       examinationData: [],
 
       allRadio: [],//提交给后台的真题数据
@@ -225,7 +187,7 @@ export default {
   },
 
   created() {
-    this.getChapterID()
+    this.getVideoID()
     this.getVideoData()
     // this.status = this.$refs.VueAliplayerV2.getStatus()
   },
@@ -273,7 +235,7 @@ export default {
     },
 
     getVideoData() {
-      //1、调用后台接口获取视频vid,playAuth(鉴权地址),cover(视频封面)的逻辑
+      // 1、调用后台接口获取视频vid,playAuth(鉴权地址),cover(视频封面)的逻辑
       // 2、将对应的值分别赋值
     },
 
@@ -310,12 +272,13 @@ export default {
       this.startHandler()
     },
 
-    getChapterID() {
+    async getVideoID() {
       if (this.$route.params && this.$route.params.id) {
-        this.chapter_ID = this.$route.params.id
-        console.log(this.chapter_ID)
+        this.video_id = this.$route.params.id
+        const {data: res} = await requestUtil.get('http://localhost:8003/edu-vod/video/getAutoPlayUrl/' + this.video_id)
+        this.source = res.data.autoUrl
       } else {
-        this.$message("Wrong in function getChapterID which is in classChapter.Vue ")
+        this.$message("Wrong in function getVideoID which is in classChapter.Vue ")
       }
     },
 

@@ -17,7 +17,7 @@
         </el-table-column>
 
         <el-table-column
-            prop="name"
+            prop="chapterName"
             label="章节名称"
             width="150">
         </el-table-column>
@@ -93,7 +93,6 @@
 
 <script>
 import requestUtil from "@/utils/request";
-import qs from "qs";
 
 export default {
   name: "myClasses",
@@ -119,30 +118,29 @@ export default {
     }
   },
   created() {
-    this.getUserList()
     this.getCourseID()
+    this.getUserList()
   },
   methods: {
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-        console.log(this.course_ID)
+        this.course_id = "1596759546842451970"
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
     },
 
     watch_video(row) {
-      //  根据row获取id，根据id获取视频source，根据source，进入player/source
-      console.log(row)
-      this.$router.push({path: '/player/' + "1"})
+      this.$router.push({path: '/player/' + row.videoUrl})
     },
 
     async getUserList() {
-      const {data: res} = await requestUtil.get('/course/enroll/id?' + qs.stringify(this.application_return))
-      console.log(res);
-      this.tableData1 = res.data
-      if (res.code !== '0')
+      console.log(this.course_id)
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_id)
+      console.log(res)
+      this.tableData = res.data.allChapterVideo
+      if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
 
@@ -168,7 +166,7 @@ export default {
       // 提交给后端
 
       this.initial_form()
-      this.$refs.problem_button.disabled= true
+      this.$refs.problem_button.disabled = true
     },
 
     removeDomain(item) {

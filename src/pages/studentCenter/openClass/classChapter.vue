@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
 
     <template>
 
@@ -25,7 +25,6 @@
         </el-table-column>
 
 
-
         <el-table-column
             prop="hwGrade"
             label="作业成绩"
@@ -37,14 +36,14 @@
             width="200">
         </el-table-column>
 
-      <el-table-column>
+        <el-table-column>
 
-      <template slot-scope="scope">
-        <el-button type="success" @click.native.prevent="refuseClick (scope.row)">
-          观看视频
-        </el-button>
-      </template>
-      </el-table-column>
+          <template slot-scope="scope">
+            <el-button type="success" @click.native.prevent="refuseClick (scope.row)">
+              观看视频
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </template>
 
@@ -56,23 +55,22 @@ import requestUtil from "@/utils/request";
 import qs from "qs";
 
 
-
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "myClasses",
 
   data() {
     return {
-      course_return:{
-        courseId:"",
-        studentId:""
+      course_return: {
+        courseId: "",
+        studentId: ""
       },
-      chapter_return:{
-        chapter_id:"",
-        course_id:""
+      chapter_return: {
+        chapter_id: "",
+        course_id: ""
 
       },
-      course_id:"",
+      course_id: "",
       tableData: [{
         date: "",
         course: {
@@ -89,10 +87,12 @@ export default {
       multipleSelection: []
     }
   },
-  created(){this.getCourseID() ,
-    this.getUserList()},
+  created() {
+    this.getCourseID() ,
+        this.getUserList()
+  },
   methods: {
-    previous(){
+    previous() {
       this.$router.push("/stu_center/my_classes/class_detail/1")
     },
     getCourseID() {
@@ -103,20 +103,16 @@ export default {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
     },
-    async refuseClick(row) {
-      this.chapter_return.course_id=this.course_id
-      this.chapter_return.chapter_id=row.chapter_id
-      console.log(res);
-      const {data: res} = await requestUtil.get('/send-email/simple?'+qs.stringify(this.chapter_return))
-      console.log(res);
+    refuseClick(row) {
+      this.$router.push({path: '/player/' + row.video_url})
     },
 
-    async getUserList(){
-      this.course_return.courseId=this.course_id
-      this.course_return.studentId=this.$store.getters.getUserInfo.data.id
+    async getUserList() {
+      this.course_return.courseId = this.course_id
+      this.course_return.studentId = this.$store.getters.getUserInfo.data.id
       // this.course_return.courseId=14
       // this.course_return.studentId=1
-      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?'+qs.stringify(this.course_return) )
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?' + qs.stringify(this.course_return))
       console.log(res);
       this.tableData = res.data.ChapterList
       if (res.code !== 20000)
@@ -142,7 +138,6 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-
 
 
   },
