@@ -129,13 +129,6 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-    // refuseAll() {
-    //   console.log("refuseAll")
-    // },
-    // acceptAll() {
-    //   console.log("acceptAll")
-    // },
-
   },
 
 }

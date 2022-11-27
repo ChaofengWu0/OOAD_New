@@ -5,7 +5,6 @@
       <el-table
           ref="multipleTable"
           :data="student_list"
-          :cell-class-name="tableCellClassName"
           tooltip-effect="dark"
           style="width: 100%"
           class="list_content">
@@ -67,23 +66,22 @@ export default {
       student_list: [{}],
     }
   },
+
   created() {
     this.getCourseID()
     this.getUserList()
-    console.log(this.course_id)
   },
+
   methods: {
 
     async getUserList() {
-      //todo
-      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseDetailById/' + this.course_id)
+      // 根据课程id获取课程详情
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/' + this.course_id)
       console.log(res);
-      this.course_text_info = res.data.description
-      this.course_cover = res.data.cover
+      this.course_text_info = res.data.courseDetail.description
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
-
 
     async acceptClick() {
       this.button_return.status = 'Normal'
@@ -113,18 +111,15 @@ export default {
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-        this.course_id = "1596759546842451970"
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
     },
 
-    view_chapter(row) {
-      console.log(row)
-      console.log('chapter')
-      // 获取点击行的student的id（通过row这个参数，和student_list这个数组获取）
+    view_chapter() {
       this.$router.push({path: '/admin_center/view_chapter/' + this.course_id})
     },
+
   },
 
 }
