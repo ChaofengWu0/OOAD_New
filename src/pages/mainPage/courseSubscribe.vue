@@ -24,6 +24,7 @@
         课程介绍
       </h2>
 
+
       <div type="text" style="width: 97%  ;margin-left: 3%">
         {{ course_detail }}
       </div>
