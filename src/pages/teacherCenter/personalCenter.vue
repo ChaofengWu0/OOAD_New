@@ -4,7 +4,7 @@
     <div class="info_box">
       <div class="left_ele">
         <div class="avatar">
-          <el-avatar :size="250" :src="this.$store.getters.getUserInfo.data.avatar"></el-avatar>
+          <el-avatar :size="250" :src=this.original_data.avatar></el-avatar>
         </div>
 
       </div>
@@ -86,7 +86,7 @@ import qs from "qs";
 export default {
   name: "personalCenter",
   data() {
-    let userInfo = this.$store.getters.getUserInfo
+    let userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
     return {
       original_data: {
         userId: userInfo.data.id,
@@ -95,15 +95,16 @@ export default {
         phone: userInfo.data.phone,
         address: userInfo.data.address,
         email: userInfo.data.email
+
       },
 
       formLabelWidth: "120px",
       dialogFormVisible: false,
       change_form: {
         name: userInfo.data.nickName,
-        avatar_path: userInfo.data.avatar,
         phone: userInfo.data.phone,
-        email: userInfo.data.email
+        email: userInfo.data.email,
+        avatar: userInfo.data.avatar
       }
     }
   },
@@ -118,7 +119,7 @@ export default {
 
     cancel() {
       this.change_form.name = this.original_data.nickName
-      this.change_form.avatar_path = this.original_data.avatar
+      this.change_form.avatar= this.original_data.avatar
       this.change_form.phone = this.original_data.phone
       this.change_form.email = this.original_data.email
       this.dialogFormVisible = false

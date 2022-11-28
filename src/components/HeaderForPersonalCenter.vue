@@ -11,24 +11,26 @@
     <div class="header_right">
       <template>
         <div class="avatar">
-          <div class="block"><el-avatar :size="50" :src="this.$store.getters.getUserInfo.data.avatar"></el-avatar></div>
+          <div class="block">
+            <el-avatar :size="50" :src=this.avatar></el-avatar>
+          </div>
         </div>
       </template>
 
 
-        <el-dropdown @command="handleCommand">
+      <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
           <i class="el-icon-arrow-down el-icon--right">
           </i>
         </span>
         <el-dropdown-menu slot="dropdown">
-<!--
-这里点击之后，要退出登录，要清空id和啥啥啥之类的
--->
+          <!--
+          这里点击之后，要退出登录，要清空id和啥啥啥之类的
+          -->
 
           <el-dropdown-item command="logout">退出</el-dropdown-item>
         </el-dropdown-menu>
-        </el-dropdown>
+      </el-dropdown>
 
 
     </div>
@@ -39,12 +41,26 @@
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "header_for_personal_center",
+  data() {
+    return {
+      avatar: JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
+    }
+  },
+  created() {
+    this.avatar = JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
+    window.addEventListener('setItem', ()=> {
+      console.log("aaaaaaaaaaaaaa")
+      this.avatar = JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
+    })
+  },
   computed: {
     bread_crumb_list() {
       return this.$route.matched
     }
   },
-  methods:{
+
+
+  methods: {
     handleCommand(command) {
       // 要具体处理对应的事件
       console.log('click on item ' + command);
@@ -78,18 +94,19 @@ export default {
   top: 20%;
 }
 
-.avatar{
+.avatar {
   position: absolute;
   right: 20px;
   top: 0;
 }
-.el-dropdown-link{
+
+.el-dropdown-link {
   position: absolute;
-  right:0;
-  bottom:0
+  right: 0;
+  bottom: 0
 }
 
-.bread_crumb{
+.bread_crumb {
   position: absolute;
   top: 40%;
   left: 20px;
@@ -99,16 +116,16 @@ export default {
 /* 不被选中时的颜色 */
 .el-breadcrumb ::v-deep .el-breadcrumb__inner {
   color: #d9bb95 !important;
-  font-weight:400 !important;
-  font-size: x-large;
-}
-/* 被选中时的颜色 */
-.el-breadcrumb__item:last-child ::v-deep .el-breadcrumb__inner {
-  color: #fc9105 !important;
-  font-weight:800 !important;
+  font-weight: 400 !important;
   font-size: x-large;
 }
 
+/* 被选中时的颜色 */
+.el-breadcrumb__item:last-child ::v-deep .el-breadcrumb__inner {
+  color: #fc9105 !important;
+  font-weight: 800 !important;
+  font-size: x-large;
+}
 
 
 </style>

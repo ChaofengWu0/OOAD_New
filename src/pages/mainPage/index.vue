@@ -193,7 +193,7 @@ export default {
         // 做一些处理，然后回到login界面
         this.$store.dispatch("logout")
       } else if (command === "enter_center") {
-        let userInfo = this.$store.getters.getUserInfo
+        let userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
         console.log(userInfo)
         switch (userInfo.data.role) {
           case 1:

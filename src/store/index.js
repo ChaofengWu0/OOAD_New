@@ -11,16 +11,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     // 用于存储数据
     state: {
-        id: "",
-        username: "",
-        nickname: "",
-        email: "",
-        phone: "",
-        avatar_path: "",
-        role: 3,
-        address: "",
-        subject: "",
-        classes: [],
+       token:"",
+       userInfo:"",
+       role:"",
+       infoName:""
     },
     // 准备actions，其功能用于相应组件的动作,可以commit到mutation状态，并且是从vue components dispatch来的
     actions: {
@@ -40,6 +34,9 @@ export default new Vuex.Store({
         getUserInfo: () => {
             return JSON.parse(sessionStorage.getItem("userInfo"))
         },
+        getRole: () => {
+            return JSON.parse(sessionStorage.getItem("role"))
+        },
         getInfo:  ()=> {
             return (infoName) => {
                 return JSON.parse(sessionStorage.getItem(infoName))
@@ -50,19 +47,24 @@ export default new Vuex.Store({
     mutations: {
         change(state, res) {
             console.log(res)
-            state.id = res.id;
-            state.username = res.username
-            state.nickname = res.nickname
-            state.phone = res.phone;
-            state.address = res.address;
+            state.token = res.token;
+            state.userInfo = res.userInfo
+            state.role = res.role
         },
         setToken: (state, token) => {
+            state.token = token;
             sessionStorage.setItem("token", token);
         },
+        setRole: (state, role) => {
+            state.role = role
+            sessionStorage.setItem("role", role);
+        },
         setUserInfo: (state, userInfo) => {
+            state.userInfo = userInfo
             sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
         },
         setInfo: (state, info) => {
+
             sessionStorage.setItem(info['infoName'], JSON.stringify(info['infoBody']));
         }
     }

@@ -8,7 +8,7 @@
       <template>
         <div class="avatar">
           <div class="block">
-            <el-avatar :size="50" :src="this.$store.getters.getUserInfo.data.avatar"></el-avatar>
+            <el-avatar :size="50" :src=this.avatar></el-avatar>
           </div>
         </div>
       </template>
@@ -38,6 +38,13 @@ export default {
     bread_crumb_list() {
       return this.$route.matched
     }
+  },
+  data(){
+    return{
+      avatar : JSON.parse(sessionStorage.getItem("userInfo")).data.avatar}
+  },
+  created() {
+    this.avatar=JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
   },
   methods: {
     handleCommand(command) {
