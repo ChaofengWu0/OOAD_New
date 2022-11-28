@@ -35,18 +35,20 @@
         </el-table-column>
 
         <el-table-column>
-          <el-upload
-              class="upload-demo"
-              ref="upload"
-              action="http://localhost:9001/eduoss/fileoss"
-              :on-success="success"
-              :auto-upload="true"
-              :limit="1"
-          >
-            <el-button type="primary" @click="add_homework (scope.row)">
-              发布作业
-            </el-button>
-          </el-upload>
+          <template slot-scope="scope">
+            <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="http://localhost:9001/eduoss/fileoss"
+                :on-success="success"
+                :auto-upload="true"
+                :limit="1"
+            >
+              <el-button type="primary" @click="add_homework (scope.row)">
+                发布作业
+              </el-button>
+            </el-upload>
+          </template>
         </el-table-column>
 
       </el-table>
