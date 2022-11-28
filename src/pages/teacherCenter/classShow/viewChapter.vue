@@ -22,22 +22,33 @@
             width="150">
         </el-table-column>
 
-        <el-table-column align="center">
+        <el-table-column align="right">
           <template slot-scope="scope">
             <el-button type="primary" @click.native.prevent="watch_video (scope.row)">
               观看视频
             </el-button>
 
-            <el-button type="primary" @click.native.prevent="add_homework (scope.row)">
-              发布作业
-            </el-button>
-
             <el-button type="primary" ref="problem_button" @click="dialogFormVisibleForProblem=true">
               发布习题
             </el-button>
-
           </template>
         </el-table-column>
+
+        <el-table-column>
+          <el-upload
+              class="upload-demo"
+              ref="upload"
+              action="http://localhost:9001/eduoss/fileoss"
+              :on-success="success"
+              :auto-upload="true"
+              :limit="1"
+          >
+            <el-button type="primary" @click="add_homework (scope.row)">
+              发布作业
+            </el-button>
+          </el-upload>
+        </el-table-column>
+
       </el-table>
     </template>
 
@@ -99,6 +110,7 @@ export default {
 
   data() {
     return {
+      homework_url: null,
       course_id: "",
       tableData: [{
         name: "test",
@@ -122,6 +134,12 @@ export default {
     this.getUserList()
   },
   methods: {
+    success(res, file) {
+      this.homework_url = res.data.url
+      console.log(file)
+      this.$message.success("上传作业成功")
+    },
+
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
@@ -157,6 +175,7 @@ export default {
         }],
       }
     },
+
     cancel() {
       this.dialogFormVisibleForProblem = false
       this.initial_form()
@@ -186,6 +205,7 @@ export default {
 
     // 发布作业
     add_homework(row) {
+      // todo 这里点击之后要给后端homework的url以及课程名字
       console.log(row)
     },
 

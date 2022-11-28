@@ -255,7 +255,7 @@ const Router = new VueRouter({
                 },
                 {
                     name: 'stu_my_orders',
-                    path: 'personal_center',
+                    path: 'my_orders',
                     component: stu_my_orders,
                     meta: {
                         title: '我的订单'

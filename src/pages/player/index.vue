@@ -26,19 +26,19 @@
           </div>
 
           <el-button class="homework" @click="view_homework">
-            查看作业并下载作业
+            在 线 查 看 作 业
           </el-button>
 
           <div class="upload_homework">
             <el-upload
                 class="upload-demo"
                 ref="upload"
-                action="' '"
+                action="http://localhost:9001/eduoss/fileoss"
                 :on-success="handleVodUploadSuccess"
-                :auto-upload="false"
+                :auto-upload="true"
                 :limit="1"
             >
-              <span class="letter">点击此处上传作业</span>
+              <el-button type="text" class="letter">点击此处上传作业</el-button>
             </el-upload>
           </div>
           <el-button class="homework" @click="do_problem" style="margin-top: 20px">
@@ -96,6 +96,10 @@ export default {
   },
   data() {
     return {
+      chapter_hw_url: "https://edu-sustech.oss-cn-shenzhen.aliyuncs.com/22-OOAD-Project.pdf",
+      student_hw_url: null,
+
+
       source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669363641&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=oioz9Fp%2FNnUZkBbGMCXxqioTVLo%3D",
       video_time: null,
       check_time: null,
@@ -200,6 +204,12 @@ export default {
   },
 
   methods: {
+
+    view_homework() {
+      console.log("view_hw")
+      this.loadPDF()
+    },
+
     continue_video() {
       this.windowVisible = false;
       this.$refs.VueAliplayerV2.play()
@@ -294,10 +304,12 @@ export default {
       this.three = "00"
     },
 
-    view_homework() {
-      console.log("homework")
+    loadPDF() {
+      let baseurl = 'https://edu-sustech.oss-cn-shenzhen.aliyuncs.com/22-OOAD-Project.pdf';
+      //ie有缓存加个随机数解决  + '?r=' + new Date()
+      // let pSrc = baseurl + '?r=' + new Date();
+      this.pSrc = '../../../public/plugin/pdf/web/viewer.html?file=' + encodeURIComponent(baseurl);
     },
-
 
     play() {
       this.$refs.VueAliplayerV2.play();
@@ -312,8 +324,9 @@ export default {
       this.$refs.VueAliplayerV2.pause();
     },
 
-    handleVodUploadSuccess() {
-
+    handleVodUploadSuccess(res) {
+      this.student_hw_url = res.data.url
+      // 设置了这个学生上交的作业的url
     },
 
     getInputValue(index) {
@@ -369,8 +382,13 @@ export default {
     // 暂停计时
     endHandler() {
       this.flag = clearInterval(this.flag)
-    }
+    },
   },
+
+  mounted: function () {
+    this.loadPDF();
+  }
+
 }
 
 </script>
@@ -420,6 +438,7 @@ export default {
 
 
 .letter {
+  color: black;
   top: 15px;
   left: 435px;
   position: relative;
@@ -494,4 +513,6 @@ ul {
 
 
 </style>
+
+
 

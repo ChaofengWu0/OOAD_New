@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ExportJsonExcel from "js-export-excel";
+// import ExportJsonExcel from "js-export-excel";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -57,44 +57,10 @@ export default {
   },
 
   methods: {
-    exportExcel() {
-      console.log(123);
-      const dataList = this.list.getList;
-
-      let option = {};  //   option代表的就是excel文件
-
-      let dataTable = [];   //   dataTable代表excel文件中的数据内容
-
-
-      if (dataList) {
-        for (let i in dataList) {
-          let obj = {
-            1: dataList[i].id,
-            2: dataList[i].province,
-            3: dataList[i].city,
-          };
-          dataTable.push(obj);   //   设置excel每列获取的数据源
-        }
-      }
-
-      option.filename = "省份城市表";  //excel文件名
-      //excel文件数据
-      option.datas = [
-        {
-          //   excel文件的数据源
-          sheetData: dataTable,
-          //   excel文件sheet的表名
-          sheetName: "sheet",
-          //   excel文件表头名
-          sheetHeader: ["序号", "省份", "城市"],
-        },
-      ];
-      //   创建ExportJsonExcel实例对象
-      let toExcel = new ExportJsonExcel(option);
-      //   调用保存方法
-      toExcel.saveExcel();
-    },
-  },
+    exportExcel(){
+      window.open("https://edu-sustech.oss-cn-shenzhen.aliyuncs.com/22-OOAD-Project.pdf", '_blank')
+    }
+  }
 };
 </script>
 
