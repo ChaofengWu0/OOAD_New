@@ -25,9 +25,17 @@
             <!--          <span @click="getStatus_test()">获取播放器状态</span>-->
           </div>
 
-          <el-button class="homework" @click="view_homework">
-            在 线 查 看 作 业
-          </el-button>
+          <!--          <el-button class="homework" @click="view_homework">-->
+          <!--            在 线 查 看 作 业-->
+          <!--          </el-button>-->
+
+          <router-link target="_blank"
+                       :to="{path:'/pdf/'+this.chapter_hw_url_after_process_para1+'/'+this.chapter_hw_url_after_process_para2}">
+            <el-button class="homework">
+              在 线 查 看 作业
+            </el-button>
+          </router-link>
+
 
           <div class="upload_homework">
             <el-upload
@@ -96,7 +104,9 @@ export default {
   },
   data() {
     return {
-      chapter_hw_url: "https://edu-sustech.oss-cn-shenzhen.aliyuncs.com/22-OOAD-Project.pdf",
+      chapter_hw_url_before_process: null,
+      chapter_hw_url_after_process_para1: null,
+      chapter_hw_url_after_process_para2: null,
       student_hw_url: null,
 
 
@@ -191,6 +201,14 @@ export default {
     sessionStorage.removeItem('problems' + this.chapter_ID)
   },
 
+  mounted() {
+    let tmp = this.chapter_hw_url_before_process.split("https://")
+    let paras = tmp[1].split('/')
+    this.chapter_hw_url_after_process_para1 = paras[0]
+    this.chapter_hw_url_after_process_para2 = paras[1]
+
+  },
+
   watch: {
     current_time: {
       handler(newV) {
@@ -201,15 +219,14 @@ export default {
         }
       }
     },
+    student_hw_url: {
+      handler() {
+        this.upload_homework()
+      }
+    }
   },
 
   methods: {
-
-    view_homework() {
-      console.log("view_hw")
-      this.loadPDF()
-    },
-
     continue_video() {
       this.windowVisible = false;
       this.$refs.VueAliplayerV2.play()
@@ -233,8 +250,9 @@ export default {
         studentId: userInfo.data.id,
         proGrade: problemGrade
       }
-      console.log(returnForm)
+      // console.log(returnForm)
       const {data: res} = await requestUtil.put('/eduservice/t-chapter-student/pro/', returnForm)
+      console.log("test")
       console.log(res)
       this.endHandler()
     },
@@ -294,13 +312,6 @@ export default {
       this.three = "00"
     },
 
-    loadPDF() {
-      let baseurl = 'https://edu-sustech.oss-cn-shenzhen.aliyuncs.com/22-OOAD-Project.pdf';
-      //ie有缓存加个随机数解决  + '?r=' + new Date()
-      // let pSrc = baseurl + '?r=' + new Date();
-      this.pSrc = '../../../public/plugin/pdf/web/viewer.html?file=' + encodeURIComponent(baseurl);
-    },
-
     play() {
       this.$refs.VueAliplayerV2.play();
       this.video_time = this.$refs.VueAliplayerV2.getDuration();
@@ -321,7 +332,7 @@ export default {
 
     getInputValue(index) {
       this.allRadio[index] = this.radio[index]; // 将数据存入提交给后台的数据中
-      console.log(this.allRadio);
+      // console.log(this.allRadio);
     },
 
     setCheckHandler() {
@@ -373,12 +384,13 @@ export default {
     endHandler() {
       this.flag = clearInterval(this.flag)
     },
+
+    upload_homework() {
+      // console.log("upload")
+      // 传递给后端chapterID，studentID，homeworkURL
+    }
+
   },
-
-  mounted: function () {
-    this.loadPDF();
-  }
-
 }
 
 </script>
