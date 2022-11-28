@@ -176,13 +176,11 @@ export default {
       this.dialogFormMoney = false
       //todo 发起请求
 
-
       this.to_add_money = 0
     }
-
   }
-
 }
+
 </script>
 
 <style scoped>

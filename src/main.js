@@ -3,7 +3,8 @@ import App from './App.vue'
 import './assets/css/global.css'
 // 引入阿里云视频播放器
 import VueAliplayerV2 from "vue-aliplayer-v2";
-
+// import pdf from 'vue-pdf';
+// Vue.use(pdf)
 // 引入ElementUI全部样式
 // import ElementUI, {Message} from 'element-ui';
 // 引入ElementUI的全部样式

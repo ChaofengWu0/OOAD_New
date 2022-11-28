@@ -30,7 +30,6 @@
         </el-form-item>
 
         <el-form-item label="课程封面">
-
           <el-upload
               class="upload-demo"
               ref="upload"
