@@ -81,7 +81,7 @@ export default {
 
     async watchVideoClick(row) {
       console.log(row)
-      await this.$router.push({path: '/player/' + row.videoUrl})
+      await this.$router.push({path: '/player/' + row.videoUrl + '/' + row.id})
     },
 
     toggleSelection(rows) {

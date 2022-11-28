@@ -111,6 +111,7 @@ export default {
 
 
       source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669363641&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=oioz9Fp%2FNnUZkBbGMCXxqioTVLo%3D",
+      chapter_id: null,
       video_time: null,
       check_time: null,
       dialogFormVisible: false,
@@ -304,8 +305,10 @@ export default {
     },
 
     async getVideoID() {
-      if (this.$route.params && this.$route.params.id) {
+      if (this.$route.params && this.$route.params.id && this.$route.params.chapter) {
         this.video_id = this.$route.params.id
+        this.chapter_id = this.$route.params.chapter
+        console.log(this.chapter_id)
         const {data: res} = await requestUtil.get('http://localhost:8003/edu-vod/video/getAutoPlayUrl/' + this.video_id)
         this.source = res.data.autoUrl
       } else {

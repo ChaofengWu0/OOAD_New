@@ -44,7 +44,7 @@
                 :auto-upload="true"
                 :limit="1"
             >
-              <el-button type="primary" @click="add_homework (scope.row)">
+              <el-button type="primary" @click="change_flag(scope.row)">
                 发布作业
               </el-button>
             </el-upload>
@@ -112,6 +112,7 @@ export default {
 
   data() {
     return {
+      flag: null,
       homework_url: null,
       course_id: "",
       tableData: [{
@@ -127,7 +128,13 @@ export default {
           optionD: '',
           answer: ''
         }],
+      },
+
+      teacher_give_homework: {
+        id: null,
+        homeworkUrl: null,
       }
+
 
     }
   },
@@ -135,31 +142,43 @@ export default {
     this.getCourseID()
     this.getUserList()
   },
+
+  watch: {
+    homework_url: {
+      handler() {
+        console.log("hwurl")
+        let now_index = this.flag - 1
+        this.teacher_give_homework.id = this.tableData[now_index].id
+        this.teacher_give_homework.homeworkUrl = this.homework_url
+        this.add_homework()
+      }
+    }
+  },
+
   methods: {
-    success(res, file) {
+    success(res) {
       this.homework_url = res.data.url
-      console.log(file)
-      this.$message.success("上传作业成功")
+      console.log("success")
+      console.log(res)
     },
 
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-        // this.course_id = "1596759546842451970"
+        this.course_id = "14"
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
     },
 
     watch_video(row) {
-      this.$router.push({path: '/player/' + row.videoUrl})
+      this.$router.push({path: '/player/' + row.videoUrl + '/' + row.id})
     },
 
     async getUserList() {
-      console.log(this.course_id)
-      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_id)
-      console.log(res)
-      this.tableData = res.data.allChapterVideo
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterListByCourseId/' + this.course_id)
+      this.tableData = res.data.chapterList
+      console.log(this.tableData)
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
@@ -206,9 +225,15 @@ export default {
 
 
     // 发布作业
-    add_homework(row) {
+    async add_homework() {
       // todo 这里点击之后要给后端homework的url以及课程名字
-      console.log(row)
+      console.log("add_hw")
+      const {data: res} = await requestUtil.post('/eduservice/t-chapter/updateChapter/' + this.teacher_give_homework)
+      console.log(res)
+    },
+
+    change_flag(row) {
+      this.flag = row.index
     },
 
     toggleSelection(rows) {
@@ -231,8 +256,8 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-  },
 
+  },
 }
 </script>
 

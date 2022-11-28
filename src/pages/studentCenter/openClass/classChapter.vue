@@ -87,7 +87,7 @@ export default {
 
     watchVideo(row) {
       console.log(row)
-      this.$router.push({path: '/player/' + row.videoUrl})
+      this.$router.push({path: '/player/' + row.videoUrl + '/' + row.id})
     },
 
 

@@ -325,7 +325,7 @@ const Router = new VueRouter({
     },
     {
       name: 'player',
-      path: '/player/:id',
+      path: '/player/:id/:chapter',
       component: player,
     },
 
