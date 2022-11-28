@@ -1,0 +1,58 @@
+<template>
+  <div class="wrap">
+    <iframe :src="pSrc" width="100%" height="100%"></iframe>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "pdfS",
+  data() {
+    return {
+      pSrc: '',
+      baseurl: '',
+    };
+  },
+
+
+  methods: {
+    loadPDF() {
+      //ie有缓存加个随机数解决  + '?r=' + new Date()
+      // let pSrc = baseurl + '?r=' + new Date();
+      this.pSrc = '../../plugin/pdf/web/viewer.html?file=' + encodeURIComponent(this.baseurl)
+    },
+
+    getPDf() {
+      if (this.$route.params && this.$route.params.para1 && this.$route.params.para2) {
+        let tmp1 = this.$route.params.para1
+        let tmp2 = this.$route.params.para2
+        this.baseurl = "https://" + tmp1 + '/' + tmp2
+        console.log(this.baseurl)
+      } else {
+        this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
+      }
+    },
+  },
+  created() {
+    this.getPDf()
+    console.log("created")
+    console.log(this.baseurl)
+  },
+
+  mounted: function () {
+    this.loadPDF()
+  }
+
+};
+</script>
+
+<style scoped>
+.wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+}
+</style>
+

@@ -56,7 +56,7 @@ export default {
       price: "price",
       teacher_name: "teacher_name",
       is_free: false,
-      is_subscribed: true,
+      is_subscribed: false,
       course_id: null,
       course_cover: null,
       course_text_info: null,
@@ -74,10 +74,10 @@ export default {
     },
 
     subscribe() {
-
       //  免费就直接订阅，调后端方法
       if (this.is_free) {
         //  todo 调后端方法通知后端
+
       }
       //  付费就弹框
       else if (!this.is_free) {
@@ -106,7 +106,10 @@ export default {
 
     submit() {
       this.paidForm = false
-      //  todo  调用后端方法去告诉后端数据变化
+      //   todo  调用后端方法去告诉后端数据变化
+      //   todo 第一个要给你(money-price)和studentID
+      //   如果后端给我显示20000，我就继续调用加入课程的api，studentID，courseID
+
     }
 
   },
