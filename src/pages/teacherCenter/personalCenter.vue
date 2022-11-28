@@ -207,7 +207,7 @@ export default {
 }
 
 .info_items {
-  background-color: white;
+  /*background-color: white;*/
   height: 100%;
   width: 100%;
   /*position: absolute;*/

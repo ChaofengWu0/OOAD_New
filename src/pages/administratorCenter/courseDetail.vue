@@ -9,7 +9,10 @@
           style="width: 100%"
           class="list_content">
         <el-table-column>
-          <el-button @click="view_chapter" type="primary">
+          <el-button @click="goBack" type="primary">
+            返回申请中心
+          </el-button>
+          <el-button @click="viewChapter" type="primary">
             查看章节
           </el-button>
           <el-button type="danger" @click.native.prevent="acceptClick">
@@ -118,7 +121,11 @@ export default {
       }
     },
 
-    view_chapter() {
+    goBack(){
+      this.$router.push({path: '/admin_center/application_center/'})
+    },
+
+    viewChapter() {
       this.$router.push({path: '/admin_center/view_chapter/' + this.course_id})
     },
 
