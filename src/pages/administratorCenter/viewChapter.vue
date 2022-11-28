@@ -16,7 +16,7 @@
           class="list_content">
         <el-table-column
             prop="sort"
-            label="第几章"
+            label="章节"
             width="200">
         </el-table-column>
 
@@ -79,9 +79,9 @@ export default {
       }
     },
 
-    async watchVideoClick(row) {
+    watchVideoClick(row) {
       console.log(row)
-      await this.$router.push({path: '/player/' + row.videoUrl})
+      this.$router.push({path: '/player/' + row.videoUrl})
     },
 
     toggleSelection(rows) {

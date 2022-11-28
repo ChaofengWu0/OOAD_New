@@ -3,43 +3,57 @@
     <div>
       <template>
         <el-table
-            :data="notifications"
+            :data="orders"
         >
           <el-table-column
               type="index"
               label="序号"
-              width="100">
+              width="100"
+          >
           </el-table-column>
           <el-table-column
-              prop="title"
-              label="主题"
+              prop="orderId"
+              label="订单编号"
+              width="120"
+          >
+          </el-table-column>
+          <el-table-column
+              prop="alipayNo"
+              label="支付宝订单号"
+              width="120"
+          >
+          </el-table-column>
+          <el-table-column
+              prop="orderName"
+              label="订单信息"
+              width="250"
+          >
+          </el-table-column>
+          <el-table-column
+              prop="total"
+              label="总价"
               width="100"
+          >
+          </el-table-column>
+          <el-table-column
+              prop="gmtCreate"
+              label="创建日期"
+              width="140"
           >
           </el-table-column>
 
           <el-table-column
-              prop="courseId"
-              label="课程ID"
-              width="100"
-          >
-          </el-table-column>
-          <el-table-column
-              prop="teacherId"
-              label="教师ID"
-              width="100"
-          >
-          </el-table-column>
-          <el-table-column
-              prop="content"
-              label="内容"
-              width="400"
-          >
-          </el-table-column>
-          <el-table-column
-              prop="gmtModified"
-              label="日期"
-              width="100"
-          >
+              label="订单状态">
+            <template slot-scope="scope">
+              <el-button v-if="scope.row.status==='未支付'" type="primary" @click="payOrder(scope.row)">
+                支 付
+              </el-button>
+              <el-button v-if="scope.row.status==='未支付'" type="danger" @click="removeOrder(scope.row)">
+                取 消
+              </el-button>
+              <el-button type="text" disabled v-if="scope.row.status==='已支付'" style="color: black">支付已完成
+              </el-button>
+            </template>
           </el-table-column>
         </el-table>
       </template>
@@ -49,29 +63,46 @@
 
 <script>
 import requestUtil from "@/utils/request";
-// import qs from "qs";
+import qs from "qs";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "notification",
+  name: "order",
   created() {
     this.getUserList()
   },
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/eduservice/t-notice?studentId=' + this.$store.getters.getUserInfo.data.id)
+      const {data: res} = await requestUtil.get('/eduservice/t-orders/' + this.$store.getters.getUserInfo.data.id)
       console.log(res);
-      this.notifications = res.data.noticeList
+      this.orders = res.data.orderList
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
+    },
+    async payOrder(row) {
+      const payForm = {
+        subject: row.orderName,
+        traceNo: row.orderId,
+        totalAmount: row.total
+      }
+      await window.open('http://localhost:9001/eduservice/alipay/pay?' + qs.stringify(payForm))
+      this.$message.success("支付宝请求成功")
+      location.reload()
+    },
+    async removeOrder(row) {
+      const {data: res} = await requestUtil.delete1('/eduservice/t-orders/' + row.orderId)
+      console.log(res)
+      if (res.code !== 20000)
+        return this.$message.error("Wrong! Renderer failed")
+      else
+        location.reload()
     }
   },
 
   data() {
     return {
-      studentid: "",
-      // 这个用来装notification
-      notifications: []
+      studentId: "",
+      orders: []
     }
   }
 }

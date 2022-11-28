@@ -240,35 +240,25 @@ export default {
     },
 
     async getProblemData() {
-      const problems = this.$store.getters.getInfo('problems' + this.chapter_ID)
-      if (problems === null) {
-        const {data: res} = await requestUtil.get('/eduservice/t-problem/getProblemsByChapterId/' + this.chapter_ID)
-        const problemList = res.data.problemList
-        console.log(problemList)
-        this.examinationData = []
-        for (let i in problemList) {
-          let problem = problemList[i]
-          this.examinationData.push({
-            idx: i,
-            sol: problem.answer,
-            question: problem.content,
-            answer: [
-              {value: problem.optionA},
-              {value: problem.optionB},
-              {value: problem.optionC},
-              {value: problem.optionD}
-            ]
-          })
-        }
-        console.log(this.examinationData)
-        const info = {
-          'infoName': 'problems' + this.chapter_ID,
-          'infoBody': this.examinationData
-        }
-        this.$store.commit("setInfo", info)
-      } else {
-        this.examinationData = this.$store.getters.getInfo('problems' + this.chapter_ID)
+      const {data: res} = await requestUtil.get('/eduservice/t-problem/getProblemsByChapterId/' + this.chapter_ID)
+      const problemList = res.data.problemList
+      console.log(problemList)
+      this.examinationData = []
+      for (let i in problemList) {
+        let problem = problemList[i]
+        this.examinationData.push({
+          idx: i,
+          sol: problem.answer,
+          question: problem.content,
+          answer: [
+            {value: problem.optionA},
+            {value: problem.optionB},
+            {value: problem.optionC},
+            {value: problem.optionD}
+          ]
+        })
       }
+      console.log(this.examinationData)
     },
 
     end() {

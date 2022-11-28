@@ -69,7 +69,7 @@ export default {
 
   data() {
     return {
-      studentid:"",
+      studentId:"",
       // 这个用来装notification
       notifications: []
     }
