@@ -16,7 +16,7 @@
           class="list_content">
         <el-table-column
             prop="sort"
-            label="第几章"
+            label="章节"
             width="200">
         </el-table-column>
 
