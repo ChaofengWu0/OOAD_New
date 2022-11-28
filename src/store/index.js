@@ -40,7 +40,7 @@ export default new Vuex.Store({
         getUserInfo: () => {
             return JSON.parse(sessionStorage.getItem("userInfo"))
         },
-        getInfo: function () {
+        getInfo:  ()=> {
             return (infoName) => {
                 return JSON.parse(sessionStorage.getItem(infoName))
             }
