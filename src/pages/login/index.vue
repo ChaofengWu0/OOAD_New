@@ -43,8 +43,7 @@ export default {
       // 表单数据对象
       loginForm: {
         username: "admin",
-        password: "admin",
-        rememberMe: false
+        password: "admin"
       },
       // 表单数据验证规则
       loginRules: {
@@ -68,6 +67,7 @@ export default {
           console.log('验证失败')
           return
         }
+        console.log(qs.stringify(this.loginForm))
         const {data: res} = await requestUtil.post('/eduservice/login?' + qs.stringify(this.loginForm))
         console.log(res);
         // 失败
