@@ -118,6 +118,7 @@ export default {
     },
 
     cancel() {
+
       this.change_form.name = this.original_data.nickName
       this.change_form.avatar_path = this.original_data.avatar
       this.change_form.phone = this.original_data.phone
@@ -125,6 +126,7 @@ export default {
       this.dialogFormVisible = false
     },
     async submit() {
+
       // 要交给后端数据，并且从后端拿到数据，再赋给头像
       this.original_data.nickName = this.change_form.name
       this.original_data.phone = this.change_form.phone

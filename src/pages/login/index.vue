@@ -74,9 +74,10 @@ export default {
         if (res.code !== 20000)
           return this.$message.error("Wrong!login failed")
         // 成功
-        this.$message.success("Successfully login")
+        this.$message.success("Successfustatelly login")
         this.$store.commit('setUserInfo', res.data)
-        this.$store.commit('setToken', res.data.authorization)
+        this.$store.commit('setToken', res.data.data.authorization)
+        window.sessionStorage.setItem('role', res.data.data.role)
         // window.sessionStorage.setItem('id', res.data.data.id)
         // window.sessionStorage.setItem('token', res.data.role)
         await this.$router.push('/main_page')
