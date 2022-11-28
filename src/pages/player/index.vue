@@ -104,7 +104,7 @@ export default {
   },
   data() {
     return {
-      chapter_hw_url_before_process: "https://edu-sustech.oss-cn-shenzhen.aliyuncs.com/22-OOAD-Project.pdf",
+      chapter_hw_url_before_process: null,
       chapter_hw_url_after_process_para1: null,
       chapter_hw_url_after_process_para2: null,
       student_hw_url: null,
@@ -201,6 +201,14 @@ export default {
     sessionStorage.removeItem('problems' + this.chapter_ID)
   },
 
+  mounted() {
+    let tmp = this.chapter_hw_url_before_process.split("https://")
+    let paras = tmp[1].split('/')
+    this.chapter_hw_url_after_process_para1 = paras[0]
+    this.chapter_hw_url_after_process_para2 = paras[1]
+
+  },
+
   watch: {
     current_time: {
       handler(newV) {
@@ -211,20 +219,14 @@ export default {
         }
       }
     },
-  },
-
-  mounted() {
-    let tmp = this.chapter_hw_url_before_process.split("https://")
-    let paras = tmp[1].split('/')
-    this.chapter_hw_url_after_process_para1 = paras[0]
-    this.chapter_hw_url_after_process_para2 = paras[1]
-    console.log(paras)
+    student_hw_url: {
+      handler() {
+        this.upload_homework()
+      }
+    }
   },
 
   methods: {
-    // view_homework() {
-    //   this.$router.push({path: "/pdf/" + this.chapter_hw_url})
-    // },
     continue_video() {
       this.windowVisible = false;
       this.$refs.VueAliplayerV2.play()
@@ -392,6 +394,12 @@ export default {
     endHandler() {
       this.flag = clearInterval(this.flag)
     },
+
+    upload_homework() {
+      // console.log("upload")
+      // 传递给后端chapterID，studentID，homeworkURL
+    }
+
   },
 }
 
