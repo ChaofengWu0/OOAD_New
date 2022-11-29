@@ -139,6 +139,7 @@ export default {
     handleVodUploadSuccess(rep, file) {
       this.chapterForm.videoUrl = rep.data.videoId
       this.chapterForm.videoName = file.name
+      console.log(rep)
     },
     cancel() {
       this.dialogFormVisible = false
@@ -170,7 +171,6 @@ export default {
       if (this.$route.params && this.$route.params.id) {
         this.course_ID = this.$route.params.id
         this.chapterForm.courseId = this.course_ID
-        console.log(this.course_ID)
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }

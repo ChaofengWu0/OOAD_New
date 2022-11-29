@@ -114,7 +114,7 @@ export default {
     },
 
     async getUserList() {
-      //todo
+      // todo
       const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseDetailById/' + this.course_id)
       console.log(res);
       this.course_text_info = res.data.description
@@ -126,7 +126,7 @@ export default {
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-
+        this.course_id = '14'
         console.log(this.course_id)
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
@@ -152,10 +152,6 @@ export default {
 
     getStudent() {
       this.$router.push({path: '/teacher_center/my_classes/student_list/' + this.course_id})
-    },
-
-    getDetail() {
-      this.$router.push({path: '/teacher_center/my_classes/course_detail/' + this.index})
     },
 
     async send_email(row) {
