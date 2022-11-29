@@ -27,6 +27,7 @@ export default {
         let tmp1 = this.$route.params.para1
         let tmp2 = this.$route.params.para2
         this.baseurl = "https://" + tmp1 + '/' + tmp2
+        // this.baseurl = ""
         console.log(this.baseurl)
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")

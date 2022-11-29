@@ -34,7 +34,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column>
+        <el-table-column align="left" width="170px">
           <template slot-scope="scope">
             <el-upload
                 class="upload-demo"
@@ -44,13 +44,20 @@
                 :auto-upload="true"
                 :limit="1"
             >
-              <el-button type="primary" @click="add_homework (scope.row)">
-                发布作业
+              <el-button type="primary" @click="choose(scope.row)">
+                选择发布作业文件
               </el-button>
             </el-upload>
           </template>
         </el-table-column>
 
+        <el-table-column>
+          <template slot-scope="scope">
+            <el-button v-if="scope.homework_url!==null" type="primary" @click="publish(scope.row)">
+              发布作业
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </template>
 
@@ -112,6 +119,8 @@ export default {
 
   data() {
     return {
+      row_id: "",
+      flag: false,
       homework_url: null,
       course_id: "",
       tableData: [{
@@ -127,7 +136,13 @@ export default {
           optionD: '',
           answer: ''
         }],
+      },
+
+      teacher_give_homework: {
+        id: null,
+        homeworkUrl: null,
       }
+
 
     }
   },
@@ -135,31 +150,41 @@ export default {
     this.getCourseID()
     this.getUserList()
   },
+
+  mounted() {
+    console.log("mounted")
+    console.log(this.homework_url)
+  },
+
+
   methods: {
-    success(res, file) {
-      this.homework_url = res.data.url
-      console.log(file)
-      this.$message.success("上传作业成功")
+
+    choose(row){
+      this.row_id = row.id
+    },
+
+    success(res) {
+      // this.homework_url = res.data.url
+      this.teacher_give_homework.homeworkUrl = res.data.url
+      console.log(res)
     },
 
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-        // this.course_id = "1596759546842451970"
+        this.course_id = "14"
       } else {
-        this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
+        this.$message("Wrong in function getCourseID which is in viewChapter.Vue ")
       }
     },
 
     watch_video(row) {
-      this.$router.push({path: '/player/' + row.videoUrl})
+      this.$router.push({path: '/player/' + row.videoUrl + '/' + row.id})
     },
 
     async getUserList() {
-      console.log(this.course_id)
-      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_id)
-      console.log(res)
-      this.tableData = res.data.allChapterVideo
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterListByCourseId/' + this.course_id)
+      this.tableData = res.data.chapterList
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
@@ -182,6 +207,7 @@ export default {
       this.dialogFormVisibleForProblem = false
       this.initial_form()
     },
+
     submit() {
       this.dialogFormVisibleForProblem = false
       // 提交给后端
@@ -204,11 +230,19 @@ export default {
       });
     },
 
-
     // 发布作业
-    add_homework(row) {
-      // todo 这里点击之后要给后端homework的url以及课程名字
+    async publish(row) {
+      console.log(this.row_id)
       console.log(row)
+      if (this.teacher_give_homework.homeworkUrl === null || this.row_id !== row.id) {
+        this.$message.warning("你还没有选择文件")
+      } else {
+        // todo 这里点击之后要给后端homework的url以及课程名字
+        this.teacher_give_homework.id = row.id
+        const {data: res} = await requestUtil.post('/eduservice/t-chapter/updateChapter', this.teacher_give_homework)
+        console.log(res)
+        this.teacher_give_homework.homeworkUrl = null
+      }
     },
 
     toggleSelection(rows) {
@@ -231,8 +265,8 @@ export default {
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
-  },
 
+  },
 }
 </script>
 

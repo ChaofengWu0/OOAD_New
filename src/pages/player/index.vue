@@ -24,15 +24,10 @@
             <span @click="pause">暂停</span>
             <!--          <span @click="getStatus_test()">获取播放器状态</span>-->
           </div>
-
-          <!--          <el-button class="homework" @click="view_homework">-->
-          <!--            在 线 查 看 作 业-->
-          <!--          </el-button>-->
-
           <router-link target="_blank"
                        :to="{path:'/pdf/'+this.chapter_hw_url_after_process_para1+'/'+this.chapter_hw_url_after_process_para2}">
             <el-button class="homework">
-              在 线 查 看 作业
+              在 线 查 看 作 业
             </el-button>
           </router-link>
 
@@ -46,13 +41,18 @@
                 :auto-upload="true"
                 :limit="1"
             >
-              <el-button type="text" class="letter">点击此处上传作业</el-button>
+              <el-button type="text" class="letter">点击此处选择上传作业文件</el-button>
             </el-upload>
+            <el-button type="primary" align="center" style="position: relative; margin: 20px" @click="stu_upload_hw">确
+              定 提 交
+            </el-button>
           </div>
-          <el-button class="homework" @click="do_problem" style="margin-top: 20px">
+
+          <el-button class="homework" @click="do_problem" style="margin-top: 80px">
             做此视频的习题
           </el-button>
         </div>
+
         <el-dialog title="来答题测试一下吧" :visible.sync="dialogFormVisible">
           <h3>
             您已用时 {{ this.one }}:{{ this.two }}:{{ this.three }}
@@ -75,7 +75,6 @@
           <!-- 考试 -->
           <el-button @click="submit_ans">提交答案</el-button>
         </el-dialog>
-
         <el-dialog
             title="提示"
             :visible.sync="windowVisible"
@@ -104,13 +103,29 @@ export default {
   },
   data() {
     return {
-      chapter_hw_url_before_process: "https://edu-sustech.oss-cn-shenzhen.aliyuncs.com/22-OOAD-Project.pdf",
+      // 学生要拿到的作业
+      chapter_hw_url_before_process: null,
       chapter_hw_url_after_process_para1: null,
       chapter_hw_url_after_process_para2: null,
-      student_hw_url: null,
 
+      // 学生要上传的作业
+      stu_hw_form: {
+        hwUrl: null,
+        studentId: null,
+        chapterId: null,
+      },
 
-      source: "https://outin-71f4b58068c211ed9c8b00163e00b174.oss-cn-shanghai.aliyuncs.com/sv/588519ca-1849eed0a7b/588519ca-1849eed0a7b.mp4?Expires=1669363641&OSSAccessKeyId=LTAIwkKSLcUfI2u4&Signature=oioz9Fp%2FNnUZkBbGMCXxqioTVLo%3D",
+      // 看的时间的记录
+      record_time_form: {
+        chapterId: null,
+        studentId: null,
+        time: null
+      },
+
+      source: null,
+      chapter_id: null,
+
+      one_forth_time: null,
       video_time: null,
       check_time: null,
       dialogFormVisible: false,
@@ -198,33 +213,57 @@ export default {
 
   created() {
     this.getVideoID()
-    sessionStorage.removeItem('problems' + this.chapter_ID)
+    // console.log(this.chapter_hw_url_before_process)
+    sessionStorage.removeItem('problems' + this.chapter_id)
   },
+
+  // mounted() {
+  // let tmp = this.chapter_hw_url_before_process.split("https://")
+  // let paras = tmp[1].split('/')
+  // console.log(paras)
+  // this.chapter_hw_url_after_process_para1 = paras[0]
+  // this.chapter_hw_url_after_process_para2 = paras[1]
+  // },
 
   watch: {
     current_time: {
       handler(newV) {
-        if (newV > this.check_time) {
+        console.log(newV)
+        if (newV > this.one_forth_time && newV < this.one_forth_time * 2) {
+          this.record_watch_time(0.25)
+          console.log('已经完成1/4')
+        } else if (newV > 2 * this.one_forth_time && newV < 3 * this.one_forth_time) {
+          this.record_watch_time(0.5)
+        } else if (newV > this.check_time) {
           this.$refs.VueAliplayerV2.pause()
           this.endCheckHandler()
           this.windowVisible = true
+        } else if (newV > 3 * this.one_forth_time && newV < 4 * this.one_forth_time) {
+          this.record_watch_time(0.75)
         }
       }
     },
   },
 
-  mounted() {
-    let tmp = this.chapter_hw_url_before_process.split("https://")
-    let paras = tmp[1].split('/')
-    this.chapter_hw_url_after_process_para1 = paras[0]
-    this.chapter_hw_url_after_process_para2 = paras[1]
-    console.log(paras)
-  },
-
   methods: {
-    // view_homework() {
-    //   this.$router.push({path: "/pdf/" + this.chapter_hw_url})
-    // },
+    async record_watch_time(time) {
+      this.record_time_form.time = time
+      this.record_time_form.chapterId = this.chapter_id
+      this.record_time_form.studentId = JSON.parse(sessionStorage.getItem("userInfo")).data.id
+      const {data: res} = await requestUtil.put('/eduservice/t-chapter-student/time', this.record_time_form)
+      console.log(res)
+
+    },
+
+    async stu_upload_hw() {
+      this.stu_hw_form.chapterId = this.chapter_id
+      this.stu_hw_form.studentId = this.$store.getters.getUserInfo.data.id
+      const {data: res} = await requestUtil.put('/eduservice/t-chapter-student/hw_url', this.stu_hw_form)
+      if (res.data.code === 20000) {
+        this.$message.success("上传成功")
+      }
+    },
+
     continue_video() {
       this.windowVisible = false;
       this.$refs.VueAliplayerV2.play()
@@ -256,40 +295,30 @@ export default {
     },
 
     async getProblemData() {
-      const problems = this.$store.getters.getInfo('problems' + this.chapter_ID)
-      if (problems === null) {
-        const {data: res} = await requestUtil.get('/eduservice/t-problem/getProblemsByChapterId/' + this.chapter_ID)
-        const problemList = res.data.problemList
-        // console.log(problemList)
-        this.examinationData = []
-        for (let i in problemList) {
-          let problem = problemList[i]
-          this.examinationData.push({
-            idx: i,
-            sol: problem.answer,
-            question: problem.content,
-            answer: [
-              {value: problem.optionA},
-              {value: problem.optionB},
-              {value: problem.optionC},
-              {value: problem.optionD}
-            ]
-          })
-        }
-        // console.log(this.examinationData)
-        const info = {
-          'infoName': 'problems' + this.chapter_ID,
-          'infoBody': this.examinationData
-        }
-        this.$store.commit("setInfo", info)
-      } else {
-        this.examinationData = this.$store.getters.getInfo('problems' + this.chapter_ID)
+      const {data: res} = await requestUtil.get('/eduservice/t-problem/getProblemsByChapterId/' + this.chapter_ID)
+      const problemList = res.data.problemList
+      console.log(problemList)
+      this.examinationData = []
+      for (let i in problemList) {
+        let problem = problemList[i]
+        this.examinationData.push({
+          idx: i,
+          sol: problem.answer,
+          question: problem.content,
+          answer: [
+            {value: problem.optionA},
+            {value: problem.optionB},
+            {value: problem.optionC},
+            {value: problem.optionD}
+          ]
+        })
       }
+      console.log(this.examinationData)
     },
 
     end() {
       // todo
-      // 告诉后端视频看完了，要记录完成度
+      this.record_watch_time(1)
       this.check_time_flag = null
       this.current_time = null
     },
@@ -302,9 +331,14 @@ export default {
     },
 
     async getVideoID() {
-      if (this.$route.params && this.$route.params.id) {
+      console.log("getVideoId")
+      if (this.$route.params && this.$route.params.id && this.$route.params.chapter) {
         this.video_id = this.$route.params.id
-        const {data: res} = await requestUtil.get('http://localhost:8003/edu-vod/video/getAutoPlayUrl/' + this.video_id)
+        this.chapter_id = this.$route.params.chapter
+        // this.video_id = "2cd729109884494ab431f44f6bcc4ea3"
+        console.log(this.video_id)
+        const {data: res} = await requestUtil.get('/edu-vod/video/getAutoPlayUrl/' + this.video_id)
+        console.log(res)
         this.source = res.data.autoUrl
       } else {
         this.$message("Wrong in function getVideoID which is in classChapter.Vue ")
@@ -327,6 +361,10 @@ export default {
         this.setCheckHandler()
       }
       this.check_time = 2 * this.video_time / 3
+      this.one_forth_time = (this.video_time / 4)
+      console.log(this.video_time)
+      console.log(this.check_time)
+      console.log(this.one_forth_time)
     },
 
     pause() {
@@ -334,8 +372,9 @@ export default {
     },
 
     handleVodUploadSuccess(res) {
-      this.student_hw_url = res.data.url
+      this.stu_hw_form.hwUrl = res.data.url
       // 设置了这个学生上交的作业的url
+      console.log(res)
     },
 
     getInputValue(index) {
@@ -392,6 +431,7 @@ export default {
     endHandler() {
       this.flag = clearInterval(this.flag)
     },
+
   },
 }
 
