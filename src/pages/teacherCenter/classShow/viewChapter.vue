@@ -30,7 +30,7 @@
               观看视频
             </el-button>
 
-            <el-button type="primary" ref="problem_button" @click="dialogFormVisibleForProblem=true">
+            <el-button type="primary" ref="problem_button" @click="submit_problem(scope.row)">
               发布习题
             </el-button>
           </template>
@@ -76,24 +76,24 @@
             :rules="{required: true, message: '题目不能为空', trigger: 'blur'}">
           <el-input v-model="domain.value"></el-input>
           <el-form-item prop="resource">
-            <el-radio-group>
-              <el-radio label="A" v-model="domain.answer" style="padding-top: 20px ;padding-bottom: 20px">
-                A
-                <el-input v-model="domain.optionA"></el-input>
-              </el-radio>
-              <el-radio label="B" v-model="domain.answer" style="padding-left: 50px;padding-bottom: 20px">
-                B
-                <el-input v-model="domain.optionB"></el-input>
-              </el-radio>
-              <el-radio label="C" v-model="domain.answer" style="padding-top: 20px; padding-bottom: 10px">
-                C
-                <el-input v-model="domain.optionC"></el-input>
-              </el-radio>
-              <el-radio label="D" v-model="domain.answer" style="padding-left: 50px;padding-bottom: 10px">
-                D
-                <el-input v-model="domain.optionD"></el-input>
-              </el-radio>
-            </el-radio-group>
+            <!--            <el-radio-group>-->
+            <el-radio label="A" v-model="domain.answer" style="padding-top: 20px ;padding-bottom: 20px">
+              A
+              <el-input v-model="domain.optionA"></el-input>
+            </el-radio>
+            <el-radio label="B" v-model="domain.answer" style="padding-left: 50px;padding-bottom: 20px">
+              B
+              <el-input v-model="domain.optionB"></el-input>
+            </el-radio>
+            <el-radio label="C" v-model="domain.answer" style="padding-top: 20px; padding-bottom: 10px">
+              C
+              <el-input v-model="domain.optionC"></el-input>
+            </el-radio>
+            <el-radio label="D" v-model="domain.answer" style="padding-left: 50px;padding-bottom: 10px">
+              D
+              <el-input v-model="domain.optionD"></el-input>
+            </el-radio>
+            <!--            </el-radio-group>-->
           </el-form-item>
 
           <el-button @click.prevent="removeDomain(domain)">删除此题</el-button>
@@ -121,6 +121,7 @@ export default {
 
   data() {
     return {
+      nowChapter: null,
       row_id: "",
       flag: false,
       homework_url: null,
@@ -144,8 +145,6 @@ export default {
         id: null,
         homeworkUrl: null,
       }
-
-
     }
   },
   created() {
@@ -160,7 +159,12 @@ export default {
 
 
   methods: {
+    submit_problem(row) {
+      // console.log(111111111111111)
+      this.nowChapter = row.id
+      this.dialogFormVisibleForProblem = true
 
+    },
     previous() {
       this.$router.push("/teacher_center/my_classes/course_detail/" + this.course_id)
     },
@@ -212,10 +216,18 @@ export default {
       this.initial_form()
     },
 
-    submit() {
+    async submit() {
       this.dialogFormVisibleForProblem = false
       // 提交给后端
-
+      let returnForm = []
+      for (const problem of this.dynamicValidateForm) {
+        returnForm.push(problem)
+      }
+      const {data: res} = await requestUtil.post('/eduservice/t-problem' + this.nowChapter, returnForm);
+      console.log(res)
+      if (res.code !== 20000) {
+        this.$message.error("Wrong! Renderer failed")
+      }
       this.initial_form()
       this.$refs.problem_button.disabled = true
     },
@@ -225,17 +237,20 @@ export default {
       if (index !== -1) {
         this.dynamicValidateForm.domains.splice(index, 1)
       }
-    },
+    }
+    ,
 
     addDomain() {
       this.dynamicValidateForm.domains.push({
         value: '',
         key: Date.now()
       });
-    },
+    }
+    ,
 
     // 发布作业
     async publish(row) {
+      // this.nowChapter = row
       console.log(this.row_id)
       console.log(row)
       if (this.teacher_give_homework.homeworkUrl === null || this.row_id !== row.id) {
@@ -247,7 +262,8 @@ export default {
         console.log(res)
         this.teacher_give_homework.homeworkUrl = null
       }
-    },
+    }
+    ,
 
     toggleSelection(rows) {
       if (rows) {
@@ -257,18 +273,21 @@ export default {
       } else {
         this.$refs.multipleTable.clearSelection();
       }
-    },
+    }
+    ,
 
     handleSelectionChange(val) {
       this.multipleSelection = val;
-    },
+    }
+    ,
 
     tableCellClassName({row, column, rowIndex, columnIndex}) {
       //注意这里是解构
       //利用单元格的 className 的回调方法，给行列索引赋值
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
-    },
+    }
+    ,
 
   },
 }
