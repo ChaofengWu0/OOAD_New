@@ -11,11 +11,11 @@
         <h2> 老师ID：{{ teacher_name }}</h2>
 
         <el-button style="margin-left: 60px; padding: 20px" class="watch_video" type="primary" @click="watch_video"
-                   v-if="is_subscribed || this.role === '3' || this.role === '2'">
+                   v-if="is_subscribed || this.role === '1' || this.role === '2'">
           立 即 观 看 第 一 集
         </el-button>
         <el-button style="margin-left: 60px; padding: 20px" class="subscribe_course" type="warning" @click="subscribe"
-                   v-if="!is_subscribed && this.role === '1'">订 阅
+                   v-if="!is_subscribed && this.role === '3'">订 阅
         </el-button>
       </div>
     </div>
@@ -104,8 +104,13 @@ export default {
   },
   methods: {
     async check() {
-      const {data: res} = await requestUtil.post('/eduservice/t-course-student', this.course_student)
-      if (res.code === 20000) {
+      console.log(this.course_student)
+      this.course_student.courseId=this.course_id
+      const {data: res} = await requestUtil.get('/eduservice/t-course-student?'+ qs.stringify(this.course_student))
+
+      console.log(res.data.ifExists)
+      if (res.data.ifExists !== 'no') {
+        console.log('check')
         this.is_subscribed = true
       } else {
         this.is_subscribed = false

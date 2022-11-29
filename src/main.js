@@ -50,7 +50,7 @@ import {
     Select,
     InputNumber,
     Checkbox,
-    RadioGroup,
+    // RadioGroup,
     Message
 } from "element-ui";
 
@@ -108,7 +108,7 @@ Vue.use(Footer)
 Vue.use(VueRouter)
 Vue.use(VueAliplayerV2)
 Vue.use(Checkbox)
-Vue.use(RadioGroup)
+// Vue.use(RadioGroup)
 // Vue.prototype.$http = axios
 Vue.prototype.$message = Message
 Vue.component(Message.name, Message)

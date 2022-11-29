@@ -34,13 +34,9 @@
             </el-dropdown>
 
           </div>
-
         </div>
       </el-header>
-
       <el-main class="main_container">
-        <!--    就只设置付费和免费模块    -->
-
         <div class="free-videos_container">
           <el-row :gutter="20">
             <el-col :span="6">
@@ -84,7 +80,6 @@
               </div>
             </el-col>
           </el-row>
-
           <el-row :gutter="20" style="margin-top: 100px">
             <el-col :span="6">
               <div class="grid-content bg-purple">
@@ -127,34 +122,25 @@
               </div>
             </el-col>
           </el-row>
-
         </div>
       </el-main>
-
-
       <el-footer style="height: 100px">
         <div class="foot_left_ele">
           <div class="foot_company">
-            <h3>公司:南方科技大学</h3>
+            <h3>单位:南方科技大学</h3>
           </div>
           <div class="foot_address">
             <h5>地址:广东省深圳市南山区桃园街道南方科技大学</h5>
           </div>
         </div>
-
-
         <div class="foot_right_ele">
           <div class="contact_us">
             <h3>联系我们: asdlljasd@mail.sustech.edu.cn </h3>
           </div>
         </div>
       </el-footer>
-
     </el-container>
-
-
   </div>
-
 </template>
 
 <script>
@@ -170,7 +156,6 @@ export default {
       avatar: JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
     }
   },
-
   created() {
     this.getCourses()
     this.avatar = JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
@@ -191,14 +176,10 @@ export default {
         console.log("这是刷新");
       }
     };
-
     window.onbeforeunload = function () {
       beginTime = new Date().getTime();
     }
   },
-
-
-
   methods: {
     async getCourses() {
       const {data: res} = await requestUtil.get('/eduservice/edu-course')
@@ -208,13 +189,9 @@ export default {
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
-
-    // 下拉框的方法
     handleCommand(command) {
-      // 要具体处理对应的事件
       console.log('click on item ' + command);
       if (command === "logout") {
-        // 做一些处理，然后回到login界面
         this.$store.dispatch("logout")
       } else if (command === "enter_center") {
         let userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
@@ -232,9 +209,7 @@ export default {
         }
       }
     }
-
   }
-
 }
 </script>
 
@@ -261,13 +236,11 @@ export default {
   position: relative;
 }
 
-
 .main_page_container {
   position: relative;
   height: 100%;
   width: 100%;
 }
-
 
 .head_container {
   height: 100%;
@@ -276,7 +249,6 @@ export default {
   position: relative;
 
 }
-
 
 .left_ele {
   left: 40%;
@@ -329,7 +301,6 @@ export default {
   width: 70%;
 }
 
-
 .el-footer {
   background-color: #B3C0D1;
   color: #333;
@@ -353,7 +324,6 @@ export default {
   background: #99a9bf;
 }
 
-
 .grid-content {
   border-radius: 4px;
   min-height: 150px;
@@ -363,7 +333,6 @@ export default {
   background-color: #B3C0D1;
   background-image: url("../../assets/img/main_page_footer2.jpg");
   background-repeat: no-repeat;
-  //background-size: 100% 100%;
   color: #333;
   text-align: center;
   width: 100%;
@@ -403,7 +372,6 @@ body > .el-container {
   color: white;
   top: 20px;
 }
-
 </style>
 
 

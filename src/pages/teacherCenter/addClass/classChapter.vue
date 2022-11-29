@@ -59,6 +59,7 @@
                 ref="upload"
                 action="http://localhost:9001/edu-vod/video/uploadAliyunVideo"
                 :on-success="handleVodUploadSuccess"
+                :file-list="fileList"
                 :auto-upload="true"
                 :limit="1"
             >
@@ -100,6 +101,7 @@ export default {
   name: "courseChapter",
   data() {
     return {
+      fileList:[],
       formLabelWidth: '120px',
       saveBtnDisabled: false,
       course_ID: "",
@@ -143,11 +145,13 @@ export default {
     },
     cancel() {
       this.dialogFormVisible = false
+      this.fileList = []
       this.getChapterVideos()
     },
     async submit() {
       // 关闭弹窗
       this.dialogFormVisible = false
+      this.fileList = []
       const {data: res} = await requestUtil.post('/eduservice/t-chapter/addChapter', this.chapterForm)
       if (res.code === 20000) {
         this.$message.success("添加章节成功")

@@ -85,9 +85,13 @@ export default {
       }
     },
 
-    watchVideo(row) {
+    async watchVideo(row) {
+      console.log(1111111111111111111)
       console.log(row)
-      this.$router.push({path: '/player/' + row.videoUrl + '/' + row.id})
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterInfo/' + row.id)
+      console.log(res)
+
+      this.$router.push({path: '/player/' + res.data.chapter.videoUrl + '/' + row.id})
     },
 
 
@@ -98,7 +102,7 @@ export default {
       //   studentId: JSON.parse(sessionStorage.getItem("userInfo")).data.id
       // }
       const getForm = {
-        courseId: '15',
+        courseId: this.course_id,
         studentId: JSON.parse(sessionStorage.getItem("userInfo")).data.id
       }
       console.log(getForm)

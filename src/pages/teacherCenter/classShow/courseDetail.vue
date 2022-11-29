@@ -180,7 +180,7 @@ export default {
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-        this.course_id = '14'
+
         console.log(this.course_id)
         console.log(this.notice_return.courseId)
       } else {

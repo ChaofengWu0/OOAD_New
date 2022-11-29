@@ -9,8 +9,8 @@
           style="width: 100%"
           class="list_content">
         <el-table-column
-            label="课程ID"
-            prop="id"
+            label="课程名称"
+            prop="title"
             width="200"
         >
         </el-table-column>

@@ -266,6 +266,7 @@ export default {
     async getChapterUrl() {
       const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterInfo/' + this.chapter_id)
       this.chapter_hw_url = res.data.chapter.homeworkUrl
+      console.log(11111111111111111111111)
       console.log(res)
     },
 

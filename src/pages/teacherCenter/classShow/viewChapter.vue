@@ -177,7 +177,6 @@ export default {
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-        this.course_id = "14"
       } else {
         this.$message("Wrong in function getCourseID which is in viewChapter.Vue ")
       }

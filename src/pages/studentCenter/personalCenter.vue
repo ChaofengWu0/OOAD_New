@@ -116,7 +116,6 @@ export default {
         phone: userInfo.data.phone,
         address: userInfo.data.address,
         email: userInfo.data.email,
-        // 余额加在这里了
         remain: userInfo.data.money
       },
       toAddMoney: 0,
@@ -131,8 +130,12 @@ export default {
       }
     }
   },
-  created() {
-
+  async created() {
+    console.log(JSON.parse(sessionStorage.getItem("userInfo")).data.id)
+    const {data: res} = await requestUtil.get('/eduservice/t-user/' + JSON.parse(sessionStorage.getItem("userInfo")).data.id)
+    console.log(res)
+    this.$store.commit("setUserInfo", res.data)
+    this.original_data.remain = res.data.data.money
   },
 
   methods: {

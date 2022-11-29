@@ -87,6 +87,8 @@ export default {
       }
       await window.open('http://localhost:9001/eduservice/alipay/pay?' + qs.stringify(payForm))
       this.$message.success("支付宝请求成功")
+      const {data:res} = await requestUtil.get('/eduservice/t-user/' + JSON.parse(sessionStorage.getItem("userInfo")).data.id)
+      this.$store.commit("setUserInfo", res.data)
       location.reload()
     },
     async removeOrder(row) {
