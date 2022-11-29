@@ -28,8 +28,12 @@
                 <!--
                 这里点击之后，要退出登录，要清空id和啥啥啥之类的
                 -->
-                <el-dropdown-item command="enter_center"><div style="text-align: center;">个人中心</div></el-dropdown-item>
-                <el-dropdown-item command="logout"><div style="text-align: center;">退出</div></el-dropdown-item>
+                <el-dropdown-item command="enter_center">
+                  <div style="text-align: center;">个人中心</div>
+                </el-dropdown-item>
+                <el-dropdown-item command="logout">
+                  <div style="text-align: center;">退出</div>
+                </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
 
@@ -123,6 +127,13 @@
             </el-col>
           </el-row>
         </div>
+
+        <el-button type="primary" @click="view_all" class="view_all_courses"
+                   style="position: absolute;left: 44%; top :30px; padding: 20px">
+          <h1> 查 看 所 有 课 程</h1>
+        </el-button>
+
+
       </el-main>
       <el-footer style="height: 100px">
         <div class="foot_left_ele">
@@ -159,7 +170,7 @@ export default {
   created() {
     this.getCourses()
     this.avatar = JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
-    window.addEventListener('setItem', ()=> {
+    window.addEventListener('setItem', () => {
       console.log("aaaaaaaaaaaaaa")
       this.avatar = JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
     })
@@ -208,6 +219,9 @@ export default {
             break
         }
       }
+    },
+    view_all() {
+      this.$router.push('/all_course')
     }
   }
 }
@@ -372,6 +386,11 @@ body > .el-container {
   color: white;
   top: 20px;
 }
+
+.view_all_courses {
+  color: black;
+}
+
 </style>
 
 
