@@ -65,7 +65,7 @@
                 <el-radio
                     v-model="radio[i]"
                     :label="son.value"
-                    v-if="son.value!==null"
+                    v-if="son.value!==null && son.value!==''"
                     @change="getInputValue(i)"
                 ></el-radio>
               </li>
@@ -307,19 +307,19 @@ export default {
         }
       }
       const returnForm = {
-        chapterId: this.chapter_ID,
+        chapterId: this.chapter_id,
         studentId: userInfo.data.id,
         proGrade: problemGrade
       }
       // console.log(returnForm)
       const {data: res} = await requestUtil.put('/eduservice/t-chapter-student/pro/', returnForm)
-      console.log("test")
       console.log(res)
+      this.$message.success("您得了" + problemGrade + "分")
       this.endHandler()
     },
 
     async getProblemData() {
-      const {data: res} = await requestUtil.get('/eduservice/t-problem/getProblemsByChapterId/' + this.chapter_ID)
+      const {data: res} = await requestUtil.get('/eduservice/t-problem/getProblemsByChapterId/' + this.chapter_id)
       const problemList = res.data.problemList
       console.log(problemList)
       this.examinationData = []
