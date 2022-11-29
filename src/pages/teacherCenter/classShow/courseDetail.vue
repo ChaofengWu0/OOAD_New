@@ -148,10 +148,10 @@ export default {
 
     async submit_email() {
       this.email_return.sendTo = '1720751884@qq.com'
-      this.email_return.filePath = "/"
+      this.email_return.filePath = null
       console.log(111111111111111111111111)
       console.log(this.email_return)
-      const {data: res} = await requestUtil.post('/eduservice/send-email/simple', this.email_return)
+      const {data: res} = await requestUtil.post('http://localhost:8002/eduoss/send-mail/simple', this.email_return)
       console.log(res)
       if (res.code === 20000) {
         this.$message.success("邮件发送成功")
