@@ -1,7 +1,6 @@
 <template>
   <div class="video_page_container">
     <el-container class="page_container">
-
       <el-header height="90px">
         <HeaderForPlayer></HeaderForPlayer>
       </el-header>
@@ -19,7 +18,10 @@
           />
         </div>
         <div class="under_player">
+
           <div class="player-btns">
+            <span @click="chapters">返回章节显示页面</span>
+            <span @click="main_page">返回主站页面</span>
             <span @click="play">播放</span>
             <span @click="pause">暂停</span>
             <!--          <span @click="getStatus_test()">获取播放器状态</span>-->
@@ -46,7 +48,7 @@
             </el-button>
           </div>
 
-          <el-button class="homework" @click="do_problem" style="margin-top: 80px">
+          <el-button class="homework" @click="do_problem" style="margin-top: 90px">
             做此视频的习题
           </el-button>
         </div>
@@ -92,6 +94,7 @@
 <script>
 import HeaderForPlayer from "@/components/HeaderForPlayer";
 import requestUtil from "@/utils/request";
+import qs from "qs";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -101,6 +104,9 @@ export default {
   },
   data() {
     return {
+      course_id: null,
+      flag_for_page: null,
+      role: null,
       // 学生要拿到的作业
       chapter_hw_url: null,
       // 学生要上传的作业
@@ -209,6 +215,7 @@ export default {
   created() {
     this.getVideoID()
     this.getChapterUrl()
+    this.role = JSON.parse(sessionStorage.getItem("userInfo")).data.role
     sessionStorage.removeItem('problems' + this.chapter_id)
   },
 
@@ -241,6 +248,20 @@ export default {
   },
 
   methods: {
+
+    chapters() {
+      if (this.role === 1) {
+        this.$router.push('/admin_center/view_chapter/' + this.course_id)
+      } else if (this.role === 2) {
+        this.$router.push('/teacher_center/my_classes/view_chapter/' + this.course_id)
+      } else if (this.role === 3) {
+        this.$router.push('/stu_center/my_classes/class_detail/' + this.course_id)
+      }
+    },
+
+    main_page() {
+      this.$router.push('/main_page')
+    },
 
     async getChapterUrl() {
       const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterInfo/' + this.chapter_id)
@@ -333,7 +354,6 @@ export default {
     },
 
     view_hw() {
-      // window.open("http://localhost:8080/#/pdf/"+row.hwUrl,"_blank")
       console.log(this.chapter_hw_url)
       window.open("http://localhost:8080/#/pdf/" + this.chapter_hw_url, '_blank')
     },
@@ -343,8 +363,12 @@ export default {
         this.video_id = this.$route.params.id
         this.chapter_id = this.$route.params.chapter
         // this.video_id = "2cd729109884494ab431f44f6bcc4ea3"
-        const {data: res} = await requestUtil.get('/edu-vod/video/getAutoPlayUrl/' + this.video_id)
-        this.source = res.data.autoUrl
+        const {data: res1} = await requestUtil.get('/edu-vod/video/getAutoPlayUrl/' + this.video_id)
+        this.source = res1.data.autoUrl
+
+        const {data: res2} = await requestUtil.get('/eduservice/t-chapter/getCourseIdbyChapterId?' + qs.stringify(this.chapter_id))
+        this.course_id = res2.data.courseId
+
       } else {
         this.$message("Wrong in function getVideoID which is in classChapter.Vue ")
       }
@@ -520,7 +544,7 @@ export default {
 
 .under_player {
   background-image: url("../../assets/img/player.jpg");
-  height: 315px;
+  height: 360px;
 }
 
 ul {

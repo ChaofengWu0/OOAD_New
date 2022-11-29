@@ -37,9 +37,9 @@ import main_page from "@/pages/mainPage"
 
 import test from "@/pages/export";
 import pdf from "@/pages/pdf";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 // import request from "@/utils/request";
-import * as requestUtil from "@/utils/request";
+// import * as requestUtil from "@/utils/request";
 // import router from "@/router"
 
 Vue.use(VueRouter)
@@ -286,7 +286,7 @@ const Router = new VueRouter({
                         path: 'chapter/:id',
                         hidden: true,
                         meta: {
-                            title: '我的课程'
+                            title: '课程章节'
                         }
                     },
                         {
@@ -304,7 +304,7 @@ const Router = new VueRouter({
                             path: 'class_detail/:id',
                             hidden: true,
                             meta: {
-                                title: '我的课程'
+                                title: '课程详情'
                             }
                         },
 
@@ -328,7 +328,7 @@ const Router = new VueRouter({
         },
         {
             name: 'player',
-            path: '/player/:id',
+            path: '/player/:id/:chapter',
             component: player,
         },
 
@@ -346,72 +346,73 @@ const Router = new VueRouter({
     ]
 })
 export default Router
-Router.beforeEach(async (to, from, next) => {
-    if (to.path.startsWith('/login')) {
-        Cookies.remove('username')
-        if (JSON.parse(sessionStorage.getItem("userInfo"))!==null){
-            const username = JSON.parse(sessionStorage.getItem("userInfo")).data.username
-            if (username === null)
-                await requestUtil.post("/eduservice/t-user/logout?username=alice")
-            else
-                await requestUtil.post("/eduservice/t-user/logout?username=" + username)
-        }else {
-            await requestUtil.post("/eduservice/t-user/logout?username=alice")
-        }
-        window.sessionStorage.clear()
-        sessionStorage.clear()
-        // router.push("/login").then(() => location.reload()).catch(err => console.log(err))
-        next()
-    } else if (to.path.startsWith('/enroll')) {
-        next()
-    } else if (from.path.startsWith('/login')) {
-        let user = window.sessionStorage.getItem('role')
 
-        if (!user) {
-            console.log(this)
-            window.alert("请先登录");
-            next({
-                path: '/login'
-            })
-        } else {
-            next()
-        }
-
-    }
-    if (from.path.startsWith('/login')) {
-        console.log(this)
-    } else {
-        if (to.path.startsWith('/admin_center')) {
-
-            let user = window.sessionStorage.getItem('role')
-
-            if (user !== "1") {
-                console.log(this)
-                window.alert("你没有管理员权限");
-            } else {
-                next()
-            }
-        } else if (to.path.startsWith('/teacher_center')) {
-            let user = window.sessionStorage.getItem('role')
-            if (user === "2") {
-                next()
-            } else {
-                console.log(this)
-                window.alert("你没有老师权限");
-            }
-        } else if (to.path.startsWith('/stu_center')) {
-            let user = window.sessionStorage.getItem('role')
-            if (user === "3") {
-                next()
-            } else {
-                console.log(this)
-                window.alert("你不是学生");
-            }
-        } else {
-            next()
-        }
-
-    }
-});
+// Router.beforeEach(async (to, from, next) => {
+//     if (to.path.startsWith('/login')) {
+//         Cookies.remove('username')
+//         if (JSON.parse(sessionStorage.getItem("userInfo"))!==null){
+//             const username = JSON.parse(sessionStorage.getItem("userInfo")).data.username
+//             if (username === null)
+//                 await requestUtil.post("/eduservice/t-user/logout?username=alice")
+//             else
+//                 await requestUtil.post("/eduservice/t-user/logout?username=" + username)
+//         }else {
+//             await requestUtil.post("/eduservice/t-user/logout?username=alice")
+//         }
+//         window.sessionStorage.clear()
+//         sessionStorage.clear()
+//         // router.push("/login").then(() => location.reload()).catch(err => console.log(err))
+//         next()
+//     } else if (to.path.startsWith('/enroll')) {
+//         next()
+//     } else if (from.path.startsWith('/login')) {
+//         let user = window.sessionStorage.getItem('role')
+//
+//         if (!user) {
+//             console.log(this)
+//             window.alert("请先登录");
+//             next({
+//                 path: '/login'
+//             })
+//         } else {
+//             next()
+//         }
+//
+//     }
+//     if (from.path.startsWith('/login')) {
+//         console.log(this)
+//     } else {
+//         if (to.path.startsWith('/admin_center')) {
+//
+//             let user = window.sessionStorage.getItem('role')
+//
+//             if (user !== "1") {
+//                 console.log(this)
+//                 window.alert("你没有管理员权限");
+//             } else {
+//                 next()
+//             }
+//         } else if (to.path.startsWith('/teacher_center')) {
+//             let user = window.sessionStorage.getItem('role')
+//             if (user === "2") {
+//                 next()
+//             } else {
+//                 console.log(this)
+//                 window.alert("你没有老师权限");
+//             }
+//         } else if (to.path.startsWith('/stu_center')) {
+//             let user = window.sessionStorage.getItem('role')
+//             if (user === "3") {
+//                 next()
+//             } else {
+//                 console.log(this)
+//                 window.alert("你不是学生");
+//             }
+//         } else {
+//             next()
+//         }
+//
+//     }
+// });
 
 

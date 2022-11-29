@@ -61,7 +61,7 @@ export default {
       }
     }
   },
- 
+
   methods: {
     // 登录 11/18 少token
     loginHandler() {
@@ -82,7 +82,7 @@ export default {
         this.$store.commit('setToken', res.data.data.authorization)
         this.$store.commit('setRole', res.data.data.role)
         this.$message.success("Successfustatelly login")
-         window.localStorage.setItem('token', res.data.id)
+        window.localStorage.setItem('token', res.data.id)
         // window.sessionStorage.setItem('token', res.data.role)
         await this.$router.push('/main_page')
       })
