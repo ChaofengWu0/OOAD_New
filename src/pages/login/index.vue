@@ -1,32 +1,23 @@
 <template>
-
   <div class="login_container">
     <div class="login_box">
-      <!--登录表单 -->
       <el-form class="login_form" :model="loginForm" :rules="loginRules" ref="login_form_ref">
-        <!--   用户名     -->
         <el-form-item label="账号" class="user_input" prop="username">
           <el-input v-model="loginForm.username" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
-
-        <!--密码-->
         <el-form-item label="密码" class="pwd_input" prop="password">
           <el-input v-model="loginForm.password" prefix-icon="el-icon_pwd" type="password"></el-input>
         </el-form-item>
-        <!-- 记住密码 -->
         <el-form-item class="select_button">
-          <!--登录按钮-->
           <el-button type="primary" @click="loginHandler" class="login_button">
             登录
           </el-button>
-
           <router-link to="/enroll">
             <el-button type="primary" class="enroll_button">
               注册
             </el-button>
           </router-link>
         </el-form-item>
-
       </el-form>
     </div>
   </div>
@@ -38,9 +29,6 @@ import requestUtil from "@/utils/request"
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'index',
-  mounted() {
-    window.addEventListener('beforeunload', e => this.beforeunloadHandler(e))
-  },
   data() {
     return {
       // 表单数据对象
@@ -61,29 +49,20 @@ export default {
       }
     }
   },
-
   methods: {
-    // 登录 11/18 少token
     loginHandler() {
-      // p22
       this.$refs.login_form_ref.validate(async valid => {
         if (!valid) {
-          console.log('验证失败')
+          this.$message.error('验证失败')
           return
         }
-        console.log(qs.stringify(this.loginForm))
         const {data: res} = await requestUtil.post('/eduservice/login?' + qs.stringify(this.loginForm))
-        console.log(res);
-        // 失败
         if (res.code !== 20000)
           return this.$message.error("Wrong!login failed")
-        // 成功
         this.$store.commit('setUserInfo', res.data)
         this.$store.commit('setToken', res.data.data.authorization)
         this.$store.commit('setRole', res.data.data.role)
         this.$message.success("Successfustatelly login")
-        window.localStorage.setItem('token', res.data.id)
-        // window.sessionStorage.setItem('token', res.data.role)
         await this.$router.push('/main_page')
       })
     },
