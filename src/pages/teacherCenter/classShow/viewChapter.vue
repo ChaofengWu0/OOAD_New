@@ -220,10 +220,37 @@ export default {
       this.dialogFormVisibleForProblem = false
       // 提交给后端
       let returnForm = []
-      for (const problem of this.dynamicValidateForm) {
-        returnForm.push(problem)
+      for (const idx in this.dynamicValidateForm) {
+        let problem = this.dynamicValidateForm[idx]
+        for (const problemElement of problem) {
+          let myanswer = 0
+          switch (problemElement.answer) {
+            case "A":
+              myanswer = 0
+              break
+            case "B":
+              myanswer = 1
+              break
+            case "C":
+              myanswer = 2
+              break
+            case "D":
+              myanswer = 3
+              break
+          }
+          const ret = {
+            content: problemElement.value,
+            optionA: problemElement.optionA,
+            optionB: problemElement.optionB,
+            optionC: problemElement.optionC,
+            optionD: problemElement.optionD,
+            answer: myanswer
+          }
+          returnForm.push(ret)
+        }
       }
-      const {data: res} = await requestUtil.post('/eduservice/t-problem' + this.nowChapter, returnForm);
+      console.log(returnForm)
+      const {data: res} = await requestUtil.post('/eduservice/t-problem/' + this.nowChapter, returnForm);
       console.log(res)
       if (res.code !== 20000) {
         this.$message.error("Wrong! Renderer failed")

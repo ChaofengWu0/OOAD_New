@@ -122,7 +122,8 @@ export default {
   methods: {
     view_hw(row) {
       console.log(row)
-      window.open("http://localhost:8080/#/pdf/"+row.hwUrl,"_blank")
+      let tmp = row.hwUrl.split("https://")
+      window.open("http://localhost:8080/#/pdf/"+tmp[1],"_blank")
     },
 
     getCourseID() {

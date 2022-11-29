@@ -88,10 +88,10 @@ export default {
     async watchVideo(row) {
       console.log(1111111111111111111)
       console.log(row)
-      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterInfo/' + row.id)
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterInfo/' + row.chapterId)
       console.log(res)
 
-      this.$router.push({path: '/player/' + res.data.chapter.videoUrl + '/' + row.id})
+      await this.$router.push({path: '/player/' + res.data.chapter.videoUrl + '/' + row.chapterId})
     },
 
 
