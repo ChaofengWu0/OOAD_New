@@ -157,7 +157,7 @@ export default {
 
     score(row) {
       this.score_dialog = true
-      this.chapter_id = row.id
+      this.chapter_id = row.chapterId
     },
 
 
@@ -185,6 +185,7 @@ export default {
 
     async submit_score() {
       this.score_dialog = false
+      console.log(1111111111111111111111111111);
       this.score_return.chapterId = this.chapter_id
       this.score_return.studentId = this.student_id
       console.log(this.score_return);

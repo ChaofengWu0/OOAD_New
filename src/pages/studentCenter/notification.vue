@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/eduservice/t-notice?studentId='+ this.$store.getters.getUserInfo.data.id)
+      const {data: res} = await requestUtil.get('/eduservice/t-notice?studentId='+ JSON.parse(sessionStorage.getItem("userInfo")).data.id)
       console.log(res);
       this.notifications = res.data.noticeList
       if (res.code !== 20000)

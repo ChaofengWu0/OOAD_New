@@ -232,16 +232,16 @@ export default {
       handler(newV) {
         console.log(newV)
         if (newV > this.one_forth_time && newV < this.one_forth_time * 2) {
-          this.record_watch_time(0.25)
+          this.record_watch_time(25)
           console.log('已经完成1/4')
         } else if (newV > 2 * this.one_forth_time && newV < 3 * this.one_forth_time) {
-          this.record_watch_time(0.5)
+          this.record_watch_time(50)
         } else if (newV > this.check_time) {
           this.$refs.VueAliplayerV2.pause()
           this.endCheckHandler()
           this.windowVisible = true
         } else if (newV > 3 * this.one_forth_time && newV < 4 * this.one_forth_time) {
-          this.record_watch_time(0.75)
+          this.record_watch_time(75)
         }
       }
     },
@@ -342,7 +342,7 @@ export default {
 
     end() {
       // todo
-      this.record_watch_time(1)
+      this.record_watch_time(100)
       this.check_time_flag = null
       this.current_time = null
     },

@@ -147,8 +147,9 @@ export default {
     },
 
     async submit_email() {
+      this.email_return.sendTo('1720751884@qq.com')
       const {data: res} = await requestUtil.post('/send-email/simple', this.email_return)
-      if (res.code === 20000){
+      if (res.code === 20000) {
         this.$message.success("邮件发送成功")
       }
       this.email_return = {
@@ -211,6 +212,9 @@ export default {
     },
 
     async submit() {
+      this.notice_return.title = this.notice_title
+      this.notice_return.courseId = this.course_id
+      this.notice_return.content = this.notice
       const {data: res} = await requestUtil.post('/eduservice/t-notice', this.notice_return)
       console.log(res)
       if (res.code === 20000) {
