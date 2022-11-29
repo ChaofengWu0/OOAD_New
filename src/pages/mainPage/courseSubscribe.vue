@@ -11,14 +11,17 @@
         <h2> 老师ID：{{ teacher_name }}</h2>
 
         <el-button style="margin-left: 60px; padding: 20px" class="watch_video" type="primary" @click="watch_video"
-                   v-if="is_subscribed || this.role !==3 ">
+                   v-if="is_subscribed || this.role === '3' || this.role === '2'">
           立 即 观 看 第 一 集
         </el-button>
         <el-button style="margin-left: 60px; padding: 20px" class="subscribe_course" type="warning" @click="subscribe"
-                   v-if="!is_subscribed && this.role === 3">订 阅
+                   v-if="!is_subscribed && this.role === '1'">订 阅
         </el-button>
       </div>
     </div>
+
+    <el-button style="margin-left: 20px; margin-top: 20px" @click="main_page">返 回 主 页
+    </el-button>
 
     <div class="class_detail">
       <!--      <div class="class_detail_left_ele">-->
@@ -65,11 +68,19 @@ export default {
       teacher_name: "teacher_name",
       is_free: false,
       is_subscribed: false,
+
+      video_id: null,
+      chapter_id: null,
       course_id: null,
       course_cover: null,
       course_text_info: null,
       course_detail: "课程详情",
       paidForm: false,
+
+      course_student: {
+        courseId: this.course_id,
+        studentId: JSON.parse(sessionStorage.getItem("userInfo")).data.id
+      },
 
       subscribe_form: {
         courseId: null,
@@ -87,12 +98,29 @@ export default {
   created() {
     this.getCourseID()
     this.getCover()
-    this.role = JSON.parse(sessionStorage.getItem("userInfo")).data.role
+    this.getVideoID()
+    this.check()
+    this.role = JSON.parse(sessionStorage.getItem("userInfo")).data.id
   },
-
   methods: {
+    async check() {
+      const {data: res} = await requestUtil.post('/eduservice/t-course-student', this.course_student)
+      if (res.code === 20000) {
+        this.is_subscribed = true
+      } else {
+        this.is_subscribed = false
+      }
+    },
+
+    async getVideoID() {
+      console.log(this.course_id)
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getVideoIdByCourseId?courseId=' + this.course_id)
+      this.video_id = res.data.video_id
+      this.chapter_id = res.data.chapter_id
+    },
+
     watch_video() {
-      // this.$router.push('/player/'+this.)
+      this.$router.push('/player/' + this.video_id + '/' + this.chapter_id)
       console.log("watch_video")
     },
 
@@ -115,7 +143,6 @@ export default {
     async getCover() {
       // const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseDetailById/' + this.course_id)
       const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseInfo/' + this.course_id)
-      console.log(res);
       this.title = res.data.courseInfoVo.title
       this.teacher_name = res.data.courseInfoVo.teacherId
       this.price = res.data.courseInfoVo.price
@@ -138,18 +165,18 @@ export default {
     async submit() {
       this.paidForm = false
       console.log("submit")
-      console.log(JSON.parse(sessionStorage.getItem("userInfo")).data.money)
-      console.log(JSON.parse(sessionStorage.getItem("userInfo")))
+      console.log( JSON.parse(sessionStorage.getItem("userInfo")).data.money)
+      console.log( JSON.parse(sessionStorage.getItem("userInfo")))
       //   todo  调用后端方法去告诉后端数据变化
-      console.log(JSON.parse(sessionStorage.getItem("userInfo")).data.money - this.price)
-      if (Number(JSON.parse(sessionStorage.getItem("userInfo")).data.money) >= Number(this.price)) {
-        let new_money = -this.price;
+      console.log( JSON.parse(sessionStorage.getItem("userInfo")).data.money - this.price)
+      if (Number(  JSON.parse(sessionStorage.getItem("userInfo")).data.money) >= Number (this.price)) {
+        let new_money =  - this.price;
         this.subscribe_stu.money = new_money
-        this.subscribe_stu.userId = JSON.parse(sessionStorage.getItem("userInfo")).data.id
+        this.subscribe_stu.userId=  JSON.parse(sessionStorage.getItem("userInfo")).data.id
         //   todo 第一个要给你(money-price)和studentID
-        const {data: res} = await requestUtil.put('/eduservice/t-user/updateMoneyById?' + qs.stringify(this.subscribe_stu))
-        let res1 = JSON.parse(sessionStorage.getItem("userInfo"))
-        res1.data.money = res1.data.money - this.price;
+        const {data: res} = await requestUtil.put('/eduservice/t-user/updateMoneyById?'+qs.stringify(this.subscribe_stu))
+        let res1=JSON.parse(sessionStorage.getItem("userInfo"))
+        res1.data.money= res1.data.money- this.price;
         this.$store.commit('setUserInfo', res1)
         if (res.code === 20000) {
           this.$message("付费成功")
@@ -157,6 +184,7 @@ export default {
           const {data: res} = await requestUtil.post('/eduservice/t-course-student', this.subscribe_form)
           if (res.code === 20000) {
             this.$message.success("订阅成功")
+            this.check()
           }
         } else {
           this.$message.error("付费失败")
@@ -164,6 +192,9 @@ export default {
       } else {
         this.$message.warning("余额不足")
       }
+    },
+    main_page() {
+      this.$router.push('/main_page')
     }
 
   },
