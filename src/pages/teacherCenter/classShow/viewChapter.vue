@@ -161,12 +161,15 @@ export default {
 
   methods: {
 
-    choose(row){
+    previous() {
+      this.$router.push("/teacher_center/my_classes/course_detail/" + this.course_id)
+    },
+
+    choose(row) {
       this.row_id = row.id
     },
 
     success(res) {
-      // this.homework_url = res.data.url
       this.teacher_give_homework.homeworkUrl = res.data.url
       console.log(res)
     },
