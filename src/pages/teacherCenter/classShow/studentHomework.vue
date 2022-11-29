@@ -49,12 +49,12 @@
             <!--            <el-button type="success" @click="getDoucument (scope.row)">-->
             <!--              在线查看本章作业-->
             <!--            </el-button>-->
-            <router-link target="_blank"
-                         :to="{path:'/pdf/'}">
-              <el-button class="homework">
-                在 线 查 看 作 业
-              </el-button>
-            </router-link>
+            <!--            <router-link target="_blank"-->
+            <!--                         :to="{path:'/pdf/'}">-->
+            <el-button class="homework" @click="view_hw(scope.row)">
+              在 线 查 看 作 业
+            </el-button>
+            <!--            </router-link>-->
 
             <el-button type="success" @click.native.prevent="score (scope.row)">
               打分
@@ -79,11 +79,8 @@
 </template>
 
 <script>
-
-// let Base64 = require('js-base64').Base64;
-
 import requestUtil from "@/utils/request";
-import qs from "qs";
+// import qs from "qs";
 
 
 export default {
@@ -94,6 +91,8 @@ export default {
     return {
 
       homeworkUrl: null,
+
+
 
       course_return: {
         courseId: "",
@@ -118,9 +117,14 @@ export default {
   },
   created() {
     this.getCourseID()
-    // this.getUserList()
+    this.getUserList()
   },
   methods: {
+    view_hw(row) {
+      console.log(row)
+      window.open("http://localhost:8080/#/pdf/"+row.hwUrl,"_blank")
+    },
+
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         let String_all = this.$route.params.id
@@ -133,32 +137,22 @@ export default {
       }
     },
 
-    // previewFileEvent() {
-    //   let url = ''
-    //   // 使用微软的office online
-    //   url = 'http://view.officeapps.live.com/op/view.aspx?src=' + ' http://www.cnblogs.com/xiyangbaixue/'
-    //   // window.open()居中打开
-    //   const width = 1000;
-    //   const height = 800
-    //   const top = (window.screen.availHeight - height) / 2
-    //   const left = (window.screen.availWidth - width) / 2
-    //   window.open(url, '', 'width=' + width + ',height=' + height + ',top=' + top + ',left=' + left)
-    // },
-
     async getUserList() {
       this.course_return.courseId = this.course_id
       this.course_return.studentId = this.student_id
-      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?' + qs.stringify(this.course_return))
+      // const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?' + qs.stringify(this.course_return))
+      const {data: res} = await requestUtil.put('/eduservice/t-chapter-student/all', this.course_return)
       console.log(res);
-      this.tableData = res.data.ChapterList
+      // this.tableData = res.data.ChapterList
+      this.tableData = res.data.chapterStudent
       console.log(this.tableData)
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
 
-    async getDoucument(row) {
-      console.log(row)
-    },
+    // async getDoucument(row) {
+    //   console.log(row)
+    // },
 
     score(row) {
       this.score_dialog = true
@@ -196,7 +190,6 @@ export default {
       const {data: res} = await requestUtil.put('/eduservice/t-chapter-student/hw', this.score_return)
       console.log(res);
       await this.getUserList()
-
     },
 
     cancel_score() {
