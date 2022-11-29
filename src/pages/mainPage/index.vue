@@ -181,6 +181,25 @@ export default {
       this.avatar = JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
     })
   },
+  mounted() {
+    let beginTime = 0; //开始时间
+    let differTime = 0; //时间差
+    window.onunload = async function () {
+      differTime = new Date().getTime() - beginTime;
+      if (differTime <= 10) {
+        await requestUtil.post("/eduservice/t-user/logout?username=" + JSON.parse(sessionStorage.getItem("userInfo")).data.username)
+        window.sessionStorage.clear()
+      } else {
+        console.log("这是刷新");
+      }
+    };
+
+    window.onbeforeunload = function () {
+      beginTime = new Date().getTime();
+    }
+  },
+
+
 
   methods: {
     async getCourses() {

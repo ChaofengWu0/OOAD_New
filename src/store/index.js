@@ -71,11 +71,3 @@ export default new Vuex.Store({
         }
     }
 })
-window.onbeforeunload = function () {
-    alert ("===οnbefοreunlοad===");
-    if (event.clientX > document.body.clientWidth && event.clientY < 0 || event.altKey) {
-        window.message ("你关闭了浏览器");
-    } else {
-        window.message  ("你正在刷新页面");
-    }
-}

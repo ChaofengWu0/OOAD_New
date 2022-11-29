@@ -87,6 +87,7 @@ export default {
     this.getCourseID()
     this.getCover()
   },
+
   methods: {
     watch_video() {
       console.log("watch_video")
