@@ -349,11 +349,15 @@ export default Router
 Router.beforeEach(async (to, from, next) => {
     if (to.path.startsWith('/login')) {
         Cookies.remove('username')
-        const username = JSON.parse(sessionStorage.getItem("userInfo")).data.username
-        if (username === null)
+        if (JSON.parse(sessionStorage.getItem("userInfo"))!==null){
+            const username = JSON.parse(sessionStorage.getItem("userInfo")).data.username
+            if (username === null)
+                await requestUtil.post("/eduservice/t-user/logout?username=alice")
+            else
+                await requestUtil.post("/eduservice/t-user/logout?username=" + username)
+        }else {
             await requestUtil.post("/eduservice/t-user/logout?username=alice")
-        else
-            await requestUtil.post("/eduservice/t-user/logout?username=" + username)
+        }
         window.sessionStorage.clear()
         sessionStorage.clear()
         // router.push("/login").then(() => location.reload()).catch(err => console.log(err))
