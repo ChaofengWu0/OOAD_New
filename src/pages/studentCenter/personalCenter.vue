@@ -76,6 +76,7 @@
           </el-upload>
         </el-form-item>
 
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel" style="width: 80px; height: 50px">
