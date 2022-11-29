@@ -80,7 +80,7 @@
 
 <script>
 import requestUtil from "@/utils/request";
-// import qs from "qs";
+import qs from "qs";
 
 
 export default {
@@ -140,11 +140,11 @@ export default {
     async getUserList() {
       this.course_return.courseId = this.course_id
       this.course_return.studentId = this.student_id
-      // const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?' + qs.stringify(this.course_return))
-      const {data: res} = await requestUtil.put('/eduservice/t-chapter-student/all', this.course_return)
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?' + qs.stringify(this.course_return))
+      // const {data: res} = await requestUtil.put('/eduservice/t-chapter-student/all', this.course_return)
       console.log(res);
-      // this.tableData = res.data.ChapterList
-      this.tableData = res.data.chapterStudent
+      this.tableData = res.data.ChapterStudentList
+      // this.tableData = res.data.chapterStudent
       console.log(this.tableData)
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
