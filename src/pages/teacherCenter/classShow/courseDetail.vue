@@ -147,16 +147,20 @@ export default {
     },
 
     async submit_email() {
-      this.email_return.sendTo('1720751884@qq.com')
-      const {data: res} = await requestUtil.post('/send-email/simple', this.email_return)
+      this.email_return.sendTo = '1720751884@qq.com'
+      this.email_return.filePath = "/"
+      console.log(111111111111111111111111)
+      console.log(this.email_return)
+      const {data: res} = await requestUtil.post('/eduservice/send-email/simple', this.email_return)
+      console.log(res)
       if (res.code === 20000) {
         this.$message.success("邮件发送成功")
       }
       this.email_return = {
         filePath: "/",
-        subject: this.notice_title,
-        sendTo: this.course_id,
-        text: this.notice
+        subject: null,
+        sendTo: null,
+        text: null
       }
     },
 
