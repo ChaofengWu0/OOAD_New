@@ -1,6 +1,8 @@
 <template>
   <div>
     <template>
+      <el-button @click="previous" type="success" style="margin-left: 5px">返回课程详情</el-button>
+
       <el-table
           ref="multipleTable"
           :data="tableData"

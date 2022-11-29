@@ -43,7 +43,7 @@
         </el-table-column>
         <el-table-column>
           <template slot-scope="scope">
-            <el-button @click.native.prevent="getDetail(scope.row)" @click="dialogFormVisible=true" type="primary">
+            <el-button @click.native.prevent="getDetail(scope.row)" type="primary">
               详情
             </el-button>
           </template>
@@ -71,8 +71,6 @@ export default {
     return {
       teacherUsername: "",
       course_id: "1",
-      notice: "",
-      dialogFormVisible: false,
       course_data: [{
         course_ID: "1",
         course_name: "课程名字",
@@ -84,12 +82,7 @@ export default {
     }
   },
   created() {
-    // this.getUserList()
-  },
-  watch: {
-    notice(newV) {
-      console.log(newV)
-    }
+    this.getUserList()
   },
 
   methods: {
@@ -102,14 +95,7 @@ export default {
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
-    cancel() {
-      this.dialogFormVisible = false
-      this.notice = ""
-    },
-    submit() {
-      this.dialogFormVisible = false
-      this.notice = ""
-    },
+
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -119,16 +105,16 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
+
     tableCellClassName({row, column, rowIndex, columnIndex}) {
       //注意这里是解构
       //利用单元格的 className 的回调方法，给行列索引赋值
       row.index = rowIndex + 1;
       column.index = columnIndex + 1;
     },
+
     getDetail(row) {
       this.$router.push({path: '/teacher_center/my_classes/course_detail/' + row.id})
-
-      console.log(row.row)
     }
   }
 

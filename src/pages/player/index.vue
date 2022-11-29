@@ -24,12 +24,10 @@
             <span @click="pause">暂停</span>
             <!--          <span @click="getStatus_test()">获取播放器状态</span>-->
           </div>
-          <router-link target="_blank"
-                       :to="{path:'/pdf/'+this.chapter_hw_url_after_process_para1+'/'+this.chapter_hw_url_after_process_para2}">
-            <el-button class="homework">
-              在 线 查 看 作 业
-            </el-button>
-          </router-link>
+
+          <el-button @click="view_hw" class="homework">
+            在 线 查 看 作 业
+          </el-button>
 
 
           <div class="upload_homework">
@@ -104,10 +102,7 @@ export default {
   data() {
     return {
       // 学生要拿到的作业
-      chapter_hw_url_before_process: null,
-      chapter_hw_url_after_process_para1: null,
-      chapter_hw_url_after_process_para2: null,
-
+      chapter_hw_url: null,
       // 学生要上传的作业
       stu_hw_form: {
         hwUrl: null,
@@ -213,7 +208,7 @@ export default {
 
   created() {
     this.getVideoID()
-    // console.log(this.chapter_hw_url_before_process)
+    this.getChapterUrl()
     sessionStorage.removeItem('problems' + this.chapter_id)
   },
 
@@ -246,6 +241,13 @@ export default {
   },
 
   methods: {
+
+    async getChapterUrl() {
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterInfo/' + this.chapter_id)
+      this.chapter_hw_url = res.data.chapter.homeworkUrl
+      console.log(res)
+    },
+
     async record_watch_time(time) {
       this.record_time_form.time = time
       this.record_time_form.chapterId = this.chapter_id
@@ -330,15 +332,18 @@ export default {
       this.startHandler()
     },
 
+    view_hw() {
+      // window.open("http://localhost:8080/#/pdf/"+row.hwUrl,"_blank")
+      console.log(this.chapter_hw_url)
+      window.open("http://localhost:8080/#/pdf/" + this.chapter_hw_url, '_blank')
+    },
+
     async getVideoID() {
-      console.log("getVideoId")
       if (this.$route.params && this.$route.params.id && this.$route.params.chapter) {
         this.video_id = this.$route.params.id
         this.chapter_id = this.$route.params.chapter
         // this.video_id = "2cd729109884494ab431f44f6bcc4ea3"
-        console.log(this.video_id)
         const {data: res} = await requestUtil.get('/edu-vod/video/getAutoPlayUrl/' + this.video_id)
-        console.log(res)
         this.source = res.data.autoUrl
       } else {
         this.$message("Wrong in function getVideoID which is in classChapter.Vue ")
@@ -427,6 +432,7 @@ export default {
         }
       }, 1000)
     },
+
     // 暂停计时
     endHandler() {
       this.flag = clearInterval(this.flag)

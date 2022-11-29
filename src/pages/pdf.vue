@@ -34,6 +34,7 @@ export default {
       }
     },
   },
+
   created() {
     this.getPDf()
     console.log("created")

@@ -1,6 +1,7 @@
 <template>
   <div>
     <template>
+      <el-button @click="previous" type="success" style="margin-left: 5px">返回课程详情</el-button>
       <el-table
           ref="multipleTable"
           :data="student_list"
@@ -86,24 +87,31 @@ export default {
     this.getUserList()
   },
   methods: {
-    formatterType(){
+    previous() {
+      this.$router.push('/teacher_center/my_classes/course_detail/' + this.course_id)
+    },
+
+    formatterType() {
       return this.course_id
     },
     async getUserList() {
-      const {data: res} = await requestUtil.get('/eduservice/edu-course/getStudentByCourseId/'+this.course_id )
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getStudentByCourseId/' + this.course_id)
       console.log(res);
       this.student_list = res.data.StudentList
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
+
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         this.course_id = this.$route.params.id
-        console.log(this.course_ID)
+        console.log("courseID")
+        console.log(this.course_id)
       } else {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
     },
+
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -113,6 +121,7 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
+
     tableCellClassName({row, column, rowIndex, columnIndex}) {
       //注意这里是解构
       //利用单元格的 className 的回调方法，给行列索引赋值
@@ -142,9 +151,9 @@ export default {
       //   studentName: dataList.student_name
       // }
 
-      let sheetfilter = ["name","a"]
-      dataTable[0]["name"]=row.id.toString()
-      dataTable[0]["a"]=this.course_id.toString()
+      let sheetfilter = ["name", "a"]
+      dataTable[0]["name"] = row.id.toString()
+      dataTable[0]["a"] = this.course_id.toString()
 
       console.log(dataTable)
       option.filename = "成绩";  //excel文件名
@@ -152,9 +161,9 @@ export default {
       let header = ["学生ID", "课程ID"]
       for (let i in res.data.allChapterVideo) {
         sheetfilter.push("i")
-        header.push("第"+i+"章")
+        header.push("第" + i + "章")
         console.log(i);
-        dataTable[0]["i"]=res.data.allChapterVideo[i].grade
+        dataTable[0]["i"] = res.data.allChapterVideo[i].grade
         // dataTable.push(res.data.allChapterVideo[i].grade)
       }
       console.log(header);
@@ -179,7 +188,7 @@ export default {
     },
 
     async delete_student(row) {
-      const {data: res} = await requestUtil.delete1('/eduservice/edu-course/' + this.course_id+"/"+row.id)
+      const {data: res} = await requestUtil.delete1('/eduservice/edu-course/' + this.course_id + "/" + row.id)
       console.log(res);
       console.log(row)
       await this.getUserList()

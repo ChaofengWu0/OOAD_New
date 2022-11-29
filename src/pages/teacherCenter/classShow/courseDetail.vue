@@ -10,6 +10,7 @@
           style="width: 100%"
           class="list_content">
         <el-table-column>
+          <el-button @click="previous" type="success">返回课程列表</el-button>
           <el-button @click.native.prevent="getStudent" type="primary">课程学生名单</el-button>
           <el-button @click.native.prevent="get_chapter" type="primary">查看课程章节</el-button>
           <el-button @click.native.prevent="send_notice" @click="dialogFormVisible=true" type="primary">
@@ -109,6 +110,10 @@ export default {
   },
 
   methods: {
+    previous() {
+      this.$router.push('/teacher_center/my_classes/class_list')
+    },
+
     get_chapter() {
       this.$router.push({path: '/teacher_center/my_classes/view_chapter/' + this.course_id})
     },
