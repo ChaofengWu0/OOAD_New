@@ -13,23 +13,23 @@
           class="list_content">
 
         <el-table-column
-            prop="studentId"
-            label="学生ID"
+            prop="chapterId"
+            label="章节"
             width="200">
         </el-table-column>
 
         <el-table-column
-            prop="sort"
-            label="第几章"
+            prop="hwGrade"
+            label="作业成绩"
             width="200">
         </el-table-column>
-
 
         <el-table-column
-            prop="grade"
-            label="章节成绩"
+            prop="proGrade"
+            label="答题成绩"
             width="200">
         </el-table-column>
+
         <el-table-column
             prop="time"
             label="视频进度"
@@ -52,7 +52,7 @@
 
 <script>
 import requestUtil from "@/utils/request";
-
+import qs from "qs"
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -93,9 +93,18 @@ export default {
 
     async getUserList() {
       console.log(this.course_id)
-      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterVideo/' + this.course_id)
+      // const getForm = {
+      //   courseId: this.course_id,
+      //   studentId: JSON.parse(sessionStorage.getItem("userInfo")).data.id
+      // }
+      const getForm = {
+        courseId: '15',
+        studentId: JSON.parse(sessionStorage.getItem("userInfo")).data.id
+      }
+      console.log(getForm)
+      const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?' + qs.stringify(getForm))
       console.log(res)
-      this.tableData = res.data.allChapterVideo
+      this.tableData = res.data.ChapterStudentList
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },

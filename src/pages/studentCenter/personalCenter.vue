@@ -90,10 +90,10 @@
 
     <el-dialog title="充值" :visible.sync="dialogFormMoney" width="300px">
       充值金额
-      <el-input-number v-model="to_add_money" :min="0"></el-input-number>
+      <el-input-number v-model="toAddMoney" :min="0"></el-input-number>
       <div slot="footer" class="dialog-footer">
-        <el-button style="padding: 15px" @click="dialogFormMoney = false;to_add_money=0">取 消</el-button>
-        <el-button style="padding: 15px" type="primary" @click="ready_to_give_money">确 定</el-button>
+        <el-button style="padding: 15px" @click="dialogFormMoney = false;toAddMoney=0">取 消</el-button>
+        <el-button style="padding: 15px" type="primary" @click="readyToGiveMoney">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -119,7 +119,7 @@ export default {
         // 余额加在这里了
         remain: userInfo.data.money
       },
-      to_add_money: 0,
+      toAddMoney: 0,
       dialogFormMoney: false,
       formLabelWidth: "120px",
       dialogFormVisible: false,
@@ -142,7 +142,7 @@ export default {
 
     cancel() {
       this.change_form.name = this.original_data.nickName
-      this.change_form.avatar= this.original_data.avatar
+      this.change_form.avatar = this.original_data.avatar
       this.change_form.phone = this.original_data.phone
       this.change_form.email = this.original_data.email
       this.dialogFormVisible = false
@@ -174,11 +174,17 @@ export default {
       this.dialogFormMoney = true;
     },
 
-    ready_to_give_money() {
+    async readyToGiveMoney() {
       this.dialogFormMoney = false
-      //todo 发起请求
-
-      this.to_add_money = 0
+      const order = {
+        userId: JSON.parse(sessionStorage.getItem("userInfo")).data.id,
+        orderName: '用户' + JSON.parse(sessionStorage.getItem("userInfo")).data.username + '充值' + this.toAddMoney + '元',
+        status: '未支付',
+        total: this.toAddMoney
+      }
+      const {data: res} = await requestUtil.post('/eduservice/t-orders', order)
+      console.log(res)
+      this.toAddMoney = 0
     }
   }
 }

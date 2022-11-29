@@ -37,11 +37,9 @@ import main_page from "@/pages/mainPage"
 
 import test from "@/pages/export";
 import pdf from "@/pages/pdf";
-
 import Cookies from "js-cookie";
-import * as requestUtil from "@/utils/request";
 // import request from "@/utils/request";
-// import * as requestUtil from "@/utils/request";
+import * as requestUtil from "@/utils/request";
 // import router from "@/router"
 
 Vue.use(VueRouter)
@@ -348,6 +346,7 @@ const Router = new VueRouter({
     ]
 })
 export default Router
+
 Router.beforeEach(async (to, from, next) => {
     if (to.path.startsWith('/login')) {
         Cookies.remove('username')

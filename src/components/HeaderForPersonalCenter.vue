@@ -9,13 +9,13 @@
     </div>
 
     <div class="header_right">
-<!--      <template>-->
-<!--        <div class="avatar">-->
-<!--          <div class="block">-->
-<!--            <el-avatar :size="50" :src=this.avatar></el-avatar>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </template>-->
+      <!--      <template>-->
+      <!--        <div class="avatar">-->
+      <!--          <div class="block">-->
+      <!--            <el-avatar :size="50" :src=this.avatar></el-avatar>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </template>-->
 
 
       <el-dropdown @command="handleCommand">
@@ -27,7 +27,7 @@
           <!--
           这里点击之后，要退出登录，要清空id和啥啥啥之类的
           -->
-
+          <el-dropdown-item command="main_page">进入主页</el-dropdown-item>
           <el-dropdown-item command="logout">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -48,7 +48,7 @@ export default {
   },
   created() {
     this.avatar = JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
-    window.addEventListener('setItem', ()=> {
+    window.addEventListener('setItem', () => {
       console.log("aaaaaaaaaaaaaa")
       this.avatar = JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
     })
@@ -67,6 +67,8 @@ export default {
       if (command === "logout") {
         // 做一些处理，然后回到login界面
         this.$store.dispatch("logout")
+      } else if (command === "main_page") {
+        this.$router.push("/main_page")
       }
     }
 

@@ -165,8 +165,6 @@ export default {
   name: "index",
   data() {
     return {
-      // free_video_list: [],/
-      // paid_video_list: [],
       course_list: [],
       activeIndex: "1",
       avatar: JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
