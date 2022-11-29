@@ -76,6 +76,6 @@ window.onbeforeunload = function () {
     if (event.clientX > document.body.clientWidth && event.clientY < 0 || event.altKey) {
         window.message ("你关闭了浏览器");
     } else {
-        alert ("你正在刷新页面");
+        window.message  ("你正在刷新页面");
     }
 }
