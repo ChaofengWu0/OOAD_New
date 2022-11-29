@@ -12,10 +12,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     // 用于存储数据
     state: {
-        token: "",
-        userInfo: "",
-        role: "",
-        infoName: ""
+       token:"",
+       userInfo:"",
+       role:"",
+       infoName:""
     },
     // 准备actions，其功能用于相应组件的动作,可以commit到mutation状态，并且是从vue components dispatch来的
     actions: {
@@ -23,7 +23,8 @@ export default new Vuex.Store({
             commit("change")
         },
         async logout() {
-            await requestUtil.post("/eduservice/t-user/logout?username=" + JSON.parse(sessionStorage.getItem("userInfo")).data.username)
+            // window.alert(JSON.parse(sessionStorage.getItem("userInfo")).data.username)
+            await requestUtil.post("/eduservice/t-user/logout?username="+JSON.parse(sessionStorage.getItem("userInfo")).data.username)
             window.sessionStorage.clear()
             router.push("/login").then(() => location.reload()).catch(err => console.log(err))
         }
@@ -38,7 +39,7 @@ export default new Vuex.Store({
         getRole: () => {
             return JSON.parse(sessionStorage.getItem("role"))
         },
-        getInfo: () => {
+        getInfo:  ()=> {
             return (infoName) => {
                 return JSON.parse(sessionStorage.getItem(infoName))
             }
@@ -71,10 +72,10 @@ export default new Vuex.Store({
     }
 })
 window.onbeforeunload = function () {
-    alert("===οnbefοreunlοad===");
+    alert ("===οnbefοreunlοad===");
     if (event.clientX > document.body.clientWidth && event.clientY < 0 || event.altKey) {
-        window.message("你关闭了浏览器");
+        window.message ("你关闭了浏览器");
     } else {
-        alert("你正在刷新页面");
+        alert ("你正在刷新页面");
     }
 }

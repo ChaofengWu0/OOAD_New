@@ -6,9 +6,9 @@
       </el-image>
 
       <div class="text_info">
-        <h2>{{ title }}</h2>
-        <h2>{{ price }} </h2>
-        <h2> {{ teacher_name }}</h2>
+        <h2>课程标题：{{ title }}</h2>
+        <h2>课程价格：{{ price }} (优惠中！！)</h2>
+        <h2> 老师ID：{{ teacher_name }}</h2>
 
         <el-button style="margin-left: 60px; padding: 20px" class="watch_video" type="primary" @click="watch_video"
                    v-if="is_subscribed">
@@ -54,6 +54,7 @@
 <script>
 
 import requestUtil from "@/utils/request";
+import qs from "qs";
 
 export default {
   data() {
@@ -71,12 +72,12 @@ export default {
 
       subscribe_form: {
         courseId: null,
-        studentId: this.$store.getters.getUserInfo.data.id
+        studentId:  JSON.parse(sessionStorage.getItem("userInfo")).data.id
       },
 
 
       subscribe_stu: {
-        id: this.$store.getters.getUserInfo.data.id,
+        userId:  JSON.parse(sessionStorage.getItem("userInfo")).data.id,
         money: 0
       }
 
@@ -93,7 +94,8 @@ export default {
 
     async subscribe() {
       //  免费就直接订阅，调后端方法
-      if (this.is_free) {
+      console.log(this.price)
+      if (this.price==="0") {
         //  todo 调后端方法通知后端
         const {data: res} = await requestUtil.post('/eduservice/t-course-student', this.subscribe_form)
         if (res.code === 20000) {
@@ -101,16 +103,21 @@ export default {
         }
       }
       //  付费就弹框
-      else if (!this.is_free) {
+      else if (this.price!=="0") {
         this.paidForm = true
       }
     },
 
     async getCover() {
-      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseDetailById/' + this.course_id)
+      // const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseDetailById/' + this.course_id)
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseInfo/' + this.course_id)
       console.log(res);
-      this.course_text_info = res.data.description
-      this.course_cover = res.data.cover
+      this.title=res.data.courseInfoVo.title
+      this.teacher_name=res.data.courseInfoVo.teacherId
+      this.price=res.data.courseInfoVo.price
+      this.course_text_info = res.data.courseInfoVo.description
+      this.course_detail=res.data.courseInfoVo.description
+      this.course_cover = res.data.courseInfoVo.cover
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
@@ -126,14 +133,20 @@ export default {
 
     async submit() {
       this.paidForm = false
-      console.log(this.$store.getters.getUserInfo.data.money)
-      console.log(this.$store.getters.getUserInfo)
+      console.log("submit")
+      console.log( JSON.parse(sessionStorage.getItem("userInfo")).data.money)
+      console.log( JSON.parse(sessionStorage.getItem("userInfo")))
       //   todo  调用后端方法去告诉后端数据变化
-      if (this.$store.getters.getUserInfo.data.money <= this.price) {
-        let new_money = this.$store.getters.getUserInfo.money - this.price;
+      console.log( JSON.parse(sessionStorage.getItem("userInfo")).data.money - this.price)
+      if (Number(  JSON.parse(sessionStorage.getItem("userInfo")).data.money) >= Number (this.price)) {
+        let new_money =  - this.price;
         this.subscribe_stu.money = new_money
+        this.subscribe_stu.userId=  JSON.parse(sessionStorage.getItem("userInfo")).data.id
         //   todo 第一个要给你(money-price)和studentID
-        const {data: res} = await requestUtil.get('/eduservice/t-user', this.subscribe_stu)
+        const {data: res} = await requestUtil.put('/eduservice/t-user/updateMoneyById?'+qs.stringify(this.subscribe_stu))
+        let res1=JSON.parse(sessionStorage.getItem("userInfo"))
+        res1.data.money= res1.data.money- this.price;
+        this.$store.commit('setUserInfo', res1)
         if (res.code === 20000) {
           this.$message("付费成功")
           // todo 如果后端给我显示20000，我就继续调用加入课程的api，studentID，courseID

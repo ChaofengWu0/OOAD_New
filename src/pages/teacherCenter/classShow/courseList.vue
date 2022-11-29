@@ -87,7 +87,7 @@ export default {
 
   methods: {
     async getUserList() {
-      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByTeacherId/' + this.$store.getters.getUserInfo.data.id)
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseByTeacherId/' + JSON.parse(sessionStorage.getItem("userInfo")).data.id)
       // todo
       // this.$store.getters.getUserInfo.username
       console.log(res.data);
