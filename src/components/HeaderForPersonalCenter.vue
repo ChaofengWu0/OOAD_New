@@ -9,13 +9,13 @@
     </div>
 
     <div class="header_right">
-      <template>
-        <div class="avatar">
-          <div class="block">
-            <el-avatar :size="50" :src=this.avatar></el-avatar>
-          </div>
-        </div>
-      </template>
+<!--      <template>-->
+<!--        <div class="avatar">-->
+<!--          <div class="block">-->
+<!--            <el-avatar :size="50" :src=this.avatar></el-avatar>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </template>-->
 
 
       <el-dropdown @command="handleCommand">

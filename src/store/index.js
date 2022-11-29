@@ -3,6 +3,7 @@ import Vue from "vue"
 import Vuex from 'vuex'
 
 import router from "@/router"
+import * as requestUtil from "@/utils/request";
 
 Vue.use(Vuex);
 
@@ -21,9 +22,9 @@ export default new Vuex.Store({
         change({commit}) {
             commit("change")
         },
-        logout() {
+        async logout() {
             window.sessionStorage.clear()
-            sessionStorage.clear()
+            await requestUtil.post("/eduservice/logout")
             router.push("/login").then(() => location.reload()).catch(err => console.log(err))
         }
     },
@@ -69,3 +70,11 @@ export default new Vuex.Store({
         }
     }
 })
+window.onbeforeunload = function () {
+    alert ("===οnbefοreunlοad===");
+    if (event.clientX > document.body.clientWidth && event.clientY < 0 || event.altKey) {
+        window.message ("你关闭了浏览器");
+    } else {
+        alert ("你正在刷新页面");
+    }
+}

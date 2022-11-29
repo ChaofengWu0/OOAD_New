@@ -16,7 +16,7 @@
             <template>
               <div class="avatar">
                 <div class="block">
-                  <el-avatar :size="50" :src="this.$store.getters.getUserInfo.data.avatar"></el-avatar>
+                  <el-avatar :size="50" :src=this.avatar></el-avatar>
                 </div>
               </div>
             </template>
@@ -168,11 +168,18 @@ export default {
       // free_video_list: [],/
       // paid_video_list: [],
       course_list: [],
-      activeIndex: "1"
+      activeIndex: "1",
+      avatar: JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
     }
   },
+
   created() {
     this.getCourses()
+    this.avatar = JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
+    window.addEventListener('setItem', ()=> {
+      console.log("aaaaaaaaaaaaaa")
+      this.avatar = JSON.parse(sessionStorage.getItem("userInfo")).data.avatar
+    })
   },
 
   methods: {
