@@ -318,7 +318,7 @@ const Router = new VueRouter({
     },
 
     {
-      path: "/pdf/:para1/:para2",
+      path: "/pdf/:para1",
       component: pdf
     },
 

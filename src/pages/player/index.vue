@@ -356,9 +356,7 @@ export default {
 
     view_hw() {
       console.log(this.chapter_hw_url)
-      let url = this.chapter_hw_url.split("https://")
-      console.log(url)
-      window.open("http://localhost:8080/#/pdf/" + url[1], '_blank')
+      window.open("http://localhost:8080/#/pdf/" + this.chapter_hw_url, '_blank')
     },
 
     async getVideoID() {

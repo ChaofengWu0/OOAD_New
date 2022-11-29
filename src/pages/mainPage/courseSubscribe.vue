@@ -11,11 +11,11 @@
         <h2> 老师ID：{{ teacher_name }}</h2>
 
         <el-button style="margin-left: 60px; padding: 20px" class="watch_video" type="primary" @click="watch_video"
-                   v-if="is_subscribed || this.role === '1' || this.role === '2'">
+                   v-if="is_subscribed || this.role === 1 || this.role === 2">
           立 即 观 看 第 一 集
         </el-button>
         <el-button style="margin-left: 60px; padding: 20px" class="subscribe_course" type="warning" @click="subscribe"
-                   v-if="!is_subscribed && this.role === '3'">订 阅
+                   v-if="!is_subscribed && this.role === 3">订 阅
         </el-button>
       </div>
     </div>
@@ -100,7 +100,7 @@ export default {
     this.getCover()
     this.getVideoID()
     this.check()
-    this.role = JSON.parse(sessionStorage.getItem("userInfo")).data.id
+    this.role = JSON.parse(sessionStorage.getItem("role"))
   },
   methods: {
     async check() {
@@ -109,6 +109,7 @@ export default {
       const {data: res} = await requestUtil.get('/eduservice/t-course-student?'+ qs.stringify(this.course_student))
 
       console.log(res.data.ifExists)
+      console.log(this.role)
       if (res.data.ifExists !== 'no') {
         console.log('check')
         this.is_subscribed = true

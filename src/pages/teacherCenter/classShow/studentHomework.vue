@@ -93,7 +93,6 @@ export default {
       homeworkUrl: null,
 
 
-
       course_return: {
         courseId: "",
         studentId: ""
@@ -121,9 +120,9 @@ export default {
   },
   methods: {
     view_hw(row) {
-      console.log(row)
-      let tmp = row.hwUrl.split("https://")
-      window.open("http://localhost:8080/#/pdf/"+tmp[1],"_blank")
+      // console.log(row)
+      // let tmp = row.hwUrl.split("https://")
+      window.open("http://localhost:8080/#/pdf/" + row.hwUrl, "_blank")
     },
 
     getCourseID() {
