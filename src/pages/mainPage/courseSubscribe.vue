@@ -49,7 +49,7 @@
         <div style="padding: 20px; border: solid; border-radius: 5px; width: 80%  ">
           <el-avatar :size="'small'" :src="item.avatar" alt="头像" class="usr_avatar">
           </el-avatar>
-          <div class="usr_name" style="margin-left: 10px"> {{ item.name }}</div>
+          <div class="usr_name" style="margin-left: 10px"> {{ item.nickname }}</div>
 
           <li class="comment_content" type="none"
               style="height: 50px;padding-top: 5px; padding-bottom: 40px; margin-top: 20px">
@@ -57,7 +57,7 @@
           </li>
 
           <div style="margin: 0;border:0; right: 20%;position: absolute; ">
-            {{ item.date }}
+            {{ item.gmtCreate }}
           </div>
 
         </div>
@@ -138,19 +138,26 @@ export default {
 
 
       now_discussion: null,
+      now_discussion_form: {
+        avatar: null,
+        comment: null,
+        courseId: null,
+        nickname: null,
+        userId: null,
+      },
       discussion: [
-        {
-          name: 'test1',
-          comment: 'test1_comment',
-          avatar: 'src/assets/img/banner.jpg',
-          date: 'test1-date',
-        },
-        {
-          name: 'test2',
-          comment: 'test2_comment',
-          avatar: 'src/assets/img/logo.jpg',
-          date: 'test2-date'
-        }
+        // {
+        //   name: 'test1',
+        //   comment: 'test1_comment',
+        //   avatar: 'src/assets/img/banner.jpg',
+        //   date: 'test1-date',
+        // },
+        // {
+        //   name: 'test2',
+        //   comment: 'test2_comment',
+        //   avatar: 'src/assets/img/logo.jpg',
+        //   date: 'test2-date'
+        // }
       ]
 
     }
@@ -161,13 +168,35 @@ export default {
     this.getCover()
     this.getVideoID()
     this.check()
+    this.getComment();
     this.role = JSON.parse(sessionStorage.getItem("role"))
   },
   methods: {
+    async getComment() {
+      const {data: res} = await requestUtil.get('/eduservice/t-comment/' + this.course_id)
+      console.log(res)
+      this.discussion = res.data.list;
+      console.log(this.discussion)
+    },
 
-    submit_discussion() {
-      console.log("discussion")
+    async submit_discussion() {
+      console.log('info')
+      let info = JSON.parse(sessionStorage.getItem("userInfo"))
+      console.log(info)
+      this.now_discussion_form.avatar = info.data.avatar
+      this.now_discussion_form.userId = info.data.id
+      this.now_discussion_form.nickname = info.data.nickName
+      this.now_discussion_form.courseId = this.course_id
+      this.now_discussion_form.comment = this.now_discussion
+      console.log("now_discussion_form")
+      console.log(this.now_discussion_form)
+      const {data: res} = await requestUtil.post('/eduservice/t-comment/addComment', this.now_discussion_form)
+      console.log(res)
+      if (res.code === 20000) {
+        this.$message.success("评论成功")
+      }
       this.now_discussion = ''
+      this.getComment()
     },
 
     async check() {

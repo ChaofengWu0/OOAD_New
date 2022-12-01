@@ -104,6 +104,10 @@ export default {
   },
   data() {
     return {
+      actual_time_recorder: 0,
+      actual_time: 0,
+      actual_time_flag: null,
+
       course_id: null,
       flag_for_page: null,
       role: null,
@@ -219,48 +223,59 @@ export default {
     sessionStorage.removeItem('problems' + this.chapter_id)
   },
 
-  // mounted() {
-  // let tmp = this.chapter_hw_url_before_process.split("https://")
-  // let paras = tmp[1].split('/')
-  // console.log(paras)
-  // this.chapter_hw_url_after_process_para1 = paras[0]
-  // this.chapter_hw_url_after_process_para2 = paras[1]
-  // },
-
   watch: {
-    current_time: {
+    actual_time: {
       handler(newV) {
         console.log(newV)
         if (newV > this.one_forth_time && newV < this.one_forth_time * 2) {
           this.record_watch_time(25)
-          console.log('已经完成1/4')
         } else if (newV > 2 * this.one_forth_time && newV < 3 * this.one_forth_time) {
           this.record_watch_time(50)
-        } else if (newV > this.check_time) {
-          this.$refs.VueAliplayerV2.pause()
-          this.endCheckHandler()
-          this.windowVisible = true
         } else if (newV > 3 * this.one_forth_time && newV < 4 * this.one_forth_time) {
           this.record_watch_time(75)
         }
       }
     },
+    current_time: {
+      handler(newV) {
+        if (newV > this.check_time) {
+          this.$refs.VueAliplayerV2.pause()
+          this.endCheckHandler()
+          this.windowVisible = true
+        }
+      }
+    }
+
   },
 
   methods: {
+    setActualTimeHandler() {
+      this.actual_time_flag = setInterval(() => {
+        this.actual_time_recorder += 0.1
+      }, 100)
+    },
+
+    clearActualTimeHandler() {
+      this.actual_time += this.actual_time_recorder
+      this.actual_time_recorder = 0
+      clearInterval(this.actual_time_flag)
+    },
+
 
     play() {
       this.$refs.VueAliplayerV2.play();
       this.video_time = this.$refs.VueAliplayerV2.getDuration();
-      if (this.check_time_flag == null && this.current_time == null) {
-        this.setCheckHandler()
-      }
+      this.setCheckHandler()
+      this.setActualTimeHandler()
+
       this.check_time = 2 * this.video_time / 3
       this.one_forth_time = (this.video_time / 4)
     },
 
     pause() {
       this.$refs.VueAliplayerV2.pause();
+      this.clearActualTimeHandler()
+      this.endCheckHandler();
     },
 
     setCheckHandler() {
@@ -270,7 +285,7 @@ export default {
     },
 
     endCheckHandler() {
-      this.check_time_flag = clearInterval(this.check_time_flag)
+      clearInterval(this.check_time_flag)
     },
 
     end() {
