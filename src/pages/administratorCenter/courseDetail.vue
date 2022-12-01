@@ -27,9 +27,10 @@
 
     <div class="class_info">
 
-      <el-image :src="course_cover" class="course_img">
-
-      </el-image>
+      <img :src="course_cover" style="margin-left: 20px" class="course_img">
+      <!--      <image :src="course_cover" class="course_img">-->
+      <!--      </image>-->
+      <!--      </img>-->
 
       <div class="text_info">
         课程详情介绍:
@@ -81,9 +82,10 @@ export default {
 
     async getUserList() {
       // 根据课程id获取课程详情
-      const {data: res} = await requestUtil.get('/eduservice/edu-course/' + this.course_id)
+      const {data: res} = await requestUtil.get('/eduservice/edu-course/getCourseInfo/' + this.course_id)
       console.log(res);
-      this.course_text_info = res.data.courseDetail.description
+      this.course_text_info = res.data.courseInfoVo.description
+      this.course_cover = res.data.courseInfoVo.cover
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
@@ -121,7 +123,7 @@ export default {
       }
     },
 
-    goBack(){
+    goBack() {
       this.$router.push({path: '/admin_center/application_center/'})
     },
 
@@ -141,8 +143,13 @@ export default {
 
 .course_img {
   position: absolute;
-  padding: 10px;
-  ;
+  width: 780px;
+  height: 500px;
+  margin: 10px;
+  padding-top: 10px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
 }
 
 .text_info {
@@ -151,5 +158,7 @@ export default {
   width: 530px;
   top: 10px;
 }
+
+
 
 </style>

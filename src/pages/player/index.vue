@@ -181,14 +181,6 @@ export default {
             ]
           }
         ],
-
-        components: [{
-          name: 'AliplayerDanmuComponent',
-          // eslint-disable-next-line no-undef
-          type: AliPlayerComponent.AliplayerDanmuComponent,
-          // args: [danmukuList]
-        }]
-
       },
 
 
@@ -232,7 +224,10 @@ export default {
       }
     },
     current_time: {
-      handler(newV) {
+      handler(newV, oldV) {
+        if (newV < oldV) {
+          this.actual_time = this.$refs.VueAliplayerV2.getCurrentTime()
+        }
         if (newV > this.check_time) {
           this.$refs.VueAliplayerV2.pause()
           this.endCheckHandler()
@@ -247,6 +242,8 @@ export default {
   methods: {
     end() {
       // console.log('test')
+      this.actual_time_recorder = 0
+      this.actual_time = 0
       this.clearActualTimeHandler()
       this.endCheckHandler()
     },
@@ -290,7 +287,7 @@ export default {
     setCheckHandler() {
       this.check_time_flag = setInterval(() => {
         this.current_time = this.$refs.VueAliplayerV2.getCurrentTime()
-      }, 1000)
+      }, 100)
     },
 
     endCheckHandler() {

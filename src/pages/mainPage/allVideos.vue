@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-button type="warning" @click="main_page" style="margin: 20px">返回主页</el-button>
     <template>
       <el-table
           :data="tableData"
@@ -45,6 +46,10 @@ export default {
     this.getCourses()
   },
   methods: {
+    main_page() {
+      this.$router.push("/main_page")
+    },
+
     getDetail(row) {
       this.$router.push({path: '/course/' + row.id})
     },

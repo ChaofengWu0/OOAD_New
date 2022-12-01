@@ -2,7 +2,7 @@
   <div>
     <template>
       <el-table-column>
-        <el-button @click="previous" type="success">返回课程学生列表</el-button>
+        <el-button @click="previous" type="success" style="margin-left: 10px">返回课程学生列表</el-button>
       </el-table-column>
       <el-table
           ref="multipleTable"
@@ -30,7 +30,7 @@
         </el-table-column>
         <el-table-column
             prop="time"
-            label="观看时间"
+            label="观看进度(%)"
             width="150">
         </el-table-column>
         <el-table-column

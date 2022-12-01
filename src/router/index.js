@@ -40,6 +40,7 @@ import allVideos from "@/pages/mainPage/allVideos";
 import test from "@/pages/export";
 import pdf from "@/pages/pdf";
 import Cookies from "js-cookie";
+import * as requestUtil from "@/utils/request";
 // import request from "@/utils/request";
 // import * as requestUtil from "@/utils/request";
 // import router from "@/router"
@@ -358,15 +359,15 @@ export default Router
 Router.beforeEach(async (to, from, next) => {
   if (to.path.startsWith('/login')) {
     Cookies.remove('username')
-    // if (JSON.parse(sessionStorage.getItem("userInfo")) !== null) {
-    //   const username = JSON.parse(sessionStorage.getItem("userInfo")).data.username
-    //   if (username === null)
-    //     await requestUtil.post("/eduservice/t-user/logout?username=alice")
-    //   else
-    //     await requestUtil.post("/eduservice/t-user/logout?username=" + username)
-    // } else {
-    //   await requestUtil.post("/eduservice/t-user/logout?username=alice")
-    // }
+    if (JSON.parse(sessionStorage.getItem("userInfo")) !== null) {
+      const username = JSON.parse(sessionStorage.getItem("userInfo")).data.username
+      if (username === null)
+        await requestUtil.post("/eduservice/t-user/logout?username=alice1")
+      else
+        await requestUtil.post("/eduservice/t-user/logout?username=" + username)
+    } else {
+      await requestUtil.post("/eduservice/t-user/logout?username=alice1")
+    }
     window.sessionStorage.clear()
     sessionStorage.clear()
     // router.push("/login").then(() => location.reload()).catch(err => console.log(err))

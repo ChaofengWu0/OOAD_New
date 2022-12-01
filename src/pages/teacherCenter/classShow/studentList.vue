@@ -163,10 +163,12 @@ export default {
       console.log(res.data.ChapterStudentList)
       console.log(11111111111111)
       for (let i in res.data.ChapterStudentList) {
-        sheetfilter.push("i")
+        console.log(i)
+        sheetfilter.push(i)
         header.push("第" + i + "章的作业及答题分数（各占0.5）")
-        dataTable[0]["i"] = res.data.ChapterStudentList[i].hwGrade*0.5+res.data.ChapterStudentList[i].proGrade*0.5
+        dataTable[0][i] = res.data.ChapterStudentList[i].hwGrade*0.5+res.data.ChapterStudentList[i].proGrade*0.5
       }
+      console.log(dataTable)
       console.log(header);
 
 

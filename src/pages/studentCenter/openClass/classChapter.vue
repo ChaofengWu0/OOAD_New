@@ -13,7 +13,7 @@
           class="list_content">
 
         <el-table-column
-            prop="chapterId"
+            type="index"
             label="章节"
             width="200">
         </el-table-column>

@@ -35,13 +35,12 @@
               ref="upload"
               action="http://localhost:9001/eduoss/fileoss"
               :on-success="success"
-              :before-upload="beforeAvatarUpload"
               :auto-upload="true"
               :limit="1"
           >
             <img :src="course.cover" v-if="course.cover!==''" class="cover">
             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传png文件，且不超过5Mb</div>
+            <div slot="tip" class="el-upload__tip"></div>
           </el-upload>
 
         </el-form-item>
@@ -99,18 +98,18 @@ export default {
     },
 
     //上传之前调用的方法
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/png'
-      const isLt2M = file.size / 1024 / 1024 < 5
+    // beforeAvatarUpload(file) {
+    //   const isJPG = file.type === 'image/png'
+      // const isLt2M = file.size / 1024 / 1024 < 5
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 png 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 5MB!')
-      }
-      return isJPG && isLt2M
-    },
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 png 格式!')
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 5MB!')
+      // }
+      // return isJPG
+    // },
 
 
     async next() {
