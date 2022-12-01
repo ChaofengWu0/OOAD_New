@@ -2,8 +2,8 @@
   <div class="main_container">
 
     <div class="image_container">
-      <el-image :src="course_cover" class="course_img">
-      </el-image>
+      <img :src="course_cover" style="margin-left: 20px" class="course_img">
+      <!--      </img>-->
 
       <div class="text_info">
         <h2>课程标题：{{ title }}</h2>
@@ -20,13 +20,14 @@
       </div>
     </div>
 
-    <el-button style="margin-left: 20px; margin-top: 20px" @click="main_page">返 回 主 页
+    <el-button style="margin-left: 20px; margin-top: 20px" type="warning" @click="main_page">返 回 主 页
     </el-button>
 
-    <div class="class_detail">
+    <div class="class_detail"
+         style="border: solid; border-color: #6ccd9b; margin: 20px; background-color: #6ccd9b; border-radius: 10px">
       <!--      <div class="class_detail_left_ele">-->
-      <h1 style="margin:20px;">
-        课程介绍
+      <h1 style="margin:5px; color: black">
+        课 程 介 绍
       </h1>
       <div type="text" class="detail_text">
         {{ course_detail }}
@@ -37,8 +38,31 @@
       <!--      </div>-->
     </div>
 
-
     <div class="discussion">
+      <div class="give_comment">
+        <h2 style="margin: 0">来 发 表 评 论 吧</h2>
+        <el-input v-model="now_discussion" style="width: 60%;margin-left: 20px"></el-input>
+        <el-button @click="submit_discussion" type="primary" style="margin-left: 20px">确定发送</el-button>
+      </div>
+
+      <ul v-for="(item,index) in discussion" :key="index">
+        <div style="padding: 20px; border: solid; border-radius: 5px; width: 80%  ">
+          <el-avatar :size="'small'" :src="item.avatar" alt="头像" class="usr_avatar">
+          </el-avatar>
+          <div class="usr_name" style="margin-left: 10px"> {{ item.name }}</div>
+
+          <li class="comment_content" type="none"
+              style="height: 50px;padding-top: 5px; padding-bottom: 40px; margin-top: 20px">
+            {{ item.comment }}
+          </li>
+
+          <div style="margin: 0;border:0; right: 20%;position: absolute; ">
+            {{ item.date }}
+          </div>
+
+        </div>
+      </ul>
+
 
     </div>
 
@@ -49,6 +73,26 @@
         <el-button type="primary" @click="submit">确 定 支 付</el-button>
       </div>
     </el-dialog>
+
+
+    <!--    &lt;!&ndash;小于七页的分页&ndash;&gt;-->
+    <!--    <div class="block" style="padding-bottom: 50px; background: #42b983 " align="center" :hide-on-single-page="true">-->
+    <!--      <span class="demonstration"></span>-->
+    <!--      <el-pagination-->
+    <!--          layout="prev, pager, next"-->
+    <!--          :total="1"-->
+    <!--          v-if="this.discussion.length<7">-->
+    <!--      </el-pagination>-->
+    <!--    </div>-->
+    <!--    &lt;!&ndash;大于七页的分页&ndash;&gt;-->
+    <!--    <div class="block" style="padding-bottom: 50px;background: #42b983 "  align="center" :hide-on-single-page="true">-->
+    <!--      <span class="demonstration"></span>-->
+    <!--      <el-pagination-->
+    <!--          layout="prev, pager, next"-->
+    <!--          :total="1000"-->
+    <!--          v-if="this.discussion.length>=7">-->
+    <!--      </el-pagination>-->
+    <!--    </div>-->
 
 
   </div>
@@ -87,14 +131,31 @@ export default {
         studentId: JSON.parse(sessionStorage.getItem("userInfo")).data.id
       },
 
-
       subscribe_stu: {
         userId: JSON.parse(sessionStorage.getItem("userInfo")).data.id,
         money: 0
-      }
+      },
+
+
+      now_discussion: null,
+      discussion: [
+        {
+          name: 'test1',
+          comment: 'test1_comment',
+          avatar: 'src/assets/img/banner.jpg',
+          date: 'test1-date',
+        },
+        {
+          name: 'test2',
+          comment: 'test2_comment',
+          avatar: 'src/assets/img/logo.jpg',
+          date: 'test2-date'
+        }
+      ]
 
     }
   },
+
   created() {
     this.getCourseID()
     this.getCover()
@@ -103,13 +164,20 @@ export default {
     this.role = JSON.parse(sessionStorage.getItem("role"))
   },
   methods: {
+
+    submit_discussion() {
+      console.log("discussion")
+      this.now_discussion = ''
+    },
+
     async check() {
       console.log(this.course_student)
-      this.course_student.courseId=this.course_id
-      const {data: res} = await requestUtil.get('/eduservice/t-course-student?'+ qs.stringify(this.course_student))
+      this.course_student.courseId = this.course_id
+      const {data: res} = await requestUtil.get('/eduservice/t-course-student?' + qs.stringify(this.course_student))
 
-      console.log(res.data.ifExists)
-      console.log(this.role)
+      // console.log(res.data.ifExists)
+      // console.log(this.role)
+
       if (res.data.ifExists !== 'no') {
         console.log('check')
         this.is_subscribed = true
@@ -155,6 +223,7 @@ export default {
       this.course_text_info = res.data.courseInfoVo.description
       this.course_detail = res.data.courseInfoVo.description
       this.course_cover = res.data.courseInfoVo.cover
+      console.log(this.course_cover)
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
@@ -171,18 +240,18 @@ export default {
     async submit() {
       this.paidForm = false
       console.log("submit")
-      console.log( JSON.parse(sessionStorage.getItem("userInfo")).data.money)
-      console.log( JSON.parse(sessionStorage.getItem("userInfo")))
+      console.log(JSON.parse(sessionStorage.getItem("userInfo")).data.money)
+      console.log(JSON.parse(sessionStorage.getItem("userInfo")))
       //   todo  调用后端方法去告诉后端数据变化
-      console.log( JSON.parse(sessionStorage.getItem("userInfo")).data.money - this.price)
-      if (Number(  JSON.parse(sessionStorage.getItem("userInfo")).data.money) >= Number (this.price)) {
-        let new_money =  - this.price;
+      console.log(JSON.parse(sessionStorage.getItem("userInfo")).data.money - this.price)
+      if (Number(JSON.parse(sessionStorage.getItem("userInfo")).data.money) >= Number(this.price)) {
+        let new_money = -this.price;
         this.subscribe_stu.money = new_money
-        this.subscribe_stu.userId=  JSON.parse(sessionStorage.getItem("userInfo")).data.id
+        this.subscribe_stu.userId = JSON.parse(sessionStorage.getItem("userInfo")).data.id
         //   todo 第一个要给你(money-price)和studentID
-        const {data: res} = await requestUtil.put('/eduservice/t-user/updateMoneyById?'+qs.stringify(this.subscribe_stu))
-        let res1=JSON.parse(sessionStorage.getItem("userInfo"))
-        res1.data.money= res1.data.money- this.price;
+        const {data: res} = await requestUtil.put('/eduservice/t-user/updateMoneyById?' + qs.stringify(this.subscribe_stu))
+        let res1 = JSON.parse(sessionStorage.getItem("userInfo"))
+        res1.data.money = res1.data.money - this.price;
         this.$store.commit('setUserInfo', res1)
         if (res.code === 20000) {
           this.$message("付费成功")
@@ -213,23 +282,14 @@ export default {
 <style>
 .class_detail .detail_text {
   font-size: 20px;
-  float: left;
-  position: absolute;
-  width: 96%;
-  margin-left: 3%;
+  width: 90%;
+  /*margin-left: 3%;*/
+  margin: 2%;
+  background-color: #6ccd9b;
+  color: white;
+  /*border: solid;*/
+  /*border-color: #3967FF;*/
 }
-
-/*.class_detail .class_detail_right_ele {*/
-/*  padding: 0;*/
-/*  margin: 0;*/
-/*  border: 0;*/
-/*  float: right;*/
-/*  position: absolute;*/
-/*  top: 60%;*/
-/*  right: 30%;*/
-/*  background-image: url("../../assets/img/banner.png");*/
-/*}*/
-
 
 .main_container {
   position: relative;
@@ -266,6 +326,40 @@ h2 {
   margin-left: 40px;
   padding: 20px;
 }
+
+
+.discussion {
+  position: relative;
+  border: solid;
+  border-color: dodgerblue;
+  border-radius: 10px;
+  margin: 40px;
+  /*background-color: #795da3;*/
+  /*height: ;*/
+  width: 90%;
+
+}
+
+
+.discussion .usr_avatar {
+  position: absolute;
+  float: left;
+}
+
+.discussion .usr_name {
+  float: right;
+  position: absolute;
+  left: 90px;
+}
+
+.discussion .comment_content {
+  /*margin: ;*/
+  position: relative;
+  top: 30px;
+}
+
+
+/*.discussion*/
 
 </style>
 

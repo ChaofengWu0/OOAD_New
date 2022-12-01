@@ -57,7 +57,7 @@
             <el-upload
                 class="upload-demo"
                 ref="upload"
-                action="http://localhost:9001/edu-vod/video/uploadAliyunVideo"
+                action="http://localhost:8003/edu-vod/video/uploadAliyunVideo"
                 :on-success="handleVodUploadSuccess"
                 :file-list="fileList"
                 :auto-upload="true"

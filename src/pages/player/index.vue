@@ -249,6 +249,37 @@ export default {
 
   methods: {
 
+    play() {
+      this.$refs.VueAliplayerV2.play();
+      this.video_time = this.$refs.VueAliplayerV2.getDuration();
+      if (this.check_time_flag == null && this.current_time == null) {
+        this.setCheckHandler()
+      }
+      this.check_time = 2 * this.video_time / 3
+      this.one_forth_time = (this.video_time / 4)
+    },
+
+    pause() {
+      this.$refs.VueAliplayerV2.pause();
+    },
+
+    setCheckHandler() {
+      this.check_time_flag = setInterval(() => {
+        this.current_time = this.$refs.VueAliplayerV2.getCurrentTime()
+      }, 1000)
+    },
+
+    endCheckHandler() {
+      this.check_time_flag = clearInterval(this.check_time_flag)
+    },
+
+    end() {
+      // todo
+      // this.record_watch_time(100)
+      this.check_time_flag = null
+      this.current_time = null
+    },
+
     chapters() {
       if (this.role === 1) {
         this.$router.push('/admin_center/view_chapter/' + this.course_id)
@@ -340,13 +371,6 @@ export default {
       console.log(this.examinationData)
     },
 
-    end() {
-      // todo
-      this.record_watch_time(100)
-      this.check_time_flag = null
-      this.current_time = null
-    },
-
     async do_problem() {
       this.dialogFormVisible = true;
       await this.getProblemData()
@@ -384,23 +408,6 @@ export default {
       this.three = "00"
     },
 
-    play() {
-      this.$refs.VueAliplayerV2.play();
-      this.video_time = this.$refs.VueAliplayerV2.getDuration();
-      if (this.check_time_flag == null && this.current_time == null) {
-        this.setCheckHandler()
-      }
-      this.check_time = 2 * this.video_time / 3
-      this.one_forth_time = (this.video_time / 4)
-      console.log(this.video_time)
-      console.log(this.check_time)
-      console.log(this.one_forth_time)
-    },
-
-    pause() {
-      this.$refs.VueAliplayerV2.pause();
-    },
-
     handleVodUploadSuccess(res) {
       this.stu_hw_form.hwUrl = res.data.url
       // 设置了这个学生上交的作业的url
@@ -410,16 +417,6 @@ export default {
     getInputValue(index) {
       this.allRadio[index] = this.radio[index]; // 将数据存入提交给后台的数据中
       // console.log(this.allRadio);
-    },
-
-    setCheckHandler() {
-      this.check_time_flag = setInterval(() => {
-        this.current_time = this.$refs.VueAliplayerV2.getCurrentTime()
-      }, 1000)
-    },
-
-    endCheckHandler() {
-      this.check_time_flag = clearInterval(this.check_time_flag)
     },
 
     startHandler() {
@@ -457,7 +454,6 @@ export default {
         }
       }, 1000)
     },
-
     // 暂停计时
     endHandler() {
       this.flag = clearInterval(this.flag)

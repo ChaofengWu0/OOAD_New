@@ -180,7 +180,7 @@ export default {
     let differTime = 0; //时间差
     window.onunload = async function () {
       differTime = new Date().getTime() - beginTime;
-      if (differTime <= 10) {
+      if (differTime <= 20) {
         await requestUtil.post("/eduservice/t-user/logout?username=" + JSON.parse(sessionStorage.getItem("userInfo")).data.username)
         window.sessionStorage.clear()
       } else {

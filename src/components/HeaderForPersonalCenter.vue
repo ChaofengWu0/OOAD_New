@@ -8,14 +8,15 @@
       </el-breadcrumb>
     </div>
 
-    <div class="header_right">
-      <!--      <template>-->
-      <!--        <div class="avatar">-->
-      <!--          <div class="block">-->
-      <!--            <el-avatar :size="50" :src=this.avatar></el-avatar>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </template>-->
+    <div class="header_right" >
+            <template>
+              <div class="avatar">
+                <div class="block">
+                  <i class="el-icon-user" style="font-size: 30px"></i>
+                  <!--                  <el-avatar :size="50" :src=this.avatar></el-avatar>-->
+                </div>
+              </div>
+            </template>
 
 
       <el-dropdown @command="handleCommand">
@@ -93,7 +94,7 @@ export default {
   position: absolute;
   height: 100%;
   right: 30px;
-  top: 20%;
+  top: 35%;
 }
 
 .avatar {
