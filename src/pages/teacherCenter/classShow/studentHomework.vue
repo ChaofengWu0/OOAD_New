@@ -1,6 +1,9 @@
 <template>
   <div>
     <template>
+      <el-table-column>
+        <el-button @click="previous" type="success">返回课程学生列表</el-button>
+      </el-table-column>
       <el-table
           ref="multipleTable"
           :data="tableData"
@@ -81,23 +84,16 @@
 <script>
 import requestUtil from "@/utils/request";
 import qs from "qs";
-
-
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "studentGrade",
-
   data() {
     return {
-
       homeworkUrl: null,
-
-
       course_return: {
         courseId: "",
         studentId: ""
       },
-
       course_id: null,
       chapter_id: "",
       student_id: null,
@@ -108,7 +104,6 @@ export default {
         hwGrade: '',
         chapterId: ''
       },
-
       tableData: [{
         // studentId: "1",
       }],
@@ -120,11 +115,8 @@ export default {
   },
   methods: {
     view_hw(row) {
-      // console.log(row)
-      // let tmp = row.hwUrl.split("https://")
       window.open("http://localhost:8080/#/pdf/" + row.hwUrl, "_blank")
     },
-
     getCourseID() {
       if (this.$route.params && this.$route.params.id) {
         let String_all = this.$route.params.id
@@ -136,12 +128,10 @@ export default {
         this.$message("Wrong in function getCourseID which is in classChapter.Vue ")
       }
     },
-
     async getUserList() {
       this.course_return.courseId = this.course_id
       this.course_return.studentId = this.student_id
       const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterByCourseIdAndStudentId?' + qs.stringify(this.course_return))
-      // const {data: res} = await requestUtil.put('/eduservice/t-chapter-student/all', this.course_return)
       console.log(res);
       this.tableData = res.data.ChapterStudentList
       // this.tableData = res.data.chapterStudent
@@ -149,17 +139,13 @@ export default {
       if (res.code !== 20000)
         return this.$message.error("Wrong! Renderer failed")
     },
-
-    // async getDoucument(row) {
-    //   console.log(row)
-    // },
-
     score(row) {
       this.score_dialog = true
       this.chapter_id = row.chapterId
     },
-
-
+    previous() {
+      this.$router.push('/teacher_center/my_classes/student_list/'+this.course_id)
+    },
     // 下面的和在线查看无关
     toggleSelection(rows) {
       if (rows) {
