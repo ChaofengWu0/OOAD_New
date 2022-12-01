@@ -36,6 +36,7 @@ import admin_application_course_chapter from "@/pages/administratorCenter/viewCh
 import main_page from "@/pages/mainPage"
 import allVideos from "@/pages/mainPage/allVideos";
 
+
 import test from "@/pages/export";
 import pdf from "@/pages/pdf";
 import Cookies from "js-cookie";
@@ -347,7 +348,8 @@ const Router = new VueRouter({
       name: 'allCourse',
       path: '/all_course',
       component: allVideos
-    }
+    },
+
 
   ]
 })

@@ -35,7 +35,6 @@
             </el-button>
           </template>
         </el-table-column>
-
         <el-table-column align="left" width="170px">
           <template slot-scope="scope">
             <el-upload
@@ -52,7 +51,6 @@
             </el-upload>
           </template>
         </el-table-column>
-
         <el-table-column>
           <template slot-scope="scope">
             <el-button v-if="scope.homework_url!==null" type="primary" @click="publish(scope.row)">
@@ -62,10 +60,8 @@
         </el-table-column>
       </el-table>
     </template>
-
     <!--布置习题-->
     <el-dialog title="布置习题" :visible.sync="dialogFormVisibleForProblem">
-
       <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic">
         <h3> 注意 :在A B C D中至少填入两个选项，并且选择一个作为此题目的答案</h3>
         <el-form-item
@@ -76,7 +72,6 @@
             :rules="{required: true, message: '题目不能为空', trigger: 'blur'}">
           <el-input v-model="domain.value"></el-input>
           <el-form-item prop="resource">
-            <!--            <el-radio-group>-->
             <el-radio label="A" v-model="domain.answer" style="padding-top: 20px ;padding-bottom: 20px">
               A
               <el-input v-model="domain.optionA"></el-input>
@@ -93,12 +88,9 @@
               D
               <el-input v-model="domain.optionD"></el-input>
             </el-radio>
-            <!--            </el-radio-group>-->
           </el-form-item>
-
           <el-button @click.prevent="removeDomain(domain)">删除此题</el-button>
         </el-form-item>
-
         <el-form-item>
           <el-button @click="addDomain">再加一题</el-button>
         </el-form-item>

@@ -6,8 +6,8 @@
         <!--   用户名-->
         <!--        <el-form-item label="账户" class="enroll_username" prop="userID"-->
         <!--                      :rules="[{ required: true, message: '请输入账户', trigger: 'blur' },]">-->
-        <el-form-item label="账户" class="enroll_username" prop="userID">
-          <el-input v-model="enroll_form.userID" prefix-icon="el-icon-user"></el-input>
+        <el-form-item label="昵称" class="enroll_username" prop="userID">
+          <el-input v-model="enroll_form.nickName" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
 
         <el-form-item label="用户名" class="enroll_username" prop="username">
@@ -67,7 +67,7 @@ export default {
 
     return {
       enroll_form: {
-        userID: "",
+        nickName: "",
         username: "",
         password: "",
         password_again: "",
@@ -101,14 +101,13 @@ export default {
             if (!valid) return
             console.log('validated')
             const enrollData = {
-              userID: this.enroll_form.userID,
+              nickName: this.enroll_form.nickName,
               username: this.enroll_form.username,
               password: this.enroll_form.password,
               email: this.enroll_form.email,
               phone: this.enroll_form.phone
             };
             //发起请求
-            // const {data: res} = await EnrollAPI(EnrollData)
             const {data: res} = await requestUtil.post('/eduservice/t-user/register', enrollData)
             console.log(res);
             if (res.code !== 20000)

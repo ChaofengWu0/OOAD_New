@@ -18,7 +18,6 @@
           />
         </div>
         <div class="under_player">
-
           <div class="player-btns">
             <span @click="chapters">返回章节显示页面</span>
             <span @click="main_page">返回主站页面</span>
@@ -43,8 +42,8 @@
             >
               <el-button type="text" class="letter">点击此处选择上传作业文件</el-button>
             </el-upload>
-            <el-button type="primary" align="center" style="position: relative; margin: 20px" @click="stu_upload_hw">确
-              定 提 交
+            <el-button type="primary" align="center" style="position: relative; margin: 20px" @click="stu_upload_hw">
+              确 定 提 交
             </el-button>
           </div>
 
@@ -138,30 +137,10 @@ export default {
       windowVisible: false,
       check_time_flag: null,
       options: {
-        // source:'//player.alicdn.com/video/aliyunmedia.mp4',
         autoplay: false,
         "skinLayout": [
           {
-            "name": "H5Loading",
-            "align": "cc"
-          },
-          {
-            "name": "errorDisplay",
-            "align": "tlabs",
-            "x": 0,
-            "y": 0
-          },
-          {
             "name": "infoDisplay"
-          },
-          {
-            "name": "tooltip",
-            "align": "blabs",
-            "x": 0,
-            "y": 56
-          },
-          {
-            "name": "thumbnail"
           },
           {
             "name": "controlBar",
@@ -188,6 +167,12 @@ export default {
                 "y": 12
               },
               {
+                "name": "setting",
+                "align": "tr",
+                "x": 15,
+                "y": 12
+              },
+              {
                 "name": "volume",
                 "align": "tr",
                 "x": 5,
@@ -195,7 +180,15 @@ export default {
               }
             ]
           }
-        ]
+        ],
+
+        components: [{
+          name: 'AliplayerDanmuComponent',
+          // eslint-disable-next-line no-undef
+          type: AliPlayerComponent.AliplayerDanmuComponent,
+          // args: [danmukuList]
+        }]
+
       },
 
 
@@ -226,14 +219,16 @@ export default {
   watch: {
     actual_time: {
       handler(newV) {
-        console.log(newV)
         if (newV > this.one_forth_time && newV < this.one_forth_time * 2) {
           this.record_watch_time(25)
         } else if (newV > 2 * this.one_forth_time && newV < 3 * this.one_forth_time) {
           this.record_watch_time(50)
         } else if (newV > 3 * this.one_forth_time && newV < 4 * this.one_forth_time) {
           this.record_watch_time(75)
+        } else if (newV > this.total_time - 0.3 * this.one_forth_time) {
+          this.record_watch_time(100)
         }
+        // console.log(newV)
       }
     },
     current_time: {
@@ -242,6 +237,7 @@ export default {
           this.$refs.VueAliplayerV2.pause()
           this.endCheckHandler()
           this.windowVisible = true
+          this.clearActualTimeHandler()
         }
       }
     }
@@ -249,15 +245,24 @@ export default {
   },
 
   methods: {
+    end() {
+      // console.log('test')
+      this.clearActualTimeHandler()
+      this.endCheckHandler()
+    },
+
     setActualTimeHandler() {
       this.actual_time_flag = setInterval(() => {
-        this.actual_time_recorder += 0.1
+        this.actual_time += 0.1
       }, 100)
     },
+
 
     clearActualTimeHandler() {
       this.actual_time += this.actual_time_recorder
       this.actual_time_recorder = 0
+      // console.log('actual_time_recorder' + this.actual_time_recorder)
+      // console.log('actual_time' + this.actual_time)
       clearInterval(this.actual_time_flag)
     },
 
@@ -265,7 +270,11 @@ export default {
     play() {
       this.$refs.VueAliplayerV2.play();
       this.video_time = this.$refs.VueAliplayerV2.getDuration();
-      this.setCheckHandler()
+      // 这个只用来记录弹窗时间
+      if (this.check_time_flag === null) {
+        this.setCheckHandler()
+      }
+      // 这个用来记录真实时间
       this.setActualTimeHandler()
 
       this.check_time = 2 * this.video_time / 3
@@ -286,14 +295,9 @@ export default {
 
     endCheckHandler() {
       clearInterval(this.check_time_flag)
+      this.check_time_flag = null
     },
 
-    end() {
-      // todo
-      // this.record_watch_time(100)
-      this.check_time_flag = null
-      this.current_time = null
-    },
 
     chapters() {
       if (this.role === 1) {
@@ -312,7 +316,7 @@ export default {
     async getChapterUrl() {
       const {data: res} = await requestUtil.get('/eduservice/t-chapter/getChapterInfo/' + this.chapter_id)
       this.chapter_hw_url = res.data.chapter.homeworkUrl
-      console.log(11111111111111111111111)
+      // console.log(11111111111111111111111)
       console.log(res)
     },
 
@@ -337,6 +341,7 @@ export default {
     continue_video() {
       this.windowVisible = false;
       this.$refs.VueAliplayerV2.play()
+      this.setActualTimeHandler()
     },
 
     async submit_ans() {
